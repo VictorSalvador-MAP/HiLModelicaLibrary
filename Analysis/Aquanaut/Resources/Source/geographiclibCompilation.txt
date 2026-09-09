@@ -1,0 +1,67 @@
+----[Baixar o código-fonte do GeographicLib]-----
+
+mkdir -p ~/src
+cd ~/src
+
+git clone https://github.com/geographiclib/geographiclib.git
+
+
+----[Compilar a bibliotéca estática com PIC]----
+cd ~/src/geographiclib
+
+cmake -S . -B build-static-pic \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+  -DCMAKE_BUILD_TYPE=Release
+
+cmake --build build-static-pic --parallel 1
+
+----------------------------------------------------------
+#O BUILD_SHARED_LIBS=OFF impede a criação da versão .so.
+#O CMAKE_POSITION_INDEPENDENT_CODE=ON é a diferença essencial: ele garante que o arquivo .a possa entrar no binario compartilhado da FMU.
+----------------------------------------------------------
+
+----[Localizar Biblioteca Gerada]-----
+find build-static-pic -type f -name '*.a'
+
+
+----[Copiar a biblipoteca para o modelo]-----
+cp build-static-pic/src/libGeographicLib.a \
+  ~/Projects/Lepanto/ot1-modeling-and-control/Analysis/Aquanaut/Resources/Library/linux64/libGeographic.a
+
+----[Copiar Headers para o modelo]-------
+mkdir -p ~/Projects/Lepanto/ot1-modeling-and-control/Analysis/Aquanaut/Resources/Include/GeographicLib
+
+cp include/GeographicLib/*.hpp \
+  ~/Projects/Lepanto/ot1-modeling-and-control/Analysis/Aquanaut/Resources/Include/GeographicLib/
+
+---[Compilar Wrapper]------
+cd ~/Projects/Lepanto/ot1-modeling-and-control/Analysis/Aquanaut/Resources/Source
+
+g++ -O2 -fPIC \
+  -I../Include \
+  -c wgs84_geodesic_wrapper.cpp \
+  -o wgs84_geodesic_wrapper.o
+
+ar rcs ../Library/linux64/libwgs84_geodesic_wrapper.a \
+  wgs84_geodesic_wrapper.o
+
+ranlib ../Library/linux64/libwgs84_geodesic_wrapper.a
+
+----[Testar Compatibilidade das bibliotecas]------
+g++ -shared -o /tmp/geographic_pic_check.so \
+  -Wl,--whole-archive \
+  ../Library/linux64/libwgs84_geodesic_wrapper.a \
+  ../Library/linux64/libGeographic.a \
+  -Wl,--no-whole-archive \
+  -lstdc++ -lm
+
+---[Copiar a biblioteca C++ para resource]----
+A partir de Aquanaut/Resources/Source, execute:
+  LIBSTDCXX=$(g++ -print-file-name=libstdc++.a)
+  echo "$LIBSTDCXX"
+  test -f "$LIBSTDCXX" && echo "libstdc++.a found"
+
+Verifique o que foi encontrado e copie-o:
+  cp "$LIBSTDCXX" ../Library/linux64/libstdc++.a
+

@@ -1,0 +1,8 @@
+within Aquanaut;
+
+package PathFollowing
+  extends Modelica.Icons.Package;
+  annotation(
+    Diagram(graphics),
+    Icon(graphics = {Rectangle(lineColor = {200, 200, 200}, fillColor = {248, 248, 248}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, -100}, {100, 100}}, radius = 25), Ellipse(origin = {-78, -72}, fillPattern = FillPattern.Solid, extent = {{-4, 4}, {4, -4}}), Ellipse(origin = {88, -10}, fillPattern = FillPattern.Solid, extent = {{-4, 4}, {4, -4}}), Line(origin = {6.86, -40.14}, points = {{-82, -31}, {83, 30}}, pattern = LinePattern.Dash, thickness = 2), Polygon(origin = {-56, 14}, rotation = -90, lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, pattern = LinePattern.Dash, lineThickness = 1, points = {{-10, -30}, {10, -30}, {10, -6}, {0, 8}, {-10, -6}, {-10, -6}, {-10, -30}}), Polygon(origin = {-24, -28}, rotation = 270, lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, pattern = LinePattern.Dash, lineThickness = 1, points = {{-28.2843, -14.1421}, {-14.1421, -28.2843}, {2.82843, -11.3137}, {5.65685, 5.65685}, {-11.3137, 2.82843}, {-28.2843, -14.1421}}), Polygon(origin = {28, -34}, rotation = 270, lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, pattern = LinePattern.Dash, lineThickness = 1, points = {{-1.89469, -31.566}, {17.4238, -26.3896}, {11.2122, -3.20736}, {-2.07055, 7.72741}, {-8.10634, -8.38375}, {-8.10634, -8.38375}, {-1.89469, -31.566}}), Polygon(origin = {72, -16}, rotation = 270, fillColor = {255, 0, 0}, pattern = LinePattern.Dash, fillPattern = FillPattern.Solid, lineThickness = 1, points = {{0.863678, -31.611}, {19.6575, -24.7706}, {11.449, -2.21795}, {-2.73616, 7.51754}, {-7.34481, -9.05836}, {-7.34481, -9.05836}, {0.863678, -31.611}})}));
+end PathFollowing;
