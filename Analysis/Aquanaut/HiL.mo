@@ -7698,6 +7698,8 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         Real accelX(start = 0);
         Real accelY(start = 0);
         Real accelZ(start = 0);
+  Aquanaut.Utils.HeadingSensor headingSensor annotation(
+          Placement(transformation(origin = {70, -8}, extent = {{-10, -10}, {10, 10}})));
       equation
       //Variables storage
         derivativeVelx.u = worldSensor.v[1];
@@ -7760,8 +7762,6 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
           Line(points = {{-78, -20}, {-78, 2}, {-86, 2}}));
         connect(PropellerFeedback_rad_s, propSpeedSensor.w) annotation(
           Line(points = {{-78, -70}, {-78, -41}}, color = {0, 0, 127}));
-        connect(worldSensor.angles[3], p[6]) annotation(
-          Line(points = {{26, -18}, {26.125, -18}, {26.125, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
         connect(worldSensor.z[1], a[4]) annotation(
           Line(points = {{18, -18}, {18, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
         connect(worldSensor.z[2], a[5]) annotation(
@@ -7774,11 +7774,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
           Line(points = {{22, -18}, {22, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
         connect(worldSensor.w[3], v[6]) annotation(
           Line(points = {{22, -18}, {22, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(worldSensor.angles[1], p[4]) annotation(
+  connect(headingSensor.frame_a, hull.frame_a) annotation(
+          Line(points = {{62, -8}, {46, -8}, {46, 66}, {60, 66}}, color = {95, 95, 95}));
+  connect(headingSensor.heading, p[6]) annotation(
+          Line(points = {{80, -8}, {86, -8}, {86, -24}, {126, -24}}, color = {0, 0, 127}));
+  connect(worldSensor.angles[1], p[4]) annotation(
           Line(points = {{26, -18}, {26, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(worldSensor.angles[2], p[5]) annotation(
-          Line(points = {{26, -18}, {26, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(worldSensor.angles[3], p[6]) annotation(
+  connect(worldSensor.angles[2], p[5]) annotation(
           Line(points = {{26, -18}, {26, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
         annotation(
           Diagram(graphics = {Rectangle(origin = {53, -10}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
@@ -15010,6 +15012,226 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
                                           
                                           </body></html>"));
         end OpenLoopHiL_GNSSCompass;
+        
+        model OpenLoopHiL_GNSSCompass_newHeading
+          // Blocks
+          OpenLoop OT1model annotation(
+            Placement(transformation(origin = {-35, -2}, extent = {{-48, -48}, {48, 48}})));
+          Modelica.Blocks.Interfaces.RealOutput x annotation(
+            Placement(transformation(origin = {199, 159}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {276, 32}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput y annotation(
+            Placement(transformation(origin = {199, 139}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {118, 17}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput z annotation(
+            Placement(transformation(origin = {199, 119}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -90}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vx annotation(
+            Placement(transformation(origin = {199, 34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -130}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vy annotation(
+            Placement(transformation(origin = {199, 12}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -142}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput thetaz annotation(
+            Placement(transformation(origin = {199, -70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {322, -168}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegax annotation(
+            Placement(transformation(origin = {199, -94}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegaY annotation(
+            Placement(transformation(origin = {199, -118}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegaz annotation(
+            Placement(transformation(origin = {199, -142}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput rudderFeedback annotation(
+            Placement(transformation(origin = {199, -164}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {370, -218}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealInput propellerInput annotation(
+            Placement(transformation(origin = {-200, 80}, extent = {{-22, -22}, {22, 22}}), iconTransformation(origin = {-121, 79}, extent = {{-20, -20}, {20, 20}})));
+          Modelica.Blocks.Interfaces.RealInput rudderAngleInput annotation(
+            Placement(transformation(origin = {-199, -73}, extent = {{-23, -23}, {23, 23}}), iconTransformation(origin = {-115, -80}, extent = {{-20, -20}, {20, 20}})));
+          Modelica.Blocks.Interfaces.RealOutput propellerFeedback annotation(
+            Placement(transformation(origin = {199, -180}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {374, -274}, extent = {{-10, -10}, {10, 10}})));
+          Aquanaut.Utils.Wgs84GnssPositionPure wgs84GnssPosition(originLatitudeDeg = -22.734233, originLongitudeDeg = -43.085687) annotation(
+            Placement(transformation(origin = {100, 149}, extent = {{-24, -24}, {24, 24}})));
+          Aquanaut.Utils.SOGAndCOGCalculation sOGAndCOGCalculation annotation(
+            Placement(transformation(origin = {98, 76}, extent = {{-24, -24}, {24, 24}})));
+          Modelica.Blocks.Interfaces.RealOutput COG annotation(
+            Placement(transformation(origin = {198, 59}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {116, 43}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+            Placement(transformation(origin = {198, 91}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {120, 84}, extent = {{-10, -10}, {10, 10}})));
+        equation
+          connect(OT1model.p[3], z) annotation(
+            Line(points = {{7, 21}, {160, 21}, {160, 119}, {199, 119}}, color = {0, 0, 127}));
+          connect(OT1model.v[1], vx) annotation(
+            Line(points = {{7, 5}, {160.167, 5}, {160.167, 34}, {199, 34}}, color = {0, 0, 127}));
+          connect(OT1model.v[2], vy) annotation(
+            Line(points = {{7, 5}, {160.167, 5}, {160.167, 12}, {199, 12}}, color = {0, 0, 127}));
+          connect(OT1model.p[6], thetaz) annotation(
+            Line(points = {{7, 21}, {160, 21}, {160, -70}, {199, -70}}, color = {0, 0, 127}));
+          connect(OT1model.v[4], omegax) annotation(
+            Line(points = {{7, 5}, {160.167, 5}, {160.167, -94}, {199, -94}}, color = {0, 0, 127}));
+          connect(OT1model.v[5], omegaY) annotation(
+            Line(points = {{7, 5}, {160.167, 5}, {160.167, -118}, {199, -118}}, color = {0, 0, 127}));
+          connect(OT1model.v[6], omegaz) annotation(
+            Line(points = {{7, 5}, {160.167, 5}, {160.167, -142}, {199, -142}}, color = {0, 0, 127}));
+          connect(rudderFeedback, OT1model.rudderFeedback_rad) annotation(
+            Line(points = {{199, -164}, {-3.5, -164}, {-3.5, -56}, {-3.25, -56}, {-3.25, -27}, {-7, -27}}, color = {0, 0, 127}));
+          connect(propellerInput, OT1model.propellerSpeed) annotation(
+            Line(points = {{-200, 80}, {-158, 80}, {-158, 21}, {-57, 21}}, color = {0, 0, 127}));
+          connect(rudderAngleInput, OT1model.rudderAngle) annotation(
+            Line(points = {{-199, -73}, {-158, -73}, {-158, -12}, {-57, -12}}, color = {0, 0, 127}));
+          connect(propellerFeedback, OT1model.PropellerFeedback_rad_s) annotation(
+            Line(points = {{199, -180}, {-21, -180}, {-21, -27}, {-24, -27}}, color = {0, 0, 127}));
+          connect(OT1model.p[2], wgs84GnssPosition.eastM) annotation(
+            Line(points = {{7, 21}, {19, 21}, {19, 139}, {71, 139}}, color = {0, 0, 127}));
+          connect(OT1model.p[1], wgs84GnssPosition.northM) annotation(
+            Line(points = {{7, 21}, {19, 21}, {19, 159}, {71, 159}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.latitudeDeg, x) annotation(
+            Line(points = {{129, 159}, {199, 159}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.longitudeDeg, y) annotation(
+            Line(points = {{129, 139}, {199, 139}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.vel_n_m_s, OT1model.v[1]) annotation(
+            Line(points = {{71, 91}, {19, 91}, {19, 5}, {7, 5}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.vel_e_m_s, OT1model.v[2]) annotation(
+            Line(points = {{71, 60}, {19, 60}, {19, 5}, {7, 5}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.cog_rad, COG) annotation(
+            Line(points = {{125, 59}, {198, 59}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.sog_m_s, SOG) annotation(
+            Line(points = {{125, 90}, {125, 91}, {198, 91}}, color = {0, 0, 127}));
+          annotation(
+            experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
+            __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearization=6000 --fmuRuntimeDepends=modelica -d=fmuExperimental",
+            __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
+            Diagram(coordinateSystem(extent = {{-250, -200}, {250, 200}}, grid = {1, 1}), graphics = {Text(origin = {-24, 46}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 Model", textStyle = {TextStyle.Bold}), Text(origin = {100, 25}, extent = {{-79, -3}, {79, 3}}, textString = "position on x, y and z axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, 9}, extent = {{-46, -3}, {46, 3}}, textString = "linear and angular velocity on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-66, -9}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {193, 1}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-52, 196}, {52, -196}}), Text(origin = {198, 187}, extent = {{-48, 6}, {48, -6}}, textString = "Sensors", textStyle = {TextStyle.Bold, TextStyle.Bold}), Text(origin = {-70, 25}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {-188, 2}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-50, 142}, {50, -142}}), Text(origin = {-188, 122}, extent = {{-48, 6}, {48, -6}}, textString = "Actuators", textStyle = {TextStyle.Bold}), Text(origin = {84, -156}, extent = {{-46, -3}, {46, 3}}, textString = "rudder angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, -9}, extent = {{-46, -3}, {46, 3}}, textString = "linear acceleration on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {70, -174}, extent = {{-46, -3}, {46, 3}}, textString = "propeller angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
+            Icon(graphics = {Rectangle(origin = {6, 0}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-100, 100}, {100, -100}}), Rectangle(origin = {60, 30}, lineThickness = 1, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {-28, 30}, lineThickness = 1, extent = {{-36, 20}, {36, -20}}), Text(origin = {-28, 31}, extent = {{-28, 7}, {28, -7}}, textString = "Controller", textStyle = {TextStyle.UnderLine}), Text(origin = {60, 31}, extent = {{-14, 7}, {14, -7}}, textString = "OT1", textStyle = {TextStyle.UnderLine}), Rectangle(origin = {8, -37}, lineThickness = 1, extent = {{-36, 21}, {36, -21}}), Text(origin = {8, -35}, extent = {{-28, 7}, {28, -7}}, textString = "Serret-Frenèt", textStyle = {TextStyle.UnderLine}), Line(origin = {52, -15}, points = {{8, 25}, {8, -23}, {-8, -23}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-55, -3}, points = {{27, -35}, {-27, -35}, {-27, 33}, {-9, 33}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {24, 30}, points = {{-16, 0}, {16, 0}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(extent = {{-250, -200}, {250, 200}}, grid = {1, 1})),
+            Documentation(info = "<html><head>
+                                                  </head>
+                                                  <body>
+                                                  <h1>Closed-Loop Path Following Control System</h1>
+                                                  
+                                                  <p>
+                                                    The <em>ClosedLoop</em> model serves as the top-level integration system architecture for the autonomous vehicle model. It pairs an Open-Loop vehicle plant model with look-ahead guidance formulas, velocity regulations, and path-following controllers to build a fully automated, closed-loop navigation infrastructure.
+                                                  </p>
+                                                  
+                                                  <h2>Description</h2>
+                                                  
+                                                  <p>
+                                                    This assembly establishes path trajectory tracking over a waypoint path segment. It features two continuous-time control loops: a <strong>Velocity Controller</strong> that uses a PID layout to adjust propeller speed toward a given velocity target (<code>Uref</code>), and a <strong>Path-Following Controller</strong> that relies on look-ahead angles to determine required rudder angles. 
+                                                  </p>
+                                                  <p>
+                                                    Furthermore, the system embeds state logic configurations (using flip-flops, thresholds, and logic delays) to execute real-time steady-state checks on buoyancy states (Z-axis checks) and initial operating points (X-axis checks), holding back full steering actuation until structural dynamics satisfy the specified initial tolerances.
+                                                  </p>
+                                                  
+                                                  <h2>Parameters</h2>
+                                                  
+                                                  <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+                                                    <caption align=\"bottom\"><strong>Tab. 1:</strong> Parameters of the ClosedLoop integration model</caption>
+                                                    <thead>
+                                                      <tr bgcolor=\"#f2f2f2\">
+                                                        <th>Name</th>
+                                                        <th>Type</th>
+                                                        <th>Unit</th>
+                                                        <th>Description</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr>
+                                                        <td><strong>pfKp, pfKi, pfKd</strong></td>
+                                                        <td>Real</td>
+                                                        <td>Varies</td>
+                                                        <td>Proportional, Integral, and Derivative gain tunings for the trajectory path-following loop.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>rudK</strong></td>
+                                                        <td>Real</td>
+                                                        <td>-</td>
+                                                        <td>Static scaling coefficient for the final rudder command mapping.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>Uref</strong></td>
+                                                        <td>Real</td>
+                                                        <td>m/s</td>
+                                                        <td>Target cruise reference velocity parameter for the vessel.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>vKp, vKi, vKd</strong></td>
+                                                        <td>Real</td>
+                                                        <td>Varies</td>
+                                                        <td>Proportional, Integral, and Derivative gain tunings for the speed controller loop.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>Delta</strong></td>
+                                                        <td>Distance</td>
+                                                        <td>m</td>
+                                                        <td>Look-ahead baseline distance utilized inside the Serret-Frenet block.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>Wp0x, Wp0y</strong></td>
+                                                        <td>Real</td>
+                                                        <td>m</td>
+                                                        <td>Coordinates for the initial waypoint vector (origin boundary).</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>Wp1x, Wp1y</strong></td>
+                                                        <td>Real</td>
+                                                        <td>m</td>
+                                                        <td>Coordinates for the final waypoint vector (destination boundary).</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>initTol</strong></td>
+                                                        <td>Real</td>
+                                                        <td>-</td>
+                                                        <td>Numeric convergence error boundary threshold for state-check logic.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>opDelay</strong></td>
+                                                        <td>Real</td>
+                                                        <td>s</td>
+                                                        <td>Time-delay filter length used to guarantee operational point stabilization.</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                  
+                                                  <h2>Key Internal Sub-components</h2>
+                                                  
+                                                  <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+                                                    <caption align=\"bottom\"><strong>Tab. 2:</strong> Primary internal block component identifiers</caption>
+                                                    <thead>
+                                                      <tr bgcolor=\"#f2f2f2\">
+                                                        <th>Instance Name</th>
+                                                        <th>Model Class Type</th>
+                                                        <th>Primary Functional Duty</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr>
+                                                        <td><strong>OT1model</strong></td>
+                                                        <td>OpenLoop</td>
+                                                        <td>Represents the physical multi-degree-of-freedom core vehicle plant dynamics.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>serretFrenet</strong></td>
+                                                        <td>SerretFrenetModel</td>
+                                                        <td>Translates global positions into tracking error vectors based on a target line segment.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>PID_velocity</strong></td>
+                                                        <td>Modelica.Blocks.Continuous.PID</td>
+                                                        <td>Regulates velocity error signals into physical propeller speed commands.</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><strong>pf_Controller</strong></td>
+                                                        <td>PF_Controller</td>
+                                                        <td>Calculates precise steering corrections based on angular errors.</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                  
+                                                  <h2>System Operation and Interconnections</h2>
+                                                  
+                                                  <p>
+                                                    The system orchestrates multi-loop tracking and control sequences using the following routing criteria:
+                                                  </p>
+                                                  <ul>
+                                                    <li><strong>Velocity Error Loop:</strong> Gathers total velocity <code>U</code> from the Serret-Frenet block, extracts its difference relative to the reference node (or logic switches), dampens it via a <code>FirstOrder</code> block filter, and triggers <code>PID_velocity</code> to spin the physical propellers.</li>
+                                                    <li><strong>Path Steering Loop:</strong> Maps position states (<code>p[1]</code>, <code>p[2]</code>) and velocity components (<code>v[1]</code>, <code>v[2]</code>) into the Serret-Frenet framework. Resulting values for tracking profiles (<code>chi_sf</code>, <code>chi_d</code>) traverse safety logic switches to drive the <code>pf_Controller</code>, which sets rudder orientation through <code>controlAlocationGain</code>.</li>
+                                                    <li><strong>Buoyancy & Operating Point Interlocks:</strong> Monitors the absolute values and derivatives of vehicle accelerations (<code>a[1]</code> on X-axis and <code>a[3]</code> on Z-axis). Flip-flops prevent reference angles from switching to active modes until transitional oscillations decay below the specified <code>initTol</code>.</li>
+                                                  </ul>
+                                                  
+                                                  </body></html>"));
+        end OpenLoopHiL_GNSSCompass_newHeading;
       end PlantWGS84;
 
       package Debug

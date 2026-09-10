@@ -30,7 +30,7 @@ model Hull
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {10, 40}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Parts.Body vesselBody(animation = vesselViewer, m = vesselMass, r_CM = {0, 0, 0}, angles_fixed=true, angles_start = {0, 0, 0}, w_a.start = {0, 0, 0}, w_a.fixed = {true, true, true}, v_0.start = {vStart[1], vStart[2], vStart[3]}, v_0.fixed = {true, true, true}, r_0.start = {vesselX0, vesselY0, vesselZ0}, r_0.fixed = {initPos, initPos, initPos}, I_11 = Ixx, I_22 = Iyy, I_33 = Izz, I_21 = Iyx, I_31 = Izx, I_32 = Izy, useQuaternions = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.Body vesselBody(animation = vesselViewer, m = vesselMass, r_CM = {0, 0, 0}, angles_fixed=true, angles_start = {0, 0, 1.57079633}, w_a.start = {0, 0, 0}, w_a.fixed = {true, true, true}, v_0.start = {vStart[1], vStart[2], vStart[3]}, v_0.fixed = {true, true, true}, r_0.start = {vesselX0, vesselY0, vesselZ0}, r_0.fixed = {initPos, initPos, initPos}, I_11 = Ixx, I_22 = Iyy, I_33 = Izz, I_21 = Iyx, I_31 = Izx, I_32 = Izy, useQuaternions = false)  annotation(
     Placement(transformation(origin = {32, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape vesselShape( shapeType = shapeModel, animation = vesselViewer, length = 2*sphereRadius, width = sphereRadius, height = sphereRadius, r_shape = {-sphereRadius, 0, 0})  annotation(
     Placement(transformation(origin = {-20, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
