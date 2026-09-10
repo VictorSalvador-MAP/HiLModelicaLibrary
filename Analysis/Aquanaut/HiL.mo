@@ -7677,10 +7677,8 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
           Placement(transformation(origin = {-200, 38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, 60}, extent = {{-24, -24}, {24, 24}})));
         Modelica.Blocks.Interfaces.RealInput rudderAngle annotation(
           Placement(transformation(origin = {-200, 60}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, -60}, extent = {{-24, -24}, {24, 24}})));
-        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world, get_r = true, get_v = true, get_a = true, get_w = true, get_z = true, get_angles = true) annotation(
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world, get_r = true, get_v = true, get_a = true, get_w = true, get_z = true, get_angles = true, guessAngle1(displayUnit = "rad")) annotation(
           Placement(transformation(origin = {28, -8}, extent = {{10, -10}, {-10, 10}})));
-        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor boatSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a) annotation(
-          Placement(transformation(origin = {40, -78}, extent = {{10, 10}, {-10, -10}}, rotation = -0)));
         // Outputs
         Modelica.Blocks.Interfaces.RealOutput v[6] annotation(
           Placement(transformation(origin = {126, -42}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {117, 1}, extent = {{-17, -17}, {17, 17}})));
@@ -7694,31 +7692,29 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
           Placement(transformation(origin = {-78, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
         Modelica.Blocks.Interfaces.RealOutput PropellerFeedback_rad_s annotation(
           Placement(transformation(origin = {-78, -70}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {0, -116}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
-        Modelica.Blocks.Continuous.Integrator integrator[3]annotation(
-          Placement(transformation(origin = {78, -34}, extent = {{-4, -4}, {4, 4}})));
         Modelica.Blocks.Continuous.Derivative derivativeVelx(k = 1, T = derivativeFilterTime);
         Modelica.Blocks.Continuous.Derivative derivativeVely(k = 1, T = derivativeFilterTime);
         Modelica.Blocks.Continuous.Derivative derivativeVelz(k = 1, T = derivativeFilterTime);
         Real accelX(start = 0);
         Real accelY(start = 0);
         Real accelZ(start = 0);
-  Modelica.Blocks.Interfaces.RealOutput y annotation(
-          Placement(transformation(origin = {104, -34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {104, -34}, extent = {{-10, -10}, {10, 10}})));
       equation
-//Variables storage
-        derivativeVelx.u = boatSensor.v[1];
-        derivativeVely.u = boatSensor.v[2];
-        derivativeVelz.u = boatSensor.v[3];
-//Accelerometer emulated
-//accelX = der(velX) + omegaY(pitch)*velZ(heave) - omegaZ(yaw)*velY(sway) + gravity * sin(pitch)
-//accelX = derivativeVelx.y + integrator[2].y*boatSensor.w[3] - integrator[3].y*boatSensor.w[2] + gravity * sin(integrator[2].y);
-        accelX = derivativeVelx.y + integrator[2].y*boatSensor.w[3] - integrator[3].y*boatSensor.w[2];
-//accelY = der(velY) + omegaZ(Yaw)*velX(Surge) - omegaX(roll)*velZ(heave) - gravity * sin(roll) * cos(pitch)
-//accelY = derivativeVely.y + integrator[3].y*boatSensor.w[1] - integrator[1].y*boatSensor.w[3] - gravity * sin(integrator[1].y) * cos(integrator[2].y);
-        accelY = derivativeVely.y + integrator[3].y*boatSensor.w[1] - integrator[1].y*boatSensor.w[3];
-//accelZ = der(velZ) + omegaX(roll)*velY(Sway) - omegaY(pitch)*velX(Surge)
-//accelZ = derivativeVelz.y + integrator[1].y*boatSensor.w[2] - integrator[2].y*boatSensor.w[1] - gravity * cos(integrator[1].y) * cos(integrator[2].y);
-        accelZ = derivativeVelz.y + integrator[1].y*boatSensor.w[2] - integrator[2].y*boatSensor.w[1];
+      //Variables storage
+        derivativeVelx.u = worldSensor.v[1];
+        derivativeVely.u = worldSensor.v[2];
+        derivativeVelz.u = worldSensor.v[3];
+      //Accelerometer emulated
+      //accelX = der(velX) + omegaY(pitch)*velZ(heave) - omegaZ(yaw)*velY(sway) + gravity * sin(pitch)
+      //accelX = derivativeVelx.y + integrator[2].y*boatSensor.w[3] - integrator[3].y*boatSensor.w[2] + gravity * sin(integrator[2].y);
+        //accelX = derivativeVelx.y + integrator[2].y*boatSensor.w[3] - integrator[3].y*boatSensor.w[2];
+        accelX = derivativeVelx.y + worldSensor.angles[2]*worldSensor.w[3] - worldSensor.angles[3]*worldSensor.w[2];
+      //accelY = der(velY) + omegaZ(Yaw)*velX(Surge) - omegaX(roll)*velZ(heave) - gravity * sin(roll) * cos(pitch)
+      //accelY = derivativeVely.y + integrator[3].y*boatSensor.w[1] - integrator[1].y*boatSensor.w[3] - gravity * sin(integrator[1].y) * cos(integrator[2].y);
+        //accelY = derivativeVely.y + integrator[3].y*boatSensor.w[1] - integrator[1].y*boatSensor.w[3];
+        accelY = derivativeVely.y + worldSensor.angles[3]*worldSensor.w[1] - worldSensor.angles[1]*worldSensor.w[3];
+      //accelZ = der(velZ) + omegaX(roll)*velY(Sway) - omegaY(pitch)*velX(Surge)
+      //accelZ = derivativeVelz.y + integrator[1].y*boatSensor.w[2] - integrator[2].y*boatSensor.w[1] - gravity * cos(integrator[1].y) * cos(integrator[2].y);
+        accelZ = derivativeVelz.y +  worldSensor.angles[1]*worldSensor.w[2] -  worldSensor.angles[2]*worldSensor.w[1];
         a[1] = accelX;
         a[2] = accelY;
         a[3] = accelZ;
@@ -7758,40 +7754,32 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
           Line(points = {{34, -18}, {34, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
         connect(worldSensor.v[3], v[3]) annotation(
           Line(points = {{34, -18}, {34, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.w[1], v[4]) annotation(
-          Line(points = {{34, -66}, {34, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.w[2], v[5]) annotation(
-          Line(points = {{34, -66}, {34, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.w[3], v[6]) annotation(
-          Line(points = {{34, -66}, {34, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.z[1], a[4]) annotation(
-          Line(points = {{30, -66}, {30, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.z[2], a[5]) annotation(
-          Line(points = {{30, -66}, {30, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.z[3], a[6]) annotation(
-          Line(points = {{30, -66}, {30, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.frame_a, viscous.frame_a) annotation(
-          Line(points = {{50, -78}, {56, -78}, {56, 18}, {60, 18}}, color = {95, 95, 95}));
         connect(marineRudder.rudderFeedbackRad, rudderFeedback_rad) annotation(
           Line(points = {{-24, -6}, {-24, -72}}, color = {0, 0, 127}));
         connect(propSpeedSensor.flange, speed.flange) annotation(
           Line(points = {{-78, -20}, {-78, 2}, {-86, 2}}));
         connect(PropellerFeedback_rad_s, propSpeedSensor.w) annotation(
           Line(points = {{-78, -70}, {-78, -41}}, color = {0, 0, 127}));
-        connect(boatSensor.w[1], integrator[1].u) annotation(
-          Line(points = {{34, -66}, {34, -34}, {74, -34}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(boatSensor.w[2], integrator[2].u) annotation(
-          Line(points = {{34, -66}, {34, -34}, {74, -34}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(integrator[1].y, p[4]) annotation(
-          Line(points = {{82, -34}, {86, -34}, {86, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
-        connect(integrator[2].y, p[5]) annotation(
-          Line(points = {{82, -34}, {90, -34}, {90, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(worldSensor.angles[3], p[6]) annotation(
-          Line(points = {{26, -18}, {126, -18}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(integrator[3].y, y) annotation(
-          Line(points = {{82, -34}, {104, -34}}, color = {0, 0, 127}));
-  connect(worldSensor.w[3], integrator[3].u) annotation(
-          Line(points = {{22, -18}, {22, -34}, {74, -34}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.angles[3], p[6]) annotation(
+          Line(points = {{26, -18}, {26.125, -18}, {26.125, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.z[1], a[4]) annotation(
+          Line(points = {{18, -18}, {18, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.z[2], a[5]) annotation(
+          Line(points = {{18, -18}, {18, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.z[3], a[6]) annotation(
+          Line(points = {{18, -18}, {18, -60}, {126, -60}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.w[1], v[4]) annotation(
+          Line(points = {{22, -18}, {22, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.w[2], v[5]) annotation(
+          Line(points = {{22, -18}, {22, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.w[3], v[6]) annotation(
+          Line(points = {{22, -18}, {22, -42}, {126, -42}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.angles[1], p[4]) annotation(
+          Line(points = {{26, -18}, {26, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.angles[2], p[5]) annotation(
+          Line(points = {{26, -18}, {26, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
+        connect(worldSensor.angles[3], p[6]) annotation(
+          Line(points = {{26, -18}, {26, -24}, {126, -24}}, color = {0, 0, 127}, thickness = 0.5));
         annotation(
           Diagram(graphics = {Rectangle(origin = {53, -10}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
           experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.01),
@@ -13819,7 +13807,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {442, -224}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {360, -256}, extent = {{-10, -10}, {10, 10}})));
           Aquanaut.Utils.Wgs84GnssPositionPure wgs84GnssPosition(originLatitudeDeg = 10, originLongitudeDeg = 10) annotation(
             Placement(transformation(origin = {401, 44}, extent = {{-15, -15}, {15, 15}})));
-          Aquanaut_UpdatedPackage.NewModels.SOGAndCOGCalculation sOGAndCOGCalculation annotation(
+          Aquanaut.Utils.SOGAndCOGCalculation sOGAndCOGCalculation annotation(
             Placement(transformation(origin = {401, 93}, extent = {{-16, -16}, {16, 16}})));
           Modelica.Blocks.Interfaces.RealOutput SOG annotation(
             Placement(transformation(origin = {443, 103}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {287, 73}, extent = {{-10, -10}, {10, 10}})));
@@ -14805,11 +14793,11 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {199, 34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -130}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput vy annotation(
             Placement(transformation(origin = {199, 12}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -142}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Interfaces.RealOutput thetaz annotation(
+  Modelica.Blocks.Interfaces.RealOutput thetaz annotation(
             Placement(transformation(origin = {199, -70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {322, -168}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Interfaces.RealOutput omegax annotation(
+  Modelica.Blocks.Interfaces.RealOutput omegax annotation(
             Placement(transformation(origin = {199, -94}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Interfaces.RealOutput omegaY annotation(
+  Modelica.Blocks.Interfaces.RealOutput omegaY annotation(
             Placement(transformation(origin = {199, -118}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput omegaz annotation(
             Placement(transformation(origin = {199, -142}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
@@ -14819,13 +14807,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {-200, 80}, extent = {{-22, -22}, {22, 22}}), iconTransformation(origin = {-121, 79}, extent = {{-20, -20}, {20, 20}})));
           Modelica.Blocks.Interfaces.RealInput rudderAngleInput annotation(
             Placement(transformation(origin = {-199, -73}, extent = {{-23, -23}, {23, 23}}), iconTransformation(origin = {-115, -80}, extent = {{-20, -20}, {20, 20}})));
-          Modelica.Blocks.Interfaces.RealOutput ax annotation(
+  Modelica.Blocks.Interfaces.RealOutput ax annotation(
             Placement(transformation(origin = {199, -6}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {290, -166}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Interfaces.RealOutput ay annotation(
+  Modelica.Blocks.Interfaces.RealOutput ay annotation(
             Placement(transformation(origin = {199, -26}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {298, -196}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Interfaces.RealOutput az annotation(
+  Modelica.Blocks.Interfaces.RealOutput az annotation(
             Placement(transformation(origin = {199, -48}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {298, -196}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Interfaces.RealOutput propellerFeedback annotation(
+  Modelica.Blocks.Interfaces.RealOutput propellerFeedback annotation(
             Placement(transformation(origin = {199, -180}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {374, -274}, extent = {{-10, -10}, {10, 10}})));
           Aquanaut.Utils.Wgs84GnssPositionPure wgs84GnssPosition(originLatitudeDeg = -22.734233, originLongitudeDeg = -43.085687) annotation(
             Placement(transformation(origin = {100, 149}, extent = {{-24, -24}, {24, 24}})));
@@ -14872,19 +14860,19 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{129, 159}, {199, 159}}, color = {0, 0, 127}));
           connect(wgs84GnssPosition.longitudeDeg, y) annotation(
             Line(points = {{129, 139}, {199, 139}}, color = {0, 0, 127}));
-  connect(sOGAndCOGCalculation.vel_n_m_s, OT1model.v[1]) annotation(
+          connect(sOGAndCOGCalculation.vel_n_m_s, OT1model.v[1]) annotation(
             Line(points = {{71, 91}, {19, 91}, {19, 5}, {7, 5}}, color = {0, 0, 127}));
-  connect(sOGAndCOGCalculation.vel_e_m_s, OT1model.v[2]) annotation(
+          connect(sOGAndCOGCalculation.vel_e_m_s, OT1model.v[2]) annotation(
             Line(points = {{71, 60}, {19, 60}, {19, 5}, {7, 5}}, color = {0, 0, 127}));
-  connect(sOGAndCOGCalculation.cog_rad, COG) annotation(
+          connect(sOGAndCOGCalculation.cog_rad, COG) annotation(
             Line(points = {{125, 59}, {198, 59}}, color = {0, 0, 127}));
-  connect(sOGAndCOGCalculation.sog_m_s, SOG) annotation(
+          connect(sOGAndCOGCalculation.sog_m_s, SOG) annotation(
             Line(points = {{125, 90}, {125, 91}, {198, 91}}, color = {0, 0, 127}));
           annotation(
             experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
             __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearization=6000 --fmuRuntimeDepends=modelica -d=fmuExperimental",
             __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
-            Diagram(coordinateSystem(extent = {{-250, -200}, {250, 200}}, grid = {1, 1}), graphics = {Text(origin = {-24, 46}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 Model", textStyle = {TextStyle.Bold}), Text(origin = {100, 25}, extent = {{-79, -3}, {79, 3}}, textString = "position on x, y and z axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, 9}, extent = {{-46, -3}, {46, 3}}, textString = "linear and angular velocity on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-66, -9}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {193, 1}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-52, 196}, {52, -196}}), Text(origin = {198, 187}, extent = {{-48, 6}, {48, -6}}, textString = "Sensors", textStyle = {TextStyle.Bold, TextStyle.Bold}), Text(origin = {-70, 25}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {-188, 2}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-50, 142}, {50, -142}}), Text(origin = {-188, 122}, extent = {{-48, 6}, {48, -6}}, textString = "Actuators", textStyle = {TextStyle.Bold}), Text(origin = {68, -127}, extent = {{-46, -3}, {46, 3}}, textString = "rudder angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, -9}, extent = {{-46, -3}, {46, 3}}, textString = "linear acceleration on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {68, -143}, extent = {{-46, -3}, {46, 3}}, textString = "propeller angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
+            Diagram(coordinateSystem(extent = {{-250, -200}, {250, 200}}, grid = {1, 1}), graphics = {Text(origin = {-24, 46}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 Model", textStyle = {TextStyle.Bold}), Text(origin = {100, 25}, extent = {{-79, -3}, {79, 3}}, textString = "position on x, y and z axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, 9}, extent = {{-46, -3}, {46, 3}}, textString = "linear and angular velocity on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-66, -9}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {193, 1}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-52, 196}, {52, -196}}), Text(origin = {198, 187}, extent = {{-48, 6}, {48, -6}}, textString = "Sensors", textStyle = {TextStyle.Bold, TextStyle.Bold}), Text(origin = {-70, 25}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {-188, 2}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-50, 142}, {50, -142}}), Text(origin = {-188, 122}, extent = {{-48, 6}, {48, -6}}, textString = "Actuators", textStyle = {TextStyle.Bold}), Text(origin = {84, -156}, extent = {{-46, -3}, {46, 3}}, textString = "rudder angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, -9}, extent = {{-46, -3}, {46, 3}}, textString = "linear acceleration on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {70, -174}, extent = {{-46, -3}, {46, 3}}, textString = "propeller angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
             Icon(graphics = {Rectangle(origin = {6, 0},fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-100, 100}, {100, -100}}), Rectangle(origin = {60, 30}, lineThickness = 1, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {-28, 30}, lineThickness = 1, extent = {{-36, 20}, {36, -20}}), Text(origin = {-28, 31}, extent = {{-28, 7}, {28, -7}}, textString = "Controller", textStyle = {TextStyle.UnderLine}), Text(origin = {60, 31}, extent = {{-14, 7}, {14, -7}}, textString = "OT1", textStyle = {TextStyle.UnderLine}), Rectangle(origin = {8, -37}, lineThickness = 1, extent = {{-36, 21}, {36, -21}}), Text(origin = {8, -35}, extent = {{-28, 7}, {28, -7}}, textString = "Serret-Frenèt", textStyle = {TextStyle.UnderLine}), Line(origin = {52, -15}, points = {{8, 25}, {8, -23}, {-8, -23}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-55, -3}, points = {{27, -35}, {-27, -35}, {-27, 33}, {-9, 33}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {24, 30}, points = {{-16, 0}, {16, 0}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(extent = {{-250, -200}, {250, 200}}, grid = {1, 1})),
             Documentation(info = "<html><head>
                                           </head>
