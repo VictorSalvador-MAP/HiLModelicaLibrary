@@ -16488,6 +16488,40 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
                                                             
                                                             </body></html>"));
         end ClosedLoopHiL_ControllerInputAnalisys;
+        
+        model CombiTimeTableTest
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/05_ot1_manager_to_vel_velocity_active.txt", tableName = "table_05_ot1_manager_to_vel_velocity_active", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-46, -28}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/01_ot1_manager_to_attitude_chi_sf.txt", tableName = "table_01_ot1_manager_to_attitude_chi_sf", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-47, 22}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable11(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/02_ot1_manager_to_attitude_chi_d.txt", tableName = "table_02_ot1_manager_to_attitude_chi_d", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-50, 71}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_d_HTF annotation(
+            Placement(transformation(origin = {64, 70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_sf_HTF annotation(
+            Placement(transformation(origin = {64, 22}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vel_enabled_HTF annotation(
+            Placement(transformation(origin = {60, -28}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-44, -76}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF1 annotation(
+            Placement(transformation(origin = {64, -76}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {62, -26}, extent = {{-10, -10}, {10, 10}})));
+        equation
+          connect(combiTimeTable1.y[1], chi_sf_HTF) annotation(
+            Line(points = {{-30.5, 22}, {63.5, 22}}, color = {0, 0, 127}));
+          connect(combiTimeTable11.y[1], chi_d_HTF) annotation(
+            Line(points = {{-33.5, 71}, {64.5, 71}, {64.5, 69}}, color = {0, 0, 127}));
+          connect(combiTimeTable.y[1], vel_enabled_HTF) annotation(
+            Line(points = {{-29.5, -28}, {60.5, -28}}, color = {0, 0, 127}));
+          connect(combiTimeTable2.y[1], propeller_rpm_HTF1) annotation(
+            Line(points = {{-28, -76}, {64, -76}}, color = {0, 0, 127}));
+        
+        annotation(
+            uses(Modelica(version = "4.0.0")),
+          experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.32),
+          __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
+          __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"));
+        end CombiTimeTableTest;
       end HTFAnalisys;
     end PathFollowingTests;
   end Sandbox;
