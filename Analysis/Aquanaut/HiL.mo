@@ -16522,6 +16522,53 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
           __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
           __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"));
         end CombiTimeTableTest;
+        
+        model HTFOutputs_11_09
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/vx.txt", tableName = "table_vx", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-36, 14}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/y.txt", tableName = "table_y", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-37, 64}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable11(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/x.txt", tableName = "table_x", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-40, 113}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput latitude annotation(
+            Placement(transformation(origin = {74, 112}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput longitude annotation(
+            Placement(transformation(origin = {74, 64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vel_north annotation(
+            Placement(transformation(origin = {70, 14}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {76, 28}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/vy.txt", tableName = "table_vy", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-34, -34}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput vel_east annotation(
+            Placement(transformation(origin = {74, -34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {62, -26}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/rudderFeedback.txt", tableName = "table_rudderFeedback", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-36, -88}, extent = {{-15, -15}, {15, 15}})));
+  Modelica.Blocks.Interfaces.RealOutput rudder_feedback annotation(
+            Placement(transformation(origin = {70, -88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {104, -112}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable21(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/propellerFeedback.txt", tableName = "table_propellerFeedback", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-34, -136}, extent = {{-15, -15}, {15, 15}})));
+  Modelica.Blocks.Interfaces.RealOutput propeller_rpm_feedback annotation(
+            Placement(transformation(origin = {74, -136}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {90, -166}, extent = {{-10, -10}, {10, 10}})));
+        equation
+          connect(combiTimeTable1.y[1], longitude) annotation(
+            Line(points = {{-20.5, 64}, {73.5, 64}}, color = {0, 0, 127}));
+          connect(combiTimeTable11.y[1], latitude) annotation(
+            Line(points = {{-23.5, 113}, {74.5, 113}, {74.5, 111}}, color = {0, 0, 127}));
+          connect(combiTimeTable.y[1], vel_north) annotation(
+            Line(points = {{-19.5, 14}, {70.5, 14}}, color = {0, 0, 127}));
+          connect(combiTimeTable2.y[1], vel_east) annotation(
+            Line(points = {{-17.5, -34}, {74.5, -34}}, color = {0, 0, 127}));
+          connect(combiTimeTable3.y[1], rudder_feedback) annotation(
+            Line(points = {{-19.5, -88}, {70.5, -88}}, color = {0, 0, 127}));
+          connect(combiTimeTable21.y[1], propeller_rpm_feedback) annotation(
+            Line(points = {{-17.5, -136}, {74.5, -136}}, color = {0, 0, 127}));
+          annotation(
+            uses(Modelica(version = "4.0.0")),
+          experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.32),
+          __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
+          __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"),
+  Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
+  Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
+        end HTFOutputs_11_09;
       end HTFAnalisys;
     end PathFollowingTests;
   end Sandbox;
