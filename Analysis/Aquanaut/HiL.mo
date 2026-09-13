@@ -16195,11 +16195,11 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {11, -130}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput body_velocity_fake_HTF annotation(
             Placement(transformation(origin = {141, -64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
             Placement(transformation(origin = {91, 21}, extent = {{-15, -15}, {15, 15}})));
-  Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF1 annotation(
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF1 annotation(
             Placement(transformation(origin = {136, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {328, 173}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF11 annotation(
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF11 annotation(
             Placement(transformation(origin = {217, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {496, 280}, extent = {{-10, -10}, {10, 10}})));
         equation
           connect(switch_v_ref.y, v_e.u1) annotation(
@@ -16338,13 +16338,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{-29, -172}, {38, -172}, {38, -157}, {51, -157}}, color = {0, 0, 127}));
           connect(combiTimeTable2.y[1], propeller_rpm_HTF1) annotation(
             Line(points = {{107.5, 21}, {128.5, 21}, {128.5, 20}, {136.5, 20}}, color = {0, 0, 127}));
-  connect(serretFrenet.U, switch_v_ref.u3) annotation(
+          connect(serretFrenet.U, switch_v_ref.u3) annotation(
             Line(points = {{-229, -1}, {29, -1}, {29, 79}, {36, 79}}, color = {0, 0, 127}));
-  connect(serretFrenet.U, v_e.u2) annotation(
+          connect(serretFrenet.U, v_e.u2) annotation(
             Line(points = {{-229, -1}, {57, -1}, {57, 75}, {66, 75}}, color = {0, 0, 127}));
-  connect(PID_velocity.y, propeller_rpm_HTF11) annotation(
+          connect(PID_velocity.y, propeller_rpm_HTF11) annotation(
             Line(points = {{161, 81}, {217, 81}, {217, 80}}, color = {0, 0, 127}));
-  connect(combiTimeTable2.y[1], OT1model.propellerSpeed) annotation(
+          connect(combiTimeTable2.y[1], OT1model.propellerSpeed) annotation(
             Line(points = {{108, 21}, {169, 21}, {169, 43}, {216, 43}}, color = {0, 0, 127}));
           annotation(
             experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
@@ -16488,7 +16488,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
                                                             
                                                             </body></html>"));
         end ClosedLoopHiL_ControllerInputAnalisys;
-        
+
         model CombiTimeTableTest
           Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/05_ot1_manager_to_vel_velocity_active.txt", tableName = "table_05_ot1_manager_to_vel_velocity_active", tableOnFile = true) annotation(
             Placement(transformation(origin = {-46, -28}, extent = {{-15, -15}, {15, 15}})));
@@ -16515,14 +16515,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{-29.5, -28}, {60.5, -28}}, color = {0, 0, 127}));
           connect(combiTimeTable2.y[1], propeller_rpm_HTF1) annotation(
             Line(points = {{-28, -76}, {64, -76}}, color = {0, 0, 127}));
-        
-        annotation(
+          annotation(
             uses(Modelica(version = "4.0.0")),
-          experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.32),
-          __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
-          __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"));
+            experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.32),
+            __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
+            __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"));
         end CombiTimeTableTest;
-        
+
         model HTFOutputs_11_09
           Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/vx.txt", tableName = "table_vx", tableOnFile = true) annotation(
             Placement(transformation(origin = {-36, 14}, extent = {{-15, -15}, {15, 15}})));
@@ -16540,13 +16539,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {-34, -34}, extent = {{-15, -15}, {15, 15}})));
           Modelica.Blocks.Interfaces.RealOutput vel_east annotation(
             Placement(transformation(origin = {74, -34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {62, -26}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/rudderFeedback.txt", tableName = "table_rudderFeedback", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/rudderFeedback.txt", tableName = "table_rudderFeedback", tableOnFile = true) annotation(
             Placement(transformation(origin = {-36, -88}, extent = {{-15, -15}, {15, 15}})));
-  Modelica.Blocks.Interfaces.RealOutput rudder_feedback annotation(
+          Modelica.Blocks.Interfaces.RealOutput rudder_feedback annotation(
             Placement(transformation(origin = {70, -88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {104, -112}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable21(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/propellerFeedback.txt", tableName = "table_propellerFeedback", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable21(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/propellerFeedback.txt", tableName = "table_propellerFeedback", tableOnFile = true) annotation(
             Placement(transformation(origin = {-34, -136}, extent = {{-15, -15}, {15, 15}})));
-  Modelica.Blocks.Interfaces.RealOutput propeller_rpm_feedback annotation(
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_feedback annotation(
             Placement(transformation(origin = {74, -136}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {90, -166}, extent = {{-10, -10}, {10, 10}})));
         equation
           connect(combiTimeTable1.y[1], longitude) annotation(
@@ -16563,13 +16562,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{-17.5, -136}, {74.5, -136}}, color = {0, 0, 127}));
           annotation(
             uses(Modelica(version = "4.0.0")),
-          experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
-          __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
-          __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
-  Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
-  Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
+            experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
+            __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
+            __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
+            Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
+            Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
         end HTFOutputs_11_09;
-        
+
         model OpenLoopHiL_withControllerInputData
           // Blocks
           OpenLoop OT1model annotation(
@@ -16604,13 +16603,13 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {198, 59}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {116, 43}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput SOG annotation(
             Placement(transformation(origin = {198, 91}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {120, 84}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/rudderFeedback.txt", tableName = "table_rudderFeedback", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable3(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/rudderFeedback.txt", tableName = "table_rudderFeedback", tableOnFile = true) annotation(
             Placement(transformation(origin = {-212, -67}, extent = {{-15, -15}, {15, 15}})));
-  Modelica.Blocks.Interfaces.RealOutput rudder_feedback annotation(
+          Modelica.Blocks.Interfaces.RealOutput rudder_feedback annotation(
             Placement(transformation(origin = {-166, -67}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-205, -15}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable21(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/propellerFeedback.txt", tableName = "table_propellerFeedback", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable21(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/GraphAnalisys/outputMat_HTFAnalisys_combiTimeTable/propellerFeedback.txt", tableName = "table_propellerFeedback", tableOnFile = true) annotation(
             Placement(transformation(origin = {-211, 62}, extent = {{-15, -15}, {15, 15}})));
-  Modelica.Blocks.Interfaces.RealOutput propeller_rpm_feedback annotation(
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_feedback annotation(
             Placement(transformation(origin = {-171, 62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-219, -69}, extent = {{-10, -10}, {10, 10}})));
         equation
           connect(OT1model.p[3], z) annotation(
@@ -16651,9 +16650,9 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{-195.5, -67}, {-166, -67}}, color = {0, 0, 127}));
           connect(combiTimeTable21.y[1], propeller_rpm_feedback) annotation(
             Line(points = {{-194.5, 62}, {-171, 62}}, color = {0, 0, 127}));
-  connect(combiTimeTable21.y[1], OT1model.propellerSpeed) annotation(
+          connect(combiTimeTable21.y[1], OT1model.propellerSpeed) annotation(
             Line(points = {{-194, 62}, {-159, 62}, {-159, 21}, {-57, 21}}, color = {0, 0, 127}));
-  connect(combiTimeTable3.y[1], OT1model.rudderAngle) annotation(
+          connect(combiTimeTable3.y[1], OT1model.rudderAngle) annotation(
             Line(points = {{-195, -67}, {-105, -67}, {-105, -12}, {-57, -12}}, color = {0, 0, 127}));
           annotation(
             experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
@@ -16885,8 +16884,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
   end HILUtils;
 
   package FinalModels
-     
-model OT1Model
+    model OT1Model
       // Parameters
       parameter Real propellerF = 5.0 "Propeller cut frequency (Hz)";
       parameter Real rudderF = 5.0 "Rudder cut frequency (Hz)";
@@ -16928,38 +16926,13 @@ model OT1Model
         Placement(transformation(origin = {-78, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
       Modelica.Blocks.Interfaces.RealOutput PropellerFeedback_rad_s annotation(
         Placement(transformation(origin = {120, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, -116}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
-      //Modelica.Blocks.Continuous.Derivative derivativeVelx(k = 1, T = derivativeFilterTime);
-      //Modelica.Blocks.Continuous.Derivative derivativeVely(k = 1, T = derivativeFilterTime);
-      //Modelica.Blocks.Continuous.Derivative derivativeVelz(k = 1, T = derivativeFilterTime);
-      //Real accelX(start = 0);
-      //Real accelY(start = 0);
-      //Real accelZ(start = 0);
-  NewModelUtils.GNSSCompass Hemisphere_GNSSCompass annotation(
+      NewModelUtils.IdealGNSSCompass Hemisphere_GNSSCompass annotation(
         Placement(transformation(origin = {61, -25}, extent = {{-19, -19}, {19, 19}})));
-  Modelica.Blocks.Interfaces.RealOutput Rate_of_Turn[1] annotation(
+      Modelica.Blocks.Interfaces.RealOutput Rate_of_Turn[1] annotation(
         Placement(transformation(origin = {120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {136, -86}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Blocks.Interfaces.RealOutput Heading[1] annotation(
+      Modelica.Blocks.Interfaces.RealOutput Heading[1] annotation(
         Placement(transformation(origin = {120, -16}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {188, -100}, extent = {{-16, -16}, {16, 16}})));
     equation
-//Variables storage
-      //derivativeVelx.u = worldSensor.v[1];
-      //derivativeVely.u = worldSensor.v[2];
-      //derivativeVelz.u = worldSensor.v[3];
-//Accelerometer emulated
-//accelX = der(velX) + omegaY(pitch)*velZ(heave) - omegaZ(yaw)*velY(sway) + gravity * sin(pitch)
-//accelX = derivativeVelx.y + integrator[2].y*boatSensor.w[3] - integrator[3].y*boatSensor.w[2] + gravity * sin(integrator[2].y);
-//accelX = derivativeVelx.y + integrator[2].y*boatSensor.w[3] - integrator[3].y*boatSensor.w[2];
-      //accelX = derivativeVelx.y + worldSensor.angles[2]*worldSensor.w[3] - worldSensor.angles[3]*worldSensor.w[2];
-//accelY = der(velY) + omegaZ(Yaw)*velX(Surge) - omegaX(roll)*velZ(heave) - gravity * sin(roll) * cos(pitch)
-//accelY = derivativeVely.y + integrator[3].y*boatSensor.w[1] - integrator[1].y*boatSensor.w[3] - gravity * sin(integrator[1].y) * cos(integrator[2].y);
-//accelY = derivativeVely.y + integrator[3].y*boatSensor.w[1] - integrator[1].y*boatSensor.w[3];
-      //accelY = derivativeVely.y + worldSensor.angles[3]*worldSensor.w[1] - worldSensor.angles[1]*worldSensor.w[3];
-//accelZ = der(velZ) + omegaX(roll)*velY(Sway) - omegaY(pitch)*velX(Surge)
-//accelZ = derivativeVelz.y + integrator[1].y*boatSensor.w[2] - integrator[2].y*boatSensor.w[1] - gravity * cos(integrator[1].y) * cos(integrator[2].y);
-      //accelZ = derivativeVelz.y + worldSensor.angles[1]*worldSensor.w[2] - worldSensor.angles[2]*worldSensor.w[1];
-      //COG = accelX;
-      //COG = accelY;
-      //COG = accelZ;
       connect(speed.flange, marinePropeller.flange) annotation(
         Line(points = {{-86, 2}, {-70, 2}}));
       connect(world.frame_b, fixedFrame.frame_a) annotation(
@@ -16988,21 +16961,21 @@ model OT1Model
         Line(points = {{-78, -20}, {-78, 2}, {-86, 2}}));
       connect(PropellerFeedback_rad_s, propSpeedSensor.w) annotation(
         Line(points = {{120, -46}, {120, -46.375}, {104, -46.375}, {104, -51.5}, {-78, -51.5}, {-78, -41}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.frame_a, hull.frame_a) annotation(
+      connect(Hemisphere_GNSSCompass.frame_a, hull.frame_a) annotation(
         Line(points = {{41, -25}, {22, -25}, {22, 42}, {46, 42}, {46, 66}, {60, 66}}, color = {95, 95, 95}));
-  connect(Hemisphere_GNSSCompass.Latitude, p[1]) annotation(
+      connect(Hemisphere_GNSSCompass.Latitude, p[1]) annotation(
         Line(points = {{82, -8}, {84, -8}, {84, 54}, {120, 54}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.Longitude, p[2]) annotation(
+      connect(Hemisphere_GNSSCompass.Longitude, p[2]) annotation(
         Line(points = {{82, -14}, {84, -14}, {84, 54}, {120, 54}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.Altitude, p[3]) annotation(
+      connect(Hemisphere_GNSSCompass.Altitude, p[3]) annotation(
         Line(points = {{82, -20}, {84, -20}, {84, 54}, {120, 54}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.SOG, SOG[1]) annotation(
+      connect(Hemisphere_GNSSCompass.SOG, SOG[1]) annotation(
         Line(points = {{82, -24}, {86, -24}, {86, 36}, {120, 36}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.COG, COG[1]) annotation(
+      connect(Hemisphere_GNSSCompass.COG, COG[1]) annotation(
         Line(points = {{82, -30}, {88, -30}, {88, 18}, {120, 18}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.rate_of_turn, Rate_of_Turn[1]) annotation(
+      connect(Hemisphere_GNSSCompass.rate_of_turn, Rate_of_Turn[1]) annotation(
         Line(points = {{82, -36}, {90, -36}, {90, 0}, {120, 0}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.Heading, Heading[1]) annotation(
+      connect(Hemisphere_GNSSCompass.Heading, Heading[1]) annotation(
         Line(points = {{82, -42}, {92, -42}, {92, -16}, {120, -16}}, color = {0, 0, 127}));
       annotation(
         Diagram(graphics = {Rectangle(origin = {53, -10}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
@@ -17010,14 +16983,13 @@ model OT1Model
         __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=fmuExperimental ",
         __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
         Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 1.5, extent = {{-100, 100}, {100, -100}}), Rectangle(origin = {4, 50}, fillColor = {245, 245, 245}, fillPattern = FillPattern.Solid, extent = {{-20, 20}, {20, -20}}), Polygon(origin = {10, 44}, lineColor = {85, 170, 255}, fillColor = {85, 85, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-14, 10}, {-14, 2}, {-2, 2}, {8, 10}, {-14, 10}}), Line(origin = {-3.97, 41.7}, points = {{-10.0305, 0.29944}, {-4.0305, 4.29944}, {1.9695, -1.70056}, {7.9695, 4.29944}, {15.9695, -1.70056}, {21.9695, 4.2994}, {25.9695, 0.29944}}, color = {0, 170, 255}, thickness = 1.5, smooth = Smooth.Bezier), Polygon(origin = {10, 44}, fillColor = {85, 85, 255}, lineThickness = 0.75, points = {{-14, 10}, {-14, 2}, {-2, 2}, {8, 10}, {-14, 10}}), Rectangle(origin = {4, 0}, fillColor = {245, 245, 245}, fillPattern = FillPattern.Solid, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {4, -1}, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-1, 7}, {1, -7}}), Ellipse(origin = {4, -10}, fillColor = {85, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-4, 4}, {4, -4}}), Polygon(origin = {4, 4}, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, points = {{-2, 2}, {2, 2}, {0, 8}, {-2, 2}}), Line(origin = {-3.97, -4.3}, points = {{-10.0305, 0.29944}, {-4.0305, 4.29944}, {1.9695, -1.70056}, {7.9695, 4.29944}, {15.9695, -1.70056}, {21.9695, 4.2994}, {25.9695, 0.29944}}, color = {0, 170, 255}, thickness = 1.5, smooth = Smooth.Bezier), Rectangle(origin = {4, -50}, fillColor = {245, 245, 245}, fillPattern = FillPattern.Solid, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {-2, -50}, rotation = 90, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-2, 5}, {2, -5}}), Polygon(origin = {-26, -50}, rotation = 90, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, points = {{-4, -20}, {4, -20}, {0, -12}, {-4, -20}}), Ellipse(origin = {8, -50}, lineColor = {85, 0, 255}, fillColor = {85, 85, 255}, fillPattern = FillPattern.Sphere, extent = {{-8, 8}, {8, -8}}), Line(origin = {-9, -34.89}, points = {{30.997, -19.1092}, {26.9972, -19.1092}, {18.9972, -27.1092}, {6.9972, -21.1092}, {-3.0028, -21.1092}}, color = {85, 0, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -54.89}, points = {{24.9972, 14.8908}, {18.9972, 14.8908}, {10.9972, 18.8908}, {-1.0028, 12.8908}, {-9.0028, 12.8908}}, color = {85, 85, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -46.89}, points = {{24.9972, 8.8908}, {18.9972, 8.8908}, {10.9972, 12.8908}, {-1.0028, 6.8908}, {-9.0028, 6.89078}}, color = {85, 170, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-9, -22.89}, points = {{30.997, -21.1092}, {24.9972, -21.1092}, {16.9972, -15.1092}, {6.9972, -21.1092}, {-3.0028, -21.1092}}, color = {85, 0, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -70.89}, points = {{24.9972, 12.8908}, {20.9972, 12.8908}, {12.9972, 6.8908}, {-1.0028, 12.8908}, {-9.0028, 12.8908}}, color = {85, 85, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -66.89}, points = {{24.9972, 6.8908}, {20.9972, 6.8908}, {12.9972, 0.8908}, {-1.0028, 6.8908}, {-9.0028, 6.89078}}, color = {85, 170, 255}, thickness = 1, smooth = Smooth.Bezier), Rectangle(origin = {-60, 60}, lineColor = {0, 0, 127}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-20, -20}, {20, 20}}), Polygon(origin = {-55, 60}, fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, points = {{-4.563, 3.6504}, {-4.563, 7.9092}, {-1.521, 14.6016}, {2.1294, 18.252}, {3.9546, 17.6436}, {4.563, 15.8184}, {4.563, 10.3428}, {0.3042, 3.6504}, {0.3042, -3.6504}, {4.563, -10.3428}, {4.563, -15.8184}, {3.9546, -17.6436}, {2.1294, -18.252}, {-1.521, -14.6016}, {-4.563, -7.9092}, {-4.563, 3.6504}}, smooth = Smooth.Bezier), Rectangle(origin = {-69, 60}, fillColor = {200, 200, 200}, fillPattern = FillPattern.CrossDiag, extent = {{-8, 3}, {8, -3}}), Polygon(origin = {-52, 60}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, points = {{-10.336, 4.252}, {-10.336, -4.252}, {-0.874, -4.252}, {2.252, -2.168}, {2.336, -2.084}, {2.336, 0.084}, {2.252, 2.168}, {-0.874, 4.252}, {-10.336, 4.252}}), Ellipse(origin = {-57.5, 60}, rotation = 45, fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, extent = {{-1, 6}, {1, -6}}), Rectangle(origin = {-60, -60}, lineColor = {0, 0, 127}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-20, -20}, {20, 20}}), Polygon(origin = {-29, -78}, fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, points = {{-35, 18}, {-35, 4}, {-25, 4}, {-19, 30}, {-33, 30}, {-33, 22}, {-31, 22}, {-31, 18}, {-35, 18}}), Polygon(origin = {-70, -22}, points = {{6, -38}, {10, -38}, {10, -34}, {8, -34}, {8, -24}, {6, -24}, {6, -38}}), Ellipse(origin = {60, 0}, fillColor = {198, 198, 198}, fillPattern = FillPattern.Solid, extent = {{-18, 18}, {18, -18}}), Ellipse(origin = {60, 0}, fillColor = {98, 98, 98}, fillPattern = FillPattern.Solid, extent = {{-2, 2}, {2, -2}}), Polygon(origin = {65, 5}, rotation = -45, fillPattern = FillPattern.Solid, points = {{-1.5, -5.9}, {-0.1, -7.5}, {1.3, -5.9}, {-0.1, 7.5}, {-1.5, -5.9}}), Line(origin = {60, 13}, points = {{0, 3}, {0, -3}, {0, -3}}), Line(origin = {47, 0}, points = {{-3, 0}, {3, 0}}), Line(origin = {73, 0}, points = {{3, 0}, {-3, 0}}), Line(origin = {50, 8}, points = {{-2, 2}, {2, -2}}), Line(origin = {70, 8}, points = {{2, 2}, {-2, -2}, {-2, -2}}), Line(origin = {89, 0}, points = {{-11, 0}, {11, 0}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {89, 31}, points = {{-11, -29}, {1, -29}, {1, 29}, {11, 29}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {89, -32}, points = {{-11, 30}, {1, 30}, {1, -28}, {11, -28}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {63, -56}, points = {{1, 40}, {1, 30}, {1, -28}, {1, -44}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-1, -56}, points = {{59, 38}, {59, -28}, {1, -28}, {1, -44}}, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
-        Documentation(info = "<html>
-          <h1>Aquanaut.PathFollowing.OpenLoop Model Specification</h1>
+        Documentation(info = "<html><head></head><body><h1>Aquanaut.PathFollowing.OpenLoop Model Specification</h1>
           <p>This model represents an open-loop vessel dynamic system, integrating hydrodynamic forces, marine propulsion, steering systems, and environment state sensors.</p>
           
           <h2>1. Model Parameters</h2>
           <p>The configuration parameters defined at the top level of the model control the filtering frequencies and constraints for actuators:</p>
-          <table border=1>
-            <tr style=background-color:#f2f2f2;font-weight:bold;text-align:left;>
+          <table border=\"1\">
+            <tbody><tr style=\"background-color:#f2f2f2;font-weight:bold;text-align:left;\">
               <th>Parameter Name</th>
               <th>Type</th>
               <th>Value / Default</th>
@@ -17041,10 +17013,10 @@ model OT1Model
               <td>0.6108652381980153</td>
               <td>Rudder max absolute angle (rad) (~35 degrees)</td>
             </tr>
-          </table>
+          </tbody></table>
           
           <h2>2. Component Architecture (Submodels)</h2>
-          <h3>2.1 Ship Parts & Hydrodynamics</h3>
+          <h3>2.1 Ship Parts &amp; Hydrodynamics</h3>
           <ul>
             <li><strong>hull</strong> (Aquanaut.ShipParts.Hull): Defines structural mass (4484.75 kg) and inertia properties.</li>
             <li><strong>buoyancy</strong> (Aquanaut.HydroForces.BuoyancyInterpolation): Hydrostatic calculations utilizing 3D shape meshes.</li>
@@ -17052,23 +17024,23 @@ model OT1Model
             <li><strong>Stream</strong> (Aquanaut.HydroForces.Stream): Current field field with a mean velocity of 1.0 m/s.</li>
           </ul>
           
-          <h3>2.2 Actuation & Propulsion</h3>
+          <h3>2.2 Actuation &amp; Propulsion</h3>
           <ul>
             <li><strong>marinePropeller</strong> (Aquanaut.ShipParts.MarinePropeller): Computes thrust forces utilizing slipstream and localized wake fraction.</li>
             <li><strong>speed</strong> (Modelica.Mechanics.Rotational.Sources.Speed): Actuates propeller shaft rotation.</li>
             <li><strong>marineRudder</strong> (Aquanaut.ShipParts.MarineRudder): Steering forces constrained by rudderMaxAngle.</li>
           </ul>
           
-          <h3>2.3 Interface Blocks & Kinematics</h3>
+          <h3>2.3 Interface Blocks &amp; Kinematics</h3>
           <ul>
             <li><strong>Inputs:</strong> propellerSpeed, rudderAngle.</li>
             <li><strong>Outputs:</strong> Vector array outputs p[6], v[6], a[6].</li>
             <li><strong>Sensors:</strong> worldSensor and boatSensor extract spatial kinematics.</li>
           </ul>
           
-          <h2>3. Equation & Interconnection Network</h2>
+          <h2>3. Equation &amp; Interconnection Network</h2>
           <ul>
-            <li><strong>Propulsion & Steering Line:</strong> Extends connection from speed source to propeller shaft. Propeller wake variables map to rudder inputs to compute flow velocity amplification over steering fins.</li>
+            <li><strong>Propulsion &amp; Steering Line:</strong> Extends connection from speed source to propeller shaft. Propeller wake variables map to rudder inputs to compute flow velocity amplification over steering fins.</li>
             <li><strong>Kinematic Mapping:</strong> Integrates absolute position vectors from sensors directly into the structural six-dimensional interface outputs.</li>
             <ul>
            <li>p = [x, y, z, roll, pitch, yaw]; </li>
@@ -17081,66 +17053,253 @@ model OT1Model
           <ul>
             <li><strong>Solver Settings:</strong> Start Time = 0.0s, Stop Time = 50.0s, Interval = 0.01s, Tolerance = 1e-06 with Euler integration.</li>
           </ul>
-          </html>"));
+          </body></html>", __OpenModelica_infoHeader = "<html><head></head><body></body></html>"));
     end OT1Model;
 
     package NewModelUtils
-  model GNSSCompass
-  Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
+      model GNSSCompass
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
           Placement(transformation(origin = {-50, 32}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
-  Utils.SOGAndCOGCalculation SOG_COG_Calc annotation(
+        Utils.SOGAndCOGCalculation SOG_COG_Calc annotation(
           Placement(transformation(origin = {60, -12}, extent = {{-10, -10}, {10, 10}})));
-  Utils.Wgs84GnssPositionPure wgs84GnssPositionPure(originLatitudeDeg = -22.734233, originLongitudeDeg = -43.085687)  annotation(
+        Utils.Wgs84GnssPositionPure wgs84GnssPositionPure(originLatitudeDeg = -22.734233, originLongitudeDeg = -43.085687) annotation(
           Placement(transformation(origin = {58, 70}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
-          Placement(transformation(origin = {111, 81}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, 90}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
-          Placement(transformation(origin = {111, 53}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, 59}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
-          Placement(transformation(origin = {111, 23}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput Heading annotation(
-          Placement(transformation(origin = {111, -80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, -90}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput COG annotation(
-          Placement(transformation(origin = {110, -23}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, -31}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput SOG annotation(
-          Placement(transformation(origin = {110, 1}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, 0}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealOutput rate_of_turn annotation(
-          Placement(transformation(origin = {111, -52}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, -60}, extent = {{-10, -10}, {10, 10}})));
-  Utils.HeadingSensor headingSensor annotation(
+        Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+          Placement(transformation(origin = {111, 81}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, 84}, extent = {{-8, -8}, {8, 8}})));
+        Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+          Placement(transformation(origin = {111, 53}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, 57}, extent = {{-8, -8}, {8, 8}})));
+        Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
+          Placement(transformation(origin = {111, 23}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, 32}, extent = {{-8, -8}, {8, 8}})));
+        Modelica.Blocks.Interfaces.RealOutput Heading annotation(
+          Placement(transformation(origin = {111, -80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, -80}, extent = {{-8, -8}, {8, 8}})));
+        Modelica.Blocks.Interfaces.RealOutput COG annotation(
+          Placement(transformation(origin = {110, -23}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, -21}, extent = {{-8, -8}, {8, 8}})));
+        Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+          Placement(transformation(origin = {110, 1}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, 4}, extent = {{-8, -8}, {8, 8}})));
+        Modelica.Blocks.Interfaces.RealOutput rate_of_turn annotation(
+          Placement(transformation(origin = {111, -52}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {108, -48}, extent = {{-8, -8}, {8, 8}})));
+        Utils.HeadingSensor headingSensor annotation(
           Placement(transformation(origin = {61, -81}, extent = {{-11, -11}, {11, 11}})));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Reference frame whose heading is measured" annotation(
+        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Reference frame whose heading is measured" annotation(
           Placement(transformation(origin = {-102, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-104, 0}, extent = {{-10, -10}, {10, 10}})));
       equation
-  connect(wgs84GnssPositionPure.latitudeDeg, Latitude) annotation(
+        connect(wgs84GnssPositionPure.latitudeDeg, Latitude) annotation(
           Line(points = {{70, 74}, {80, 74}, {80, 82}, {112, 82}}, color = {0, 0, 127}));
-  connect(wgs84GnssPositionPure.longitudeDeg, Longitude) annotation(
+        connect(wgs84GnssPositionPure.longitudeDeg, Longitude) annotation(
           Line(points = {{70, 66}, {80, 66}, {80, 54}, {112, 54}}, color = {0, 0, 127}));
-  connect(SOG_COG_Calc.sog_m_s, SOG) annotation(
+        connect(SOG_COG_Calc.sog_m_s, SOG) annotation(
           Line(points = {{72, -6}, {92, -6}, {92, 2}, {110, 2}}, color = {0, 0, 127}));
-  connect(SOG_COG_Calc.cog_rad, COG) annotation(
+        connect(SOG_COG_Calc.cog_rad, COG) annotation(
           Line(points = {{72, -20}, {92, -20}, {92, -22}, {110, -22}}, color = {0, 0, 127}));
-  connect(headingSensor.heading, Heading) annotation(
+        connect(headingSensor.heading, Heading) annotation(
           Line(points = {{70, -80}, {112, -80}}, color = {0, 0, 127}));
-  connect(worldSensor.r[1], wgs84GnssPositionPure.northM) annotation(
+        connect(worldSensor.r[1], wgs84GnssPositionPure.northM) annotation(
           Line(points = {{-60, 22}, {-60, 12}, {28, 12}, {28, 74}, {46, 74}}, color = {0, 0, 127}));
-  connect(worldSensor.r[2], wgs84GnssPositionPure.eastM) annotation(
+        connect(worldSensor.r[2], wgs84GnssPositionPure.eastM) annotation(
           Line(points = {{-60, 22}, {-60, 12}, {28, 12}, {28, 66}, {46, 66}}, color = {0, 0, 127}));
-  connect(worldSensor.r[3], Altitude) annotation(
+        connect(worldSensor.r[3], Altitude) annotation(
           Line(points = {{-60, 22}, {-60, 12}, {28, 12}, {28, 24}, {112, 24}}, color = {0, 0, 127}));
-  connect(worldSensor.v[1], SOG_COG_Calc.vel_n_m_s) annotation(
+        connect(worldSensor.v[1], SOG_COG_Calc.vel_n_m_s) annotation(
           Line(points = {{-56, 22}, {-56, -6}, {48, -6}}, color = {0, 0, 127}));
-  connect(worldSensor.v[2], SOG_COG_Calc.vel_e_m_s) annotation(
+        connect(worldSensor.v[2], SOG_COG_Calc.vel_e_m_s) annotation(
           Line(points = {{-56, 22}, {-56, -18}, {48, -18}}, color = {0, 0, 127}));
-  connect(frame_a, worldSensor.frame_a) annotation(
+        connect(frame_a, worldSensor.frame_a) annotation(
           Line(points = {{-102, 0}, {-84, 0}, {-84, 32}, {-60, 32}}));
-  connect(frame_a, headingSensor.frame_a) annotation(
+        connect(frame_a, headingSensor.frame_a) annotation(
           Line(points = {{-102, 0}, {-84, 0}, {-84, -80}, {52, -80}}));
-  connect(rate_of_turn, worldSensor.w[3]) annotation(
+        connect(rate_of_turn, worldSensor.w[3]) annotation(
           Line(points = {{112, -52}, {-44, -52}, {-44, 22}}, color = {0, 0, 127}));
-      annotation(
-          Icon(graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading")}),
-  Diagram(graphics));
-end GNSSCompass;
+        annotation(
+          Icon(graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -48}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
+          Diagram(graphics));
+      end GNSSCompass;
+
+      model IdealGNSSCompass
+        "GNSS Compass model with position, velocity, heading and rate of turn outputs"
+      
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(
+          get_a = true,
+          get_angles = true,
+          get_r = true,
+          get_v = true,
+          get_w = true,
+          get_z = true,
+          guessAngle1(displayUnit = "rad"),
+          resolveInFrame =
+            Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world)
+          annotation(
+            Placement(
+              transformation(
+                origin = {-40, 0},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
+          "Reference frame whose position, velocity and orientation are measured"
+          annotation(
+            Placement(
+              transformation(
+                origin = {-100, 0},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {-104, 0},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Latitude
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 80},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 86},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Longitude
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 55},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 60},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Altitude
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 30},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 32},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput SOG
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 5},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 6},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput COG
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, -20},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, -24},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput rate_of_turn
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, -50},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, -52},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Heading
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, -80},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, -84},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        parameter Real originLatitudeDeg(unit = "deg") = -22.734233
+          "Geodetic latitude of the local reference origin";
+      
+        parameter Real originLongitudeDeg(unit = "deg") = -43.085687
+          "Geodetic longitude of the local reference origin";
+      
+        parameter Real forwardAxis[3] = {1, 0, 0}
+          "Vessel longitudinal axis pointing toward the bow";
+      
+      protected
+        Real forwardWorld[3]
+          "Vessel longitudinal axis resolved in world coordinates";
+      public
+      equation
+      
+        /*
+         * Reference frame connection.
+         *
+         * No graphical Line annotation is intentionally included here.
+         */
+        connect(frame_a, worldSensor.frame_a);
+      
+      
+        /*
+         * WGS84 position.
+         *
+         * Original behavior:
+         *   worldSensor.r[1] -> North
+         *   worldSensor.r[2] -> East
+         */
+        (Latitude, Longitude) = Aquanaut.Functions.localNorthEastToWgs84Pure(originLatitudeDeg, originLongitudeDeg, worldSensor.r[1], worldSensor.r[2]);
+      
+      
+        /*
+         * Altitude.
+         *
+         * Original behavior:
+         *   Altitude = worldSensor.r[3]
+         */
+        Altitude = worldSensor.r[3];
+      
+      
+        /*
+         * Speed Over Ground.
+         *
+         * Original SOGAndCOGCalculation:
+         *   sog_m_s = sqrt(vel_n_m_s^2 + vel_e_m_s^2)
+         */
+        SOG = sqrt( worldSensor.v[1]^2 + worldSensor.v[2]^2);
+      
+      
+        /*
+         * Course Over Ground.
+         *
+         * Original SOGAndCOGCalculation:
+         *   cog_rad = atan2(vel_e_m_s, vel_n_m_s)
+         */
+        COG =
+          Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);
+      
+      
+        /*
+         * Rate of turn.
+         *
+         * Original behavior:
+         *   rate_of_turn = worldSensor.w[3]
+         */
+        rate_of_turn = worldSensor.w[3];
+      
+      
+        /*
+         * Heading calculation.
+         *
+         * Equivalent to the original HeadingSensor.
+         */
+        forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);
+      
+        Heading = Modelica.Math.atan2(forwardWorld[2],forwardWorld[1]);
+      
+      
+        annotation(
+          Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -50}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
+          Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-120, -100}, {120, 100}}), graphics = {Text(origin = {-100, 18}, extent = {{-18, 6}, {18, -6}}, textString = "frame_a")}),
+  Documentation(info = "<html><head></head><body></body></html>"));
+      
+      end IdealGNSSCompass;
     end NewModelUtils;
   end FinalModels;
 end HiL;
