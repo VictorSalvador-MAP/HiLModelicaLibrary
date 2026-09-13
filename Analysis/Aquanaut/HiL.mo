@@ -16926,7 +16926,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         Placement(transformation(origin = {-78, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
       Modelica.Blocks.Interfaces.RealOutput PropellerFeedback_rad_s annotation(
         Placement(transformation(origin = {120, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, -116}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
-      NewModelUtils.IdealGNSSCompass Hemisphere_GNSSCompass annotation(
+      NewModelUtils.IdealGNSSCompass2 Hemisphere_GNSSCompass annotation(
         Placement(transformation(origin = {61, -25}, extent = {{-19, -19}, {19, 19}})));
       Modelica.Blocks.Interfaces.RealOutput Rate_of_Turn[1] annotation(
         Placement(transformation(origin = {120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {136, -86}, extent = {{-16, -16}, {16, 16}})));
@@ -17300,6 +17300,420 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
   Documentation(info = "<html><head></head><body></body></html>"));
       
       end IdealGNSSCompass;
+
+      model IdealGNSSCompass2
+        "GNSS Compass model with position, velocity, heading and rate of turn outputs"
+      
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(
+          get_a = true,
+          get_angles = true,
+          get_r = true,
+          get_v = true,
+          get_w = true,
+          get_z = true,
+          guessAngle1(displayUnit = "rad"),
+          resolveInFrame =
+            Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world)
+          annotation(
+            Placement(
+              transformation(
+                origin = {-40, 0},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
+          "Reference frame whose position, velocity and orientation are measured"
+          annotation(
+            Placement(
+              transformation(
+                origin = {-100, 0},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {-104, 0},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Latitude
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 80},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 86},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Longitude
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 55},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 60},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Altitude
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 30},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 32},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput SOG
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, 5},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, 6},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput COG
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, -20},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, -24},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput rate_of_turn
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, -50},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, -52},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        Modelica.Blocks.Interfaces.RealOutput Heading
+          annotation(
+            Placement(
+              transformation(
+                origin = {110, -80},
+                extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(
+                origin = {110, -84},
+                extent = {{-10, -10}, {10, 10}})));
+      
+        parameter Real originLatitudeDeg(unit = "deg") = -22.734233
+          "Geodetic latitude of the local reference origin";
+      
+        parameter Real originLongitudeDeg(unit = "deg") = -43.085687
+          "Geodetic longitude of the local reference origin";
+      
+        parameter Real forwardAxis[3] = {1, 0, 0}
+          "Vessel longitudinal axis pointing toward the bow";
+      
+      protected
+      
+        /*
+         * Vessel longitudinal axis resolved in world coordinates.
+         */
+        Real forwardWorld[3];
+      
+      
+        /*
+         * Raw navigation values.
+         *
+         * These variables contain the values calculated directly from the
+         * vessel state before PGN range limiting and quantization.
+         */
+        Real latitudeRaw(unit = "deg");
+        Real longitudeRaw(unit = "deg");
+        Real sogRaw(unit = "m/s");
+        Real cogRaw(unit = "rad");
+        Real headingRaw(unit = "rad");
+      
+      
+        /*
+         * Intermediate values used for range limiting and angular wrapping.
+         */
+        Real latitudeLimited(unit = "deg");
+        Real longitudeLimited(unit = "deg");
+        Real sogLimited(unit = "m/s");
+        Real cogWrapped(unit = "rad");
+        Real headingWrapped(unit = "rad");
+      
+      
+        /*
+         * Quantized intermediate values.
+         */
+        Real latitudeQuantized(unit = "deg");
+        Real longitudeQuantized(unit = "deg");
+        Real sogQuantized(unit = "m/s");
+        Real cogQuantized(unit = "rad");
+        Real headingQuantized(unit = "rad");
+      
+      
+        /*
+         * PGN limits and resolutions.
+         *
+         * Latitude and Longitude:
+         *   PGN 129025 range:      -90..90 deg / -180..180 deg
+         *   PGN 129025 resolution: 1e-7 deg
+         *
+         * The same Latitude and Longitude outputs are also used for
+         * PGN 129029. A value quantized at 1e-7 deg is also representable
+         * using the finer 1e-16 deg resolution of PGN 129029.
+         */
+        constant Real latitudeMin(unit = "deg") = -90;
+        constant Real latitudeMax(unit = "deg") = 90;
+        constant Real longitudeMin(unit = "deg") = -180;
+        constant Real longitudeMax(unit = "deg") = 180;
+        constant Real positionResolution(unit = "deg") = 1e-7;
+      
+      
+        /*
+         * Heading and COG limits defined by PGN 127250 and PGN 129026.
+         */
+        constant Real angleMin(unit = "rad") = 0;
+        constant Real angleMax(unit = "rad") = 6.2831;
+        constant Real angleResolution(unit = "rad") = 0.0001;
+        constant Real twoPi(unit = "rad") = 2 * Modelica.Constants.pi;
+      
+      
+        /*
+         * SOG limits defined by PGN 129026.
+         */
+        constant Real sogMin(unit = "m/s") = 0;
+        constant Real sogMax(unit = "m/s") = 655.32;
+        constant Real sogResolution(unit = "m/s") = 0.01;
+      
+      public
+      equation
+      
+        /*
+         * Reference frame connection.
+         *
+         * No graphical Line annotation is intentionally included here.
+         */
+        connect(frame_a, worldSensor.frame_a);
+      
+      
+        /*
+         * -----------------------------------------------------------------
+         * WGS84 POSITION
+         * -----------------------------------------------------------------
+         *
+         * Raw WGS84 coordinates are first calculated using the local
+         * North/East vessel position.
+         *
+         *   worldSensor.r[1] -> North
+         *   worldSensor.r[2] -> East
+         */
+        (latitudeRaw, longitudeRaw) = Aquanaut.Functions.localNorthEastToWgs84Pure(originLatitudeDeg, originLongitudeDeg, worldSensor.r[1], worldSensor.r[2]);
+      
+      
+        /*
+         * Limit Latitude and Longitude to the valid PGN geographic ranges.
+         *
+         * Latitude:  -90 ... +90 deg
+         * Longitude: -180 ... +180 deg
+         */
+        latitudeLimited = min(latitudeMax, max(latitudeMin, latitudeRaw));
+      
+        longitudeLimited = min(longitudeMax, max(longitudeMin, longitudeRaw));
+      
+      
+        /*
+         * Quantize Latitude and Longitude using the PGN 129025
+         * resolution of 1e-7 deg.
+         *
+         * Positive and negative values are handled separately so that
+         * rounding remains symmetric around zero.
+         *
+         * noEvent() prevents the quantization thresholds from generating
+         * unnecessary simulation events.
+         */
+        latitudeQuantized = noEvent(if latitudeLimited >= 0 then positionResolution * floor(latitudeLimited / positionResolution + 0.5)
+            else positionResolution * ceil(latitudeLimited / positionResolution - 0.5));
+      
+        longitudeQuantized =  noEvent(if longitudeLimited >= 0 then positionResolution * floor(longitudeLimited / positionResolution + 0.5)
+            else positionResolution * ceil(longitudeLimited / positionResolution - 0.5));
+      
+      
+        /*
+         * Final protection against numerical values slightly outside
+         * the valid range after floating-point quantization.
+         */
+        Latitude = min(latitudeMax, max(latitudeMin, latitudeQuantized));
+      
+        Longitude = min(longitudeMax, max(longitudeMin, longitudeQuantized));
+      
+      
+        /*
+         * -----------------------------------------------------------------
+         * ALTITUDE
+         * -----------------------------------------------------------------
+         *
+         * No PGN range or resolution constraint was specified for
+         * Altitude, therefore the original behavior is preserved.
+         */
+        Altitude = worldSensor.r[3];
+      
+      
+        /*
+         * -----------------------------------------------------------------
+         * SPEED OVER GROUND
+         * -----------------------------------------------------------------
+         *
+         * Raw SOG is calculated from the horizontal North/East velocity:
+         *
+         *   SOG = sqrt(Vnorth^2 + Veast^2)
+         */
+        sogRaw = sqrt(worldSensor.v[1]^2 + worldSensor.v[2]^2);
+      
+      
+        /*
+         * Limit SOG according to PGN 129026:
+         *
+         *   minimum = 0 m/s
+         *   maximum = 655.32 m/s
+         */
+        sogLimited = min(sogMax, max( sogMin, sogRaw));
+      
+      
+        /*
+         * Quantize SOG according to the PGN 129026 resolution:
+         *
+         *   resolution = 0.01 m/s
+         */
+        sogQuantized = noEvent(sogResolution * floor(sogLimited / sogResolution + 0.5));
+      
+      
+        /*
+         * Final SOG output.
+         *
+         * The additional limit guarantees that the quantized value
+         * remains inside the valid PGN range.
+         */
+        SOG = min(sogMax, max(sogMin, sogQuantized));
+      
+      
+        /*
+         * -----------------------------------------------------------------
+         * COURSE OVER GROUND
+         * -----------------------------------------------------------------
+         *
+         * Raw COG is calculated from horizontal vessel velocity:
+         *
+         *   COG = atan2(Veast, Vnorth)
+         *
+         * atan2() produces values approximately in the range:
+         *
+         *   -pi ... +pi
+         */
+        cogRaw = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);
+      
+      
+        /*
+         * Convert the raw angular range into the navigation range:
+         *
+         *   0 <= COG < 2*pi
+         *
+         * mod() performs angular wrapping instead of saturation.
+         * Therefore, for example:
+         *
+         *   -0.2 rad -> approximately 6.0832 rad
+         *
+         * instead of incorrectly forcing the value to zero.
+         */
+        cogWrapped = noEvent(mod(cogRaw, twoPi));
+      
+      
+        /*
+         * Quantize COG according to PGN 129026:
+         *
+         *   resolution = 0.0001 rad
+         */
+        cogQuantized = noEvent(angleResolution * floor(cogWrapped / angleResolution + 0.5));
+      
+      
+        /*
+         * Final COG output range:
+         *
+         *   minimum = 0 rad
+         *   maximum = 6.2831 rad
+         *
+         * The final limiter also handles the case where rounding a value
+         * immediately below 2*pi would otherwise generate 6.2832 rad.
+         */
+        COG = min(angleMax, max(angleMin,cogQuantized));
+      
+      
+        /*
+         * -----------------------------------------------------------------
+         * RATE OF TURN
+         * -----------------------------------------------------------------
+         *
+         * No range or resolution constraint was specified for Rate of Turn,
+         * therefore the original behavior is preserved.
+         *
+         * worldSensor.w[3] corresponds to vessel yaw angular velocity.
+         */
+        rate_of_turn = worldSensor.w[3];
+      
+      
+        /*
+         * -----------------------------------------------------------------
+         * HEADING
+         * -----------------------------------------------------------------
+         *
+         * Resolve the vessel longitudinal body axis into world coordinates.
+         */
+        forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);
+      
+      
+        /*
+         * Raw Heading calculation.
+         *
+         * atan2() produces an angle approximately in the range:
+         *
+         *   -pi ... +pi
+         */
+        headingRaw = Modelica.Math.atan2(forwardWorld[2],forwardWorld[1]);
+      
+      
+        /*
+         * Convert Heading to the navigation angular range:
+         *
+         *   0 <= Heading < 2*pi
+         *
+         * Angular wrapping is required here instead of a simple limiter,
+         * because negative headings represent valid directions.
+         */
+        headingWrapped = noEvent(mod(headingRaw,twoPi));
+      
+      
+        /*
+         * Quantize Heading according to PGN 127250:
+         *
+         *   resolution = 0.0001 rad
+         */
+        headingQuantized = noEvent(angleResolution * floor(headingWrapped / angleResolution + 0.5));
+      
+      
+        /*
+         * Final Heading output range:
+         *
+         *   minimum = 0 rad
+         *   maximum = 6.2831 rad
+         */
+        Heading = min(angleMax, max(angleMin, headingQuantized));
+      
+      
+        annotation(
+          Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -50}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
+          Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-120, -100}, {120, 100}}), graphics = {Text(origin = {-100, 18}, extent = {{-18, 6}, {18, -6}}, textString = "frame_a")}),
+          Documentation(info = "<html><head></head><body></body></html>"));
+      
+      end IdealGNSSCompass2;
     end NewModelUtils;
   end FinalModels;
 end HiL;
