@@ -12,3 +12,5 @@ Wgs84GnssPosition
 Wgs84GnssPositionPure
 SOGAndCOGCalculation
 HeadingSensor
+Wgs84ToLocalPositionPure
+SOGAndCOGToVelocity
