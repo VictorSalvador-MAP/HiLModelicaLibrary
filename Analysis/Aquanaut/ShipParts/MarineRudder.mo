@@ -2,7 +2,6 @@ within Aquanaut.ShipParts;
 
 model MarineRudder
   extends Modelica.Blocks.Icons.Block;
-
   // 1. CONFIGURATIONS & PARAMETERS
   // Geometric and Physical Parameters
   parameter Modelica.Units.SI.Area Ar = 0.2774529156 "Rudder area";
@@ -13,7 +12,6 @@ model MarineRudder
   parameter Real Cq = 1.0 "Cross-flow resistance coefficient (Eq. 6.59/6.60)";
   parameter Real rho = 1025 "Water density";
   parameter Real nu = 1.18e-6 "Kinematic viscosity";
-  
   // Vessel-Rudder Interaction Parameters
   parameter Modelica.Units.SI.Length xR = -3.893 "Distance from rudder to midship (negative for stern)";
   parameter Modelica.Units.SI.Length e = 0.3199106 "Distance between leading edge and aft end of hull";
@@ -22,7 +20,6 @@ model MarineRudder
   parameter Modelica.Units.SI.Position hullRudderYPos = 0.01518 "Y axis distance between CM from hull to Rudder";
   parameter Modelica.Units.SI.Position hullRudderZPos = 0.97030 "Z axis distance between CM from hull to Rudder";
   parameter Modelica.Units.SI.Length distRudder = 0.46074 "Distance from propeller to rudder center of gravity";
-  
   // Limits & Mechanical Constraints
   parameter Modelica.Units.SI.Mass rudderMass = 69.040 "Rudder mass";
   parameter Modelica.Units.SI.Frequency f_cut = 5.0 "Rudder cut frequency";
@@ -30,7 +27,6 @@ model MarineRudder
   parameter Modelica.Units.SI.Inertia rudderIxx = 3.973 "Moment of Inertia about surge axis";
   parameter Modelica.Units.SI.Inertia rudderIyy = 5.049 "Moment of Inertia about sway axis";
   parameter Modelica.Units.SI.Inertia rudderIzz = 1.092 "Moment of Inertia about heave axis";
-
   // 2. CONNECTORS & INTERFACES
   // Input Control and Flow Signals
   Modelica.Blocks.Interfaces.RealInput angleInput annotation(
@@ -41,24 +37,20 @@ model MarineRudder
     Placement(transformation(origin = {-120, -22}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-120, -76}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput wakeFraction annotation(
     Placement(transformation(origin = {-120, -62}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-120, 24}, extent = {{-20, -20}, {20, 20}})));
-  
   // 3D MultiBody Frame Connection
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {98, 2}, extent = {{-16, -16}, {16, 16}})));
-
-// 3. INTERNAL VARIABLES
+  // 3. INTERNAL VARIABLES
   // Hydrodynamic Angles
   Modelica.Units.SI.Angle deltaR "Geometric rudder angle";
   Modelica.Units.SI.Angle alpha "Effective angle of attack (Bertram 2012, Eq. 6.87)";
   Modelica.Units.SI.Angle beta "Local drift angle at rudder";
   Modelica.Units.SI.Angle gamma "Flow angle (Bertram 2012, Eq. 6.86)";
-  
   // Hydrodynamic Forces and Moments
   Modelica.Units.SI.Force L "Lift force (Bertram 2012, Eq. 6.53)";
   Modelica.Units.SI.Force D "Drag force (Bertram 2012, Eq. 6.54)";
   Modelica.Units.SI.Torque Qn "Nose moment (Bertram 2012, Eq. 6.55)";
   Modelica.Units.SI.Torque Qr "Stock torque (Bertram 2012, Eq. 6.52)";
-  
   // Intermediate Coefficients & Flow Metrics
   Real LambdaAr "Aspect ratio = b^2/Ar (Bertram 2012, Eq. 6.56)";
   Real Cm "Mean chord length = Ar/b";
@@ -75,7 +67,6 @@ model MarineRudder
   Real Cs "Center-of-pressure position from leading edge (Bertram 2012, Eq. 6.58)";
   Real F_X "Force on ship X-axis (surge)";
   Real F_Y "Force on ship Y-axis (sway)";
-  
   // Velocity Kinematics
   Modelica.Units.SI.Velocity worldVel[3] "Velocity in world frame";
   Modelica.Units.SI.Velocity bodyVel[3] "Velocity in body frame";
@@ -83,13 +74,11 @@ model MarineRudder
   Modelica.Units.SI.Velocity u_ship "Surge velocity";
   Modelica.Units.SI.Velocity v_ship "Sway velocity";
   Modelica.Units.SI.AngularVelocity r_ship "Yaw velocity component";
-  
   // Slipstream & Correction Factors
   Real lambda "Lift correction factor for non-uniform propeller inflow";
   Real f_exp "Exponent for lambda formula";
   Real propD "Equivalent square half-width of slipstream";
   Real a_h "Increase of lateral force due to hull above rudder root [-] (Soding, 1982)";
-
   // 4. SUB-COMPONENTS & PHYSICAL INSTANCES
   // Core MultiBody Mechanical Joints and Bodies
   Modelica.Mechanics.MultiBody.Joints.Revolute RudderRevolute(useAxisFlange = true) annotation(
@@ -98,13 +87,11 @@ model MarineRudder
     Placement(transformation(origin = {-30, 23}, extent = {{10, 10}, {-10, -10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation FixedHullRudderRevolution(animation = false, r = {hullRudderXPos, hullRudderYPos, hullRudderZPos}) annotation(
     Placement(transformation(origin = {74, 42}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-  
   // Actuation Mechanics
   Modelica.Blocks.Nonlinear.Limiter limiter(uMax = maxAngle) annotation(
     Placement(transformation(origin = {-76, 60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.Position position(useSupport = false, f_crit = f_cut) annotation(
     Placement(transformation(origin = {-30, 60}, extent = {{-10, -10}, {10, 10}})));
-  
   // Hydrodynamic Force Applications
   Modelica.Mechanics.MultiBody.Forces.WorldForce forceLift(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation(
     Placement(transformation(origin = {39, -1}, extent = {{-10, -10}, {10, 10}})));
@@ -112,32 +99,22 @@ model MarineRudder
     Placement(transformation(origin = {39, -21}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Forces.WorldTorque moment(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation(
     Placement(transformation(origin = {39, -42}, extent = {{-10, -10}, {10, 10}})));
-
   // Geometry Visualizer
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape fixedShape3(height = b, length = c, r_shape = {-0.75*c, 0, 0}, width = t) annotation(
     Placement(transformation(origin = {-31, -2}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-
   Modelica.Units.SI.Velocity waterVelXY[2];
   Modelica.Units.SI.Velocity waterVel;
-
+  Aquanaut.Equipment.Sensors.AngleSensorSignal feedbackSensor annotation(
+    Placement(transformation(origin = {4, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Interfaces.RealOutput rudderFeedbackRad annotation(
+    Placement(transformation(origin = {111, 91}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {1, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 protected
   Real C_L1 "Thin-foil lift component";
   Real C_L2 "Cross-flow lift component";
   Real C_D1 "Induced drag component [-]";
   Real C_D2 "Cross-flow drag component";
   Real wf "Internal copy of wake fraction";
-
-public
-  Aquanaut.Equipment.Sensors.AngleSensorSignal feedbackSensor annotation(
-    Placement(transformation(origin = {4, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Interfaces.RealOutput rudderFeedbackRad annotation(
-    Placement(transformation(origin = {111, 91}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-65, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealOutput rudderFeedbackVoltage annotation(
-    Placement(transformation(origin = {111, 70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {68, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealOutput rudderFeedbackDeg annotation(
-    Placement(transformation(origin = {-50, 111}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {0, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Math.Gain radToDeg(k = 180/Modelica.Constants.pi) annotation(
-    Placement(transformation(origin = {-24, 86}, extent = {{-6, -6}, {6, 6}}, rotation = 180)));equation
+equation
 // 5. EQUATIONS & LOGIC
 // Hull-Rudder Interaction (Bertram 2012, Eq. 6.83)
   a_h = 1/(1 + ((4.9*e/T_ship) + (3*c/T_ship))^2);
@@ -230,14 +207,8 @@ public
     Line(points = {{-20, 60}, {17, 60}, {17, 52}}));
   connect(fixedShape3.frame_a, Rudder.frame_a) annotation(
     Line(points = {{-21, -2}, {-9, -2}, {-9, 23}, {-20, 23}}, color = {95, 95, 95}));
-  connect(rudderFeedbackVoltage, feedbackSensor.v) annotation(
-    Line(points = {{111, 70}, {15, 70}}, color = {0, 0, 127}));
   connect(feedbackSensor.phi, rudderFeedbackRad) annotation(
     Line(points = {{4, 82}, {4, 91}, {111, 91}}, color = {0, 0, 127}));
-  connect(radToDeg.u, feedbackSensor.phi) annotation(
-    Line(points = {{-17, 86}, {4, 86}, {4, 82}}, color = {0, 0, 127}));
-  connect(radToDeg.y, rudderFeedbackDeg) annotation(
-    Line(points = {{-31, 86}, {-50, 86}, {-50, 112}}, color = {0, 0, 127}));
   connect(feedbackSensor.flange, position.flange) annotation(
     Line(points = {{4, 60}, {-20, 60}}));
   annotation(
