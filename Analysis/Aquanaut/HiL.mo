@@ -8296,7 +8296,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         connect(propellerFeedback, OT1model.PropellerFeedback_rad_s) annotation(
           Line(points = {{210, -148}, {-22, -148}, {-22, -26}}, color = {0, 0, 127}));
         annotation(
-          experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
+          experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.001),
           __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --fmiFlags=s:euler,nls:mixed -d=fmuExperimental ",
           __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
           Diagram(coordinateSystem(extent = {{-250, -160}, {250, 160}}), graphics = {Text(origin = {-24, 46}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 Model", textStyle = {TextStyle.Bold}), Text(origin = {99, 25}, extent = {{-79, -3}, {79, 3}}, textString = "position on x, y and z axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, 9}, extent = {{-46, -3}, {46, 3}}, textString = "linear and angular velocity on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-66, -9}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {193, -5}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-55, 151}, {55, -151}}), Text(origin = {190, 140}, extent = {{-48, 6}, {48, -6}}, textString = "Sensors", textStyle = {TextStyle.Bold}), Text(origin = {-70, 25}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {-188, 2}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-50, 142}, {50, -142}}), Text(origin = {-188, 122}, extent = {{-48, 6}, {48, -6}}, textString = "Actuators", textStyle = {TextStyle.Bold}), Text(origin = {68, -127}, extent = {{-46, -3}, {46, 3}}, textString = "rudder angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, -9}, extent = {{-46, -3}, {46, 3}}, textString = "linear acceleration on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {68, -143}, extent = {{-46, -3}, {46, 3}}, textString = "propeller angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
@@ -16796,7 +16796,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
                                                           
                                                           </body></html>"));
         end OpenLoopHiL_withControllerInputData;
-        
+
         model ClosedLoopHiL_ControllerInputAnalisys_chisf
           // Parameters for Closed Loop
           // Path Following Control
@@ -16939,7 +16939,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {136, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {328, 173}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF11 annotation(
             Placement(transformation(origin = {217, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {496, 280}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Constant const(k = 0)  annotation(
+          Modelica.Blocks.Sources.Constant const(k = 0) annotation(
             Placement(transformation(origin = {-48, -130}, extent = {{-10, -10}, {10, 10}})));
         equation
           connect(switch_v_ref.y, v_e.u1) annotation(
@@ -17082,9 +17082,9 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{161, 81}, {217, 81}, {217, 80}}, color = {0, 0, 127}));
           connect(combiTimeTable2.y[1], OT1model.propellerSpeed) annotation(
             Line(points = {{108, 21}, {169, 21}, {169, 43}, {216, 43}}, color = {0, 0, 127}));
-  connect(const.y, chi_sf_HTF) annotation(
+          connect(const.y, chi_sf_HTF) annotation(
             Line(points = {{-37, -130}, {11, -130}}, color = {0, 0, 127}));
-  connect(chi_sf_HTF, pf_Controller.chi_SF) annotation(
+          connect(chi_sf_HTF, pf_Controller.chi_SF) annotation(
             Line(points = {{11, -130}, {51, -130}, {51, -132}}, color = {0, 0, 127}));
           annotation(
             experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
@@ -17228,7 +17228,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
                                                                     
                                                                     </body></html>"));
         end ClosedLoopHiL_ControllerInputAnalisys_chisf;
-        
+
         model ClosedLoopHiL_ControllerInputAnalisys_chidZero
           // Parameters for Closed Loop
           // Path Following Control
@@ -17371,7 +17371,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {136, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {328, 173}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF11 annotation(
             Placement(transformation(origin = {217, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {496, 280}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Constant const(k = 0) annotation(
+          Modelica.Blocks.Sources.Constant const(k = 0) annotation(
             Placement(transformation(origin = {-48, -173}, extent = {{-10, -10}, {10, 10}})));
         equation
           connect(switch_v_ref.y, v_e.u1) annotation(
@@ -17514,9 +17514,9 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Line(points = {{161, 81}, {217, 81}, {217, 80}}, color = {0, 0, 127}));
           connect(combiTimeTable2.y[1], OT1model.propellerSpeed) annotation(
             Line(points = {{108, 21}, {169, 21}, {169, 43}, {216, 43}}, color = {0, 0, 127}));
-  connect(const.y, chi_d_HTF) annotation(
+          connect(const.y, chi_d_HTF) annotation(
             Line(points = {{-37, -173}, {-17.5, -173}, {-17.5, -172}, {10, -172}}, color = {0, 0, 127}));
-  connect(chi_d_HTF, pf_Controller.chi_d) annotation(
+          connect(chi_d_HTF, pf_Controller.chi_d) annotation(
             Line(points = {{10, -172}, {27, -172}, {27, -157}, {51, -157}}, color = {0, 0, 127}));
           annotation(
             experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
@@ -17796,9 +17796,9 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         Placement(transformation(origin = {120, -18}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {136, -86}, extent = {{-16, -16}, {16, 16}})));
       Modelica.Blocks.Interfaces.RealOutput Heading annotation(
         Placement(transformation(origin = {120, -34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {188, -100}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+      Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
         Placement(transformation(origin = {120, 72}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {222, 24}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+      Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
         Placement(transformation(origin = {120, 54}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {172, 68}, extent = {{-16, -16}, {16, 16}})));
     equation
       connect(speed.flange, marinePropeller.flange) annotation(
@@ -17835,15 +17835,15 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         Line(points = {{81, -13}, {106, -13}, {106, -18}, {120, -18}}, color = {0, 0, 127}));
       connect(Hemisphere_GNSSCompass.Heading, Heading) annotation(
         Line(points = {{81, -16}, {103.875, -16}, {103.875, -34}, {120, -34}}, color = {0, 0, 127}));
-  connect(marineRudder.rudderFeedbackRad, rudderFeedback_rad) annotation(
+      connect(marineRudder.rudderFeedbackRad, rudderFeedback_rad) annotation(
         Line(points = {{-18, -6}, {-18, -50}, {120, -50}}, color = {0, 0, 127}));
-  connect(propSpeedSensor.w, PropellerFeedback_rad_s) annotation(
+      connect(propSpeedSensor.w, PropellerFeedback_rad_s) annotation(
         Line(points = {{-78, -34}, {-78, -64}, {120, -64}}, color = {0, 0, 127}));
-  connect(marineRudder.frame_a, buoyancy.frame_a) annotation(
+      connect(marineRudder.frame_a, buoyancy.frame_a) annotation(
         Line(points = {{-8, 4}, {22, 4}, {22, 42}, {60, 42}}, color = {95, 95, 95}));
-  connect(Hemisphere_GNSSCompass.Longitude, Longitude) annotation(
+      connect(Hemisphere_GNSSCompass.Longitude, Longitude) annotation(
         Line(points = {{82, -2}, {100, -2}, {100, 54}, {120, 54}}, color = {0, 0, 127}));
-  connect(Hemisphere_GNSSCompass.Latitude, Latitude) annotation(
+      connect(Hemisphere_GNSSCompass.Latitude, Latitude) annotation(
         Line(points = {{82, 0}, {98, 0}, {98, 72}, {120, 72}}, color = {0, 0, 127}));
       annotation(
         Diagram(graphics = {Rectangle(origin = {53, -10}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
@@ -17980,7 +17980,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         annotation(
           Icon(graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -48}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
           Diagram(graphics),
-  Documentation(__OpenModelica_infoHeader = "<html><head></head>
+          Documentation(__OpenModelica_infoHeader = "<html><head></head>
 <body>
 
 <h1>Aquanaut.Utils.GNSSCompass Model Specification</h1>
@@ -18541,130 +18541,39 @@ Any such effects, if required by a specific simulation or Hardware-in-the-Loop t
 </body></html>"));
       end GNSSCompass;
 
-      model IdealGNSSCompass
-        "GNSS Compass model with position, velocity, heading and rate of turn outputs"
-      
-        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(
-          get_a = true,
-          get_angles = true,
-          get_r = true,
-          get_v = true,
-          get_w = true,
-          get_z = true,
-          guessAngle1(displayUnit = "rad"),
-          resolveInFrame =
-            Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world)
-          annotation(
-            Placement(
-              transformation(
-                origin = {-40, 0},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
-          "Reference frame whose position, velocity and orientation are measured"
-          annotation(
-            Placement(
-              transformation(
-                origin = {-100, 0},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {-104, 0},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Latitude
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 80},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 86},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Longitude
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 55},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 60},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Altitude
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 30},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 32},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput SOG
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 5},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 6},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput COG
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, -20},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, -24},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput rate_of_turn
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, -50},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, -52},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Heading
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, -80},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, -84},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        parameter Real originLatitudeDeg(unit = "deg") = -22.734233
-          "Geodetic latitude of the local reference origin";
-      
-        parameter Real originLongitudeDeg(unit = "deg") = -43.085687
-          "Geodetic longitude of the local reference origin";
-      
-        parameter Real forwardAxis[3] = {1, 0, 0}
-          "Vessel longitudinal axis pointing toward the bow";
-      
+      model IdealGNSSCompass "GNSS Compass model with position, velocity, heading and rate of turn outputs"
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
+          Placement(transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Reference frame whose position, velocity and orientation are measured" annotation(
+          Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-104, 0}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+          Placement(transformation(origin = {110, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 86}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+          Placement(transformation(origin = {110, 55}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
+          Placement(transformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 32}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+          Placement(transformation(origin = {110, 5}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 6}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput COG annotation(
+          Placement(transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -24}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput rate_of_turn annotation(
+          Placement(transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -52}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Heading annotation(
+          Placement(transformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -84}, extent = {{-10, -10}, {10, 10}})));
+        parameter Real originLatitudeDeg(unit = "deg") = -22.734233 "Geodetic latitude of the local reference origin";
+        parameter Real originLongitudeDeg(unit = "deg") = -43.085687 "Geodetic longitude of the local reference origin";
+        parameter Real forwardAxis[3] = {1, 0, 0} "Vessel longitudinal axis pointing toward the bow";
       protected
-        Real forwardWorld[3]
-          "Vessel longitudinal axis resolved in world coordinates";
+        Real forwardWorld[3] "Vessel longitudinal axis resolved in world coordinates";
       public
       equation
-      
-        /*
+/*
          * Reference frame connection.
          *
          * No graphical Line annotation is intentionally included here.
          */
         connect(frame_a, worldSensor.frame_a);
-      
-      
-        /*
+/*
          * WGS84 position.
          *
          * Original behavior:
@@ -18672,58 +18581,45 @@ Any such effects, if required by a specific simulation or Hardware-in-the-Loop t
          *   worldSensor.r[2] -> East
          */
         (Latitude, Longitude) = Aquanaut.Functions.localNorthEastToWgs84Pure(originLatitudeDeg, originLongitudeDeg, worldSensor.r[1], worldSensor.r[2]);
-      
-      
-        /*
+/*
          * Altitude.
          *
          * Original behavior:
          *   Altitude = worldSensor.r[3]
          */
         Altitude = worldSensor.r[3];
-      
-      
-        /*
+/*
          * Speed Over Ground.
          *
          * Original SOGAndCOGCalculation:
          *   sog_m_s = sqrt(vel_n_m_s^2 + vel_e_m_s^2)
          */
-        SOG = sqrt( worldSensor.v[1]^2 + worldSensor.v[2]^2);
-      
-      
-        /*
+        SOG = sqrt(worldSensor.v[1]^2 + worldSensor.v[2]^2);
+/*
          * Course Over Ground.
          *
          * Original SOGAndCOGCalculation:
          *   cog_rad = atan2(vel_e_m_s, vel_n_m_s)
          */
         COG = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);
-      
-      
-        /*
+/*
          * Rate of turn.
          *
          * Original behavior:
          *   rate_of_turn = worldSensor.w[3]
          */
         rate_of_turn = worldSensor.w[3];
-      
-      
-        /*
+/*
          * Heading calculation.
          *
          * Equivalent to the original HeadingSensor.
          */
         forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);
-      
-        Heading = Modelica.Math.atan2(forwardWorld[2],forwardWorld[1]);
-      
-      
+        Heading = Modelica.Math.atan2(forwardWorld[2], forwardWorld[1]);
         annotation(
           Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -50}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
           Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-120, -100}, {120, 100}}), graphics = {Text(origin = {-100, 18}, extent = {{-18, 6}, {18, -6}}, textString = "frame_a")}),
-  Documentation(info = "<html><head></head><body></body></html>", __OpenModelica_infoHeader = "<html><head></head>
+          Documentation(info = "<html><head></head><body></body></html>", __OpenModelica_infoHeader = "<html><head></head>
 <body>
 
 <h1>Aquanaut.Utils.IdealGNSSCompass Model Specification</h1>
@@ -19350,149 +19246,108 @@ The model processing sequence is:
 
 
 </body></html>"));
-      
       end IdealGNSSCompass;
 
-      model IdealGNSSCompass2
-        "GNSS Compass model with position, velocity, heading and rate of turn outputs"
-      
-        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(
-          get_a = true,
-          get_angles = true,
-          get_r = true,
-          get_v = true,
-          get_w = true,
-          get_z = true,
-          guessAngle1(displayUnit = "rad"),
-          resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world)
-          annotation(Placement(transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
-          "Reference frame whose position, velocity and orientation are measured"
-          annotation(Placement(
-            transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {-104, 0}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Latitude
-          annotation(Placement(
-            transformation(origin = {110, 80}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, 86}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Longitude
-          annotation(Placement(
-            transformation(origin = {110, 55}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Altitude
-          annotation(Placement(
-            transformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, 32}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput SOG
-          annotation(Placement(
-            transformation(origin = {110, 5}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, 6}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput COG
-          annotation(Placement(
-            transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, -24}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput rate_of_turn
-          annotation(Placement(
-            transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, -52}, extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Heading
-          annotation(Placement(
-            transformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}),
-            iconTransformation(origin = {110, -84}, extent = {{-10, -10}, {10, 10}})));
-      
-        parameter Real originLatitudeDeg(unit = "deg") = -22.734233
-          "Geodetic latitude of the local reference origin";
-      
-        parameter Real originLongitudeDeg(unit = "deg") = -43.085687
-          "Geodetic longitude of the local reference origin";
-      
-        parameter Real forwardAxis[3] = {1, 0, 0}
-          "Vessel longitudinal axis pointing toward the bow";
-      
+      model IdealGNSSCompass2 "GNSS Compass model with position, velocity, heading and rate of turn outputs"
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
+          Placement(transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Reference frame whose position, velocity and orientation are measured" annotation(
+          Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-104, 0}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+          Placement(transformation(origin = {110, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 86}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+          Placement(transformation(origin = {110, 55}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
+          Placement(transformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 32}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+          Placement(transformation(origin = {110, 5}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 6}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput COG annotation(
+          Placement(transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -24}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput rate_of_turn annotation(
+          Placement(transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -52}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Heading annotation(
+          Placement(transformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -84}, extent = {{-10, -10}, {10, 10}})));
+        parameter Real originLatitudeDeg(unit = "deg") = -22.734233 "Geodetic latitude of the local reference origin";
+        parameter Real originLongitudeDeg(unit = "deg") = -43.085687 "Geodetic longitude of the local reference origin";
+        parameter Real forwardAxis[3] = {1, 0, 0} "Vessel longitudinal axis pointing toward the bow";
       protected
-      
         /*
-         * Vessel longitudinal axis resolved in world coordinates.
-         */
+                 * Vessel longitudinal axis resolved in world coordinates.
+                 */
         Real forwardWorld[3] "Vessel longitudinal axis resolved in world coordinates";
-      
         /*
-         * Raw navigation values.
-         *
-         * These values preserve the original calculations before
-         * applying the output limits.
-         */
+                 * Raw navigation values.
+                 *
+                 * These values preserve the original calculations before
+                 * applying the output limits required by the PGNs.
+                 */
         Real latitudeRaw(unit = "deg");
         Real longitudeRaw(unit = "deg");
         Real sogRaw(unit = "m/s");
         Real cogRaw(unit = "rad");
         Real headingRaw(unit = "rad");
-      
         /*
-         * -----------------------------------------------------------------
-         * POSITION LIMITS
-         * -----------------------------------------------------------------
-         *
-         * PGN 129025 / PGN 129029:
-         *
-         * Latitude:
-         *   minimum = -90 deg
-         *   maximum = +90 deg
-         *
-         * Longitude:
-         *   minimum = -180 deg
-         *   maximum = +180 deg
-         *
-         * Resolution is intentionally NOT applied in this model version.
-         */
+                 * Angular values converted from the atan2 range [-pi, +pi]
+                 * to the navigation convention [0, 2*pi).
+                 */
+        Real cogWrapped(unit = "rad");
+        Real headingWrapped(unit = "rad");
+        /*
+                 * -----------------------------------------------------------------
+                 * POSITION LIMITS
+                 * -----------------------------------------------------------------
+                 *
+                 * PGN 129025 / PGN 129029:
+                 *
+                 * Latitude:
+                 *   minimum = -90 deg
+                 *   maximum = +90 deg
+                 *
+                 * Longitude:
+                 *   minimum = -180 deg
+                 *   maximum = +180 deg
+                 *
+                 * Resolution is intentionally NOT applied in this model version.
+                 */
         constant Real latitudeMin(unit = "deg") = -90;
         constant Real latitudeMax(unit = "deg") = 90;
         constant Real longitudeMin(unit = "deg") = -180;
         constant Real longitudeMax(unit = "deg") = 180;
-      
         /*
-         * -----------------------------------------------------------------
-         * ANGULAR LIMITS
-         * -----------------------------------------------------------------
-         *
-         * Heading and COG use the signed atan2 angular convention:
-         *
-         *   minimum = -pi rad
-         *   maximum = +pi rad
-         *
-         * No angular quantization is applied in this model.
-         */
-        constant Real angleMin(unit = "rad") = -Modelica.Constants.pi;
-        constant Real angleMax(unit = "rad") = Modelica.Constants.pi;
-      
+                 * -----------------------------------------------------------------
+                 * ANGULAR LIMITS
+                 * -----------------------------------------------------------------
+                 *
+                 * PGN 127250 / PGN 129026:
+                 *
+                 * Heading and COG:
+                 *   minimum = 0 rad
+                 *   maximum = 6.2831 rad
+                 *
+                 * Resolution of 0.0001 rad is intentionally NOT applied
+                 * in this model version.
+                 */
+        constant Real angleMin(unit = "rad") = 0;
+        constant Real angleMax(unit = "rad") = 6.2831;
+        constant Real twoPi(unit = "rad") = 2*Modelica.Constants.pi;
         /*
-         * -----------------------------------------------------------------
-         * SOG LIMITS
-         * -----------------------------------------------------------------
-         *
-         * PGN 129026:
-         *
-         * minimum = 0 m/s
-         * maximum = 655.32 m/s
-         *
-         * Resolution of 0.01 m/s is intentionally NOT applied
-         * in this model version.
-         */
+                 * -----------------------------------------------------------------
+                 * SOG LIMITS
+                 * -----------------------------------------------------------------
+                 *
+                 * PGN 129026:
+                 *
+                 * minimum = 0 m/s
+                 * maximum = 655.32 m/s
+                 *
+                 * Resolution of 0.01 m/s is intentionally NOT applied
+                 * in this model version.
+                 */
         constant Real sogMin(unit = "m/s") = 0;
         constant Real sogMax(unit = "m/s") = 655.32;
-      
       public
       equation
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * REFERENCE FRAME CONNECTION
          * -----------------------------------------------------------------
@@ -19500,8 +19355,7 @@ The model processing sequence is:
          * Connect the vessel reference frame to the internal absolute sensor.
          */
         connect(frame_a, worldSensor.frame_a);
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * WGS84 POSITION
          * -----------------------------------------------------------------
@@ -19513,10 +19367,8 @@ The model processing sequence is:
          *
          * First calculate the original continuous WGS84 coordinates.
          */
-        (latitudeRaw, longitudeRaw) = Aquanaut.Functions.localNorthEastToWgs84Pure(
-          originLatitudeDeg, originLongitudeDeg, worldSensor.r[1], worldSensor.r[2]);
-      
-        /*
+        (latitudeRaw, longitudeRaw) = Aquanaut.Functions.localNorthEastToWgs84Pure(originLatitudeDeg, originLongitudeDeg, worldSensor.r[1], worldSensor.r[2]);
+/*
          * Limit Latitude according to the valid geographic range:
          *
          *   -90 <= Latitude <= +90 deg
@@ -19524,8 +19376,7 @@ The model processing sequence is:
          * No quantization is applied.
          */
         Latitude = min(latitudeMax, max(latitudeMin, latitudeRaw));
-      
-        /*
+/*
          * Limit Longitude according to the valid geographic range:
          *
          *   -180 <= Longitude <= +180 deg
@@ -19533,8 +19384,7 @@ The model processing sequence is:
          * No quantization is applied.
          */
         Longitude = min(longitudeMax, max(longitudeMin, longitudeRaw));
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * ALTITUDE
          * -----------------------------------------------------------------
@@ -19543,8 +19393,7 @@ The model processing sequence is:
          * therefore the original behavior is preserved.
          */
         Altitude = worldSensor.r[3];
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * SPEED OVER GROUND
          * -----------------------------------------------------------------
@@ -19554,8 +19403,7 @@ The model processing sequence is:
          *   SOG = sqrt(Vnorth^2 + Veast^2)
          */
         sogRaw = sqrt(worldSensor.v[1]^2 + worldSensor.v[2]^2);
-      
-        /*
+/*
          * Limit SOG according to PGN 129026:
          *
          *   0 <= SOG <= 655.32 m/s
@@ -19566,30 +19414,41 @@ The model processing sequence is:
          * is preserved while still respecting the specified limits.
          */
         SOG = min(sogMax, max(sogMin, sogRaw));
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * COURSE OVER GROUND
          * -----------------------------------------------------------------
          *
-         * COG is calculated from the horizontal velocity vector:
+         * Original COG calculation:
          *
          *   COG = atan2(Veast, Vnorth)
          *
-         * atan2() directly provides the signed angular convention:
+         * atan2() returns an angle approximately within:
          *
          *   -pi <= COG <= +pi
          */
         cogRaw = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);
-      
-        /*
-         * Keep COG within the signed angular range.
+/*
+         * Convert negative atan2 angles into the navigation convention:
          *
-         * No wrapping to [0, 2*pi) and no angular quantization are applied.
+         *   0 <= COG < 2*pi
+         *
+         * Example:
+         *
+         *   -0.2 rad -> -0.2 + 2*pi = 6.083185... rad
+         *
+         * No mod(), floor(), ceil() or integer() operation is required.
          */
-        COG = min(angleMax, max(angleMin, cogRaw));
-      
-        /*
+        cogWrapped = if cogRaw < 0 then cogRaw + twoPi else cogRaw;
+/*
+         * Enforce the specified PGN range:
+         *
+         *   0 <= COG <= 6.2831 rad
+         *
+         * No 0.0001 rad quantization is applied.
+         */
+        COG = min(angleMax, max(angleMin, cogWrapped));
+/*
          * -----------------------------------------------------------------
          * RATE OF TURN
          * -----------------------------------------------------------------
@@ -19599,8 +19458,7 @@ The model processing sequence is:
          * worldSensor.w[3] corresponds to yaw angular velocity.
          */
         rate_of_turn = worldSensor.w[3];
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * HEADING
          * -----------------------------------------------------------------
@@ -19608,87 +19466,41 @@ The model processing sequence is:
          * Resolve the vessel longitudinal axis into world coordinates.
          */
         forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);
-      
-        /*
-         * Heading is calculated from the vessel forward direction:
+/*
+         * Original Heading calculation:
          *
          *   Heading = atan2(ForwardEast, ForwardNorth)
          *
-         * atan2() directly provides the signed angular convention:
+         * atan2() produces an angle approximately within:
          *
          *   -pi <= Heading <= +pi
          */
         headingRaw = Modelica.Math.atan2(forwardWorld[2], forwardWorld[1]);
-      
-        /*
-         * Keep Heading within the signed angular range.
+/*
+         * Convert negative Heading values into:
          *
-         * No wrapping to [0, 2*pi) and no angular quantization are applied.
+         *   0 <= Heading < 2*pi
          */
-        Heading = min(angleMax, max(angleMin, headingRaw));
-      
+        headingWrapped = if headingRaw < 0 then headingRaw + twoPi else headingRaw;
+/*
+         * Enforce the specified Heading range:
+         *
+         *   0 <= Heading <= 6.2831 rad
+         *
+         * No 0.0001 rad quantization is applied.
+         */
+        Heading = min(angleMax, max(angleMin, headingWrapped));
         annotation(
-          Icon(
-            coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}),
-            graphics = {
-              Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}),
-              Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}),
-              Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"),
-              Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"),
-              Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"),
-              Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"),
-              Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"),
-              Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"),
-              Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"),
-      
-              Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}),
-              Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}),
-              Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"),
-              Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"),
-              Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"),
-              Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"),
-              Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"),
-              Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"),
-              Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"),
-      
-              Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}),
-              Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}),
-              Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}),
-              Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}),
-              Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}),
-              Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}),
-              Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}),
-              Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2),
-              Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}),
-              Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}),
-              Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1),
-              Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1),
-              Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}),
-              Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"),
-              Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"),
-              Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"),
-              Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"),
-              Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"),
-              Text(origin = {72, -50}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"),
-              Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")
-            }),
-      
-          Diagram(
-            coordinateSystem(preserveAspectRatio = true, extent = {{-120, -100}, {120, 100}}),
-            graphics = {
-              Text(origin = {-100, 18}, extent = {{-18, 6}, {18, -6}}, textString = "frame_a")
-            }),
-      
-          Documentation(
-            info = "<html><head></head><body></body></html>",
-            __OpenModelica_infoHeader = "<html><head></head>
+          Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(fillColor = {154, 153, 150}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 100}, {100, -100}}), Text(origin = {-6, 0}, textColor = {255, 255, 255}, extent = {{-64, 48}, {64, -48}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Text(origin = {82, 91}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lat"), Text(origin = {82, 61}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Lon"), Text(origin = {82, 31}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Alt"), Text(origin = {82, 3}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "SOG"), Text(origin = {78, -27}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "COG"), Text(origin = {60, -57}, textColor = {255, 255, 255}, extent = {{34, -15}, {-34, 15}}, textString = "Rate of Turn"), Text(origin = {68, -87}, textColor = {255, 255, 255}, extent = {{26, -9}, {-26, 9}}, textString = "Heading"), Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -50}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
+          Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-120, -100}, {120, 100}}), graphics = {Text(origin = {-100, 18}, extent = {{-18, 6}, {18, -6}}, textString = "frame_a")}),
+          Documentation(info = "<html><head></head><body></body></html>", __OpenModelica_infoHeader = "<html><head></head>
       <body>
       
       <h1>Aquanaut.Utils.IdealGNSSCompass Model Specification</h1>
       
       <p>This model represents an idealized GNSS Compass navigation sensor used in the Aquanaut vessel simulation. The block receives the vessel MultiBody reference frame and derives global position, ground velocity, course, heading, and angular rate from the vessel absolute kinematic state.</p>
       
-      <p>The <strong>IdealGNSSCompass</strong> calculates continuous navigation quantities and applies output range conditioning according to the specified navigation signal limits. Latitude, Longitude, and SOG are limited to their valid ranges, while COG and Heading retain the native signed atan2 angular convention from -pi to +pi. No output resolution quantization or discrete sampling is applied.</p>
+      <p>The <strong>IdealGNSSCompass</strong> calculates continuous navigation quantities and applies output range conditioning according to the specified navigation signal limits. Latitude, Longitude, and SOG are limited to their valid ranges, while COG and Heading are additionally converted from the native atan2 angular convention into the navigation interval from 0 to 2*pi. No output resolution quantization or discrete sampling is applied.</p>
       
       <h2>1. Model Parameters</h2>
       
@@ -19722,9 +19534,9 @@ The model processing sequence is:
       <tr><td>Longitude</td><td>RealOutput</td><td>deg</td><td>WGS84 geodetic longitude calculated from local East displacement and limited to the interval from -180 to +180 deg.</td></tr>
       <tr><td>Altitude</td><td>RealOutput</td><td>m</td><td>Vessel vertical position obtained directly from the third component of the absolute position vector. No additional range conditioning is applied.</td></tr>
       <tr><td>SOG</td><td>RealOutput</td><td>m/s</td><td>Speed Over Ground calculated from the horizontal North and East velocity components and limited to the interval from 0 to 655.32 m/s.</td></tr>
-      <tr><td>COG</td><td>RealOutput</td><td>rad</td><td>Course Over Ground calculated from the horizontal velocity vector using atan2(Veast, Vnorth). The output follows the signed angular convention from -pi to +pi.</td></tr>
+      <tr><td>COG</td><td>RealOutput</td><td>rad</td><td>Course Over Ground calculated from the horizontal velocity vector. Negative atan2 results are converted to the navigation convention from 0 to 2*pi and the final output is limited to 6.2831 rad.</td></tr>
       <tr><td>rate_of_turn</td><td>RealOutput</td><td>rad/s</td><td>Vessel yaw angular velocity obtained directly from the third component of the absolute angular velocity vector.</td></tr>
-      <tr><td>Heading</td><td>RealOutput</td><td>rad</td><td>Absolute vessel heading calculated from the configured forward body axis. The output follows the signed angular convention from -pi to +pi.</td></tr>
+      <tr><td>Heading</td><td>RealOutput</td><td>rad</td><td>Absolute vessel heading calculated from the configured forward body axis. Negative atan2 results are converted to the navigation convention from 0 to 2*pi and the final output is limited to 6.2831 rad.</td></tr>
       </tbody>
       </table>
       
@@ -19784,7 +19596,7 @@ The model processing sequence is:
       <li><strong>Longitude:</strong> -180 to +180 deg.</li>
       </ul>
       
-      <p>The implemented output processing is:</p>
+      <p>The implemented output conditioning is:</p>
       
       <p><code>Latitude = min(latitudeMax, max(latitudeMin, latitudeRaw));</code></p>
       <p><code>Longitude = min(longitudeMax, max(longitudeMin, longitudeRaw));</code></p>
@@ -19824,44 +19636,51 @@ The model processing sequence is:
       <p>Course Over Ground represents the direction of the vessel horizontal velocity vector relative to the world reference frame.</p>
       
       <p>The raw COG value is calculated as:</p>
-      
       <p><code>cogRaw = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);</code></p>
       
-      <p>The atan2 function directly provides the required signed angular representation:</p>
+      <p>The native atan2 result is approximately within:</p>
+      <p><strong>-pi &lt;= cogRaw &lt;= +pi</strong></p>
       
-      <p><strong>-pi &lt;= COG &lt;= +pi</strong></p>
+      <p>Negative values are converted into the navigation angular convention:</p>
+      <p><code>cogWrapped = if cogRaw &lt; 0 then cogRaw + twoPi else cogRaw;</code></p>
       
-      <p>The final output is:</p>
+      <p>This transformation produces an angular representation within approximately:</p>
+      <p><strong>0 &lt;= COG &lt; 2*pi</strong></p>
       
-      <p><code>COG = min(angleMax, max(angleMin, cogRaw));</code></p>
+      <p>The final COG output is then limited to:</p>
+      <p><strong>0 &lt;= COG &lt;= 6.2831 rad</strong></p>
       
-      <p>No conversion to the interval from 0 to 2*pi is performed, and no COG quantization is applied.</p>
+      <p>through:</p>
+      <p><code>COG = min(angleMax, max(angleMin, cogWrapped));</code></p>
+      
+      <p>No COG quantization is applied.</p>
       
       <h2>7. Heading Calculation</h2>
       
       <p>Heading represents the direction in which the vessel longitudinal axis points relative to the world reference frame.</p>
       
       <p>The default vessel forward axis is:</p>
-      
       <p><code>forwardAxis = {1, 0, 0};</code></p>
       
       <p>This body-fixed vector is transformed into world coordinates using:</p>
-      
       <p><code>forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);</code></p>
       
       <p>The raw Heading value is then calculated as:</p>
-      
       <p><code>headingRaw = Modelica.Math.atan2(forwardWorld[2], forwardWorld[1]);</code></p>
       
-      <p>The atan2 function directly provides the required signed angular representation:</p>
+      <p>The native atan2 result is approximately within:</p>
+      <p><strong>-pi &lt;= headingRaw &lt;= +pi</strong></p>
       
-      <p><strong>-pi &lt;= Heading &lt;= +pi</strong></p>
+      <p>Negative Heading values are converted into the navigation angular convention using:</p>
+      <p><code>headingWrapped = if headingRaw &lt; 0 then headingRaw + twoPi else headingRaw;</code></p>
       
-      <p>The final output is:</p>
+      <p>The final Heading output is limited to:</p>
+      <p><strong>0 &lt;= Heading &lt;= 6.2831 rad</strong></p>
       
-      <p><code>Heading = min(angleMax, max(angleMin, headingRaw));</code></p>
+      <p>through:</p>
+      <p><code>Heading = min(angleMax, max(angleMin, headingWrapped));</code></p>
       
-      <p>No conversion to the interval from 0 to 2*pi is performed, and no Heading quantization is applied.</p>
+      <p>No Heading quantization is applied.</p>
       
       <h2>8. Rate of Turn Calculation</h2>
       
@@ -19889,7 +19708,7 @@ The model processing sequence is:
       
       <h2>10. Output Range Conditioning</h2>
       
-      <p>The model applies range conditioning to selected navigation outputs while preserving continuous signal behavior. COG and Heading use the signed atan2 angular convention. No resolution quantization or discrete sampling is introduced.</p>
+      <p>The model applies range conditioning to selected navigation outputs while preserving continuous signal behavior. No resolution quantization or discrete sampling is introduced.</p>
       
       <table border=\"1\">
       <tbody>
@@ -19897,10 +19716,10 @@ The model processing sequence is:
       <tr><td>Latitude</td><td>-90 deg</td><td>+90 deg</td><td>Range limiting</td></tr>
       <tr><td>Longitude</td><td>-180 deg</td><td>+180 deg</td><td>Range limiting</td></tr>
       <tr><td>SOG</td><td>0 m/s</td><td>655.32 m/s</td><td>Range limiting</td></tr>
-      <tr><td>COG</td><td>-pi rad</td><td>+pi rad</td><td>Signed atan2 angle with range limiting</td></tr>
-      <tr><td>Heading</td><td>-pi rad</td><td>+pi rad</td><td>Signed atan2 angle with range limiting</td></tr>
-      <tr><td>Altitude</td><td>-</td><td>-</td><td>No additional processing</td></tr>
-      <tr><td>rate_of_turn</td><td>-</td><td>-</td><td>No additional processing</td></tr>
+      <tr><td>COG</td><td>0 rad</td><td>6.2831 rad</td><td>Negative-angle wrapping followed by range limiting</td></tr>
+      <tr><td>Heading</td><td>0 rad</td><td>6.2831 rad</td><td>Negative-angle wrapping followed by range limiting</td></tr>
+      <tr><td>Altitude</td><td>-</td><td>-</td><td>No additional conditioning</td></tr>
+      <tr><td>rate_of_turn</td><td>-</td><td>-</td><td>No additional conditioning</td></tr>
       </tbody>
       </table>
       
@@ -19920,7 +19739,7 @@ The model processing sequence is:
       
       <h2>12. Ideal Sensor Assumptions</h2>
       
-      <p>The navigation quantities are derived directly from the simulated vessel kinematic state. The model therefore represents an ideal navigation sensor with deterministic output processing.</p>
+      <p>The navigation quantities are derived directly from the simulated vessel kinematic state. The model therefore represents an ideal navigation sensor with deterministic output conditioning.</p>
       
       <p>The implementation does not internally introduce:</p>
       
@@ -19946,9 +19765,9 @@ The model processing sequence is:
       <tr><td>Longitude</td><td>worldSensor.r[2]</td><td>Local East position converted to WGS84 longitude</td><td>Limited to -180 ... +180 deg</td></tr>
       <tr><td>Altitude</td><td>worldSensor.r[3]</td><td>Direct assignment</td><td>None</td></tr>
       <tr><td>SOG</td><td>worldSensor.v[1], worldSensor.v[2]</td><td>sqrt(Vnorth^2 + Veast^2)</td><td>Limited to 0 ... 655.32 m/s</td></tr>
-      <tr><td>COG</td><td>worldSensor.v[1], worldSensor.v[2]</td><td>atan2(Veast, Vnorth)</td><td>Signed angular representation limited to -pi ... +pi rad</td></tr>
+      <tr><td>COG</td><td>worldSensor.v[1], worldSensor.v[2]</td><td>atan2(Veast, Vnorth)</td><td>Wrapped to the positive navigation interval and limited to 0 ... 6.2831 rad</td></tr>
       <tr><td>rate_of_turn</td><td>worldSensor.w[3]</td><td>Direct yaw angular velocity</td><td>None</td></tr>
-      <tr><td>Heading</td><td>frame_a.R</td><td>atan2(ForwardEast, ForwardNorth)</td><td>Signed angular representation limited to -pi ... +pi rad</td></tr>
+      <tr><td>Heading</td><td>frame_a.R</td><td>atan2(ForwardEast, ForwardNorth)</td><td>Wrapped to the positive navigation interval and limited to 0 ... 6.2831 rad</td></tr>
       </tbody>
       </table>
       
@@ -19963,10 +19782,12 @@ The model processing sequence is:
       <li>Apply valid geographic limits to Latitude and Longitude;</li>
       <li>Obtain Altitude directly from the vertical absolute position;</li>
       <li>Calculate raw SOG from North and East velocity and apply its valid range;</li>
-      <li>Calculate COG from horizontal velocity using the signed atan2 convention from -pi to +pi;</li>
+      <li>Calculate raw COG from horizontal velocity;</li>
+      <li>Convert negative COG values to the positive navigation angular convention and apply the final angular limit;</li>
       <li>Obtain Rate of Turn directly from yaw angular velocity;</li>
       <li>Resolve the vessel forward axis into world coordinates;</li>
-      <li>Calculate Heading from the resolved forward direction using the signed atan2 convention from -pi to +pi;</li>
+      <li>Calculate raw Heading from the resolved forward direction;</li>
+      <li>Convert negative Heading values to the positive navigation angular convention and apply the final angular limit;</li>
       <li>Expose the conditioned continuous navigation quantities through the external interface.</li>
       </ol>
       
@@ -19978,248 +19799,134 @@ The model processing sequence is:
       <li><strong>Geodetic Reference:</strong> WGS84 coordinates calculated from the configured local North-East origin.</li>
       <li><strong>Heading Reference:</strong> Vessel longitudinal forward axis defined by <code>forwardAxis</code>.</li>
       <li><strong>Signal Representation:</strong> Continuous range-limited navigation values without resolution quantization.</li>
-      <li><strong>Angular Convention:</strong> COG and Heading use the signed atan2 angular convention from -pi to +pi rad.</li>
+      <li><strong>Angular Convention:</strong> COG and Heading are represented using the positive navigation angular interval, with final outputs limited to 6.2831 rad.</li>
       <li><strong>Solver Configuration:</strong> No simulation solver, integration interval, start time, stop time, or tolerance is defined locally by this block. These settings are inherited from the top-level simulation model.</li>
       </ul>
       
       </body>
       </html>"));
-      
       end IdealGNSSCompass2;
-      
-      model IdealGNSSCompass3
-        "GNSS Compass model with position, velocity, heading and rate of turn outputs"
-      
-        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(
-          get_a = true,
-          get_angles = true,
-          get_r = true,
-          get_v = true,
-          get_w = true,
-          get_z = true,
-          guessAngle1(displayUnit = "rad"),
-          resolveInFrame =
-            Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world)
-          annotation(
-            Placement(
-              transformation(
-                origin = {-40, 0},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
-          "Reference frame whose position, velocity and orientation are measured"
-          annotation(
-            Placement(
-              transformation(
-                origin = {-100, 0},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {-104, 0},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Latitude
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 80},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 86},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Longitude
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 55},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 60},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Altitude
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 30},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 32},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput SOG
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, 5},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, 6},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput COG
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, -20},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, -24},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput rate_of_turn
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, -50},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, -52},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        Modelica.Blocks.Interfaces.RealOutput Heading
-          annotation(
-            Placement(
-              transformation(
-                origin = {110, -80},
-                extent = {{-10, -10}, {10, 10}}),
-              iconTransformation(
-                origin = {110, -84},
-                extent = {{-10, -10}, {10, 10}})));
-      
-        parameter Real originLatitudeDeg(unit = "deg") = -22.734233
-          "Geodetic latitude of the local reference origin";
-      
-        parameter Real originLongitudeDeg(unit = "deg") = -43.085687
-          "Geodetic longitude of the local reference origin";
-      
-        parameter Real forwardAxis[3] = {1, 0, 0}
-          "Vessel longitudinal axis pointing toward the bow";
-      
-      
+
+      model IdealGNSSCompass3 "GNSS Compass model with position, velocity, heading and rate of turn outputs"
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
+          Placement(transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Reference frame whose position, velocity and orientation are measured" annotation(
+          Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-104, 0}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+          Placement(transformation(origin = {110, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 86}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+          Placement(transformation(origin = {110, 55}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
+          Placement(transformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 32}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+          Placement(transformation(origin = {110, 5}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 6}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput COG annotation(
+          Placement(transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -24}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput rate_of_turn annotation(
+          Placement(transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -52}, extent = {{-10, -10}, {10, 10}})));
+        Modelica.Blocks.Interfaces.RealOutput Heading annotation(
+          Placement(transformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -84}, extent = {{-10, -10}, {10, 10}})));
+        parameter Real originLatitudeDeg(unit = "deg") = -22.734233 "Geodetic latitude of the local reference origin";
+        parameter Real originLongitudeDeg(unit = "deg") = -43.085687 "Geodetic longitude of the local reference origin";
+        parameter Real forwardAxis[3] = {1, 0, 0} "Vessel longitudinal axis pointing toward the bow";
       protected
-      
         /*
-         * Vessel longitudinal axis resolved in world coordinates.
-         */
-        Real forwardWorld[3]
-          "Vessel longitudinal axis resolved in world coordinates";
-      
-      
+                 * Vessel longitudinal axis resolved in world coordinates.
+                 */
+        Real forwardWorld[3] "Vessel longitudinal axis resolved in world coordinates";
         /*
-         * -----------------------------------------------------------------
-         * RAW NAVIGATION VALUES
-         * -----------------------------------------------------------------
-         *
-         * These variables contain the original continuous calculations.
-         * No saturation or quantization is applied at this stage.
-         */
+                 * -----------------------------------------------------------------
+                 * RAW NAVIGATION VALUES
+                 * -----------------------------------------------------------------
+                 *
+                 * These variables contain the original continuous calculations.
+                 * No saturation or quantization is applied at this stage.
+                 */
         Real latitudeRaw(unit = "deg");
         Real longitudeRaw(unit = "deg");
         Real sogRaw(unit = "m/s");
         Real cogRaw(unit = "rad");
         Real headingRaw(unit = "rad");
-      
-      
         /*
-         * -----------------------------------------------------------------
-         * CONTINUOUS LIMITED VALUES
-         * -----------------------------------------------------------------
-         *
-         * These variables perform only continuous range conditioning.
-         * They remain outside the discrete quantization logic.
-         */
+                 * -----------------------------------------------------------------
+                 * CONTINUOUS LIMITED VALUES
+                 * -----------------------------------------------------------------
+                 *
+                 * These variables perform only continuous range conditioning.
+                 * They remain outside the discrete quantization logic.
+                 */
         Real latitudeLimited(unit = "deg");
         Real longitudeLimited(unit = "deg");
         Real sogLimited(unit = "m/s");
-      
         Real cogWrapped(unit = "rad");
         Real headingWrapped(unit = "rad");
-      
         Real cogLimited(unit = "rad");
         Real headingLimited(unit = "rad");
-      
-      
         /*
-         * -----------------------------------------------------------------
-         * POSITION LIMITS AND RESOLUTION
-         * -----------------------------------------------------------------
-         *
-         * PGN 129025:
-         *
-         * Latitude:
-         *   minimum    = -90 deg
-         *   maximum    = +90 deg
-         *   resolution = 1e-7 deg
-         *
-         * Longitude:
-         *   minimum    = -180 deg
-         *   maximum    = +180 deg
-         *   resolution = 1e-7 deg
-         *
-         * Note:
-         * The model has only one Latitude and one Longitude output.
-         * Therefore the 1e-7 deg resolution from PGN 129025 is used.
-         */
+                 * -----------------------------------------------------------------
+                 * POSITION LIMITS AND RESOLUTION
+                 * -----------------------------------------------------------------
+                 *
+                 * PGN 129025:
+                 *
+                 * Latitude:
+                 *   minimum    = -90 deg
+                 *   maximum    = +90 deg
+                 *   resolution = 1e-7 deg
+                 *
+                 * Longitude:
+                 *   minimum    = -180 deg
+                 *   maximum    = +180 deg
+                 *   resolution = 1e-7 deg
+                 *
+                 * Note:
+                 * The model has only one Latitude and one Longitude output.
+                 * Therefore the 1e-7 deg resolution from PGN 129025 is used.
+                 */
         constant Real latitudeMin(unit = "deg") = -90;
         constant Real latitudeMax(unit = "deg") = 90;
-      
         constant Real longitudeMin(unit = "deg") = -180;
         constant Real longitudeMax(unit = "deg") = 180;
-      
         constant Real positionResolution(unit = "deg") = 1e-7;
-      
-      
         /*
-         * -----------------------------------------------------------------
-         * ANGULAR LIMITS AND RESOLUTION
-         * -----------------------------------------------------------------
-         *
-         * PGN 127250 - Heading
-         * PGN 129026 - COG
-         *
-         * minimum    = 0 rad
-         * maximum    = 6.2831 rad
-         * resolution = 0.0001 rad
-         */
+                 * -----------------------------------------------------------------
+                 * ANGULAR LIMITS AND RESOLUTION
+                 * -----------------------------------------------------------------
+                 *
+                 * PGN 127250 - Heading
+                 * PGN 129026 - COG
+                 *
+                 * minimum    = 0 rad
+                 * maximum    = 6.2831 rad
+                 * resolution = 0.0001 rad
+                 */
         constant Real angleMin(unit = "rad") = 0;
         constant Real angleMax(unit = "rad") = 6.2831;
-      
         constant Real angleResolution(unit = "rad") = 0.0001;
-      
-        constant Real twoPi(unit = "rad") =
-          2 * Modelica.Constants.pi;
-      
-      
+        constant Real twoPi(unit = "rad") = 2*Modelica.Constants.pi;
         /*
-         * -----------------------------------------------------------------
-         * SOG LIMITS AND RESOLUTION
-         * -----------------------------------------------------------------
-         *
-         * PGN 129026:
-         *
-         * minimum    = 0 m/s
-         * maximum    = 655.32 m/s
-         * resolution = 0.01 m/s
-         */
+                 * -----------------------------------------------------------------
+                 * SOG LIMITS AND RESOLUTION
+                 * -----------------------------------------------------------------
+                 *
+                 * PGN 129026:
+                 *
+                 * minimum    = 0 m/s
+                 * maximum    = 655.32 m/s
+                 * resolution = 0.01 m/s
+                 */
         constant Real sogMin(unit = "m/s") = 0;
         constant Real sogMax(unit = "m/s") = 655.32;
-      
         constant Real sogResolution(unit = "m/s") = 0.01;
-      
-      
       public
       equation
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * REFERENCE FRAME CONNECTION
          * -----------------------------------------------------------------
          */
         connect(frame_a, worldSensor.frame_a);
-      
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * WGS84 POSITION - CONTINUOUS CALCULATION
          * -----------------------------------------------------------------
@@ -20227,33 +19934,13 @@ The model processing sequence is:
          * worldSensor.r[1] -> North displacement
          * worldSensor.r[2] -> East displacement
          */
-        (latitudeRaw, longitudeRaw) =
-          Aquanaut.Functions.localNorthEastToWgs84Pure(
-            originLatitudeDeg,
-            originLongitudeDeg,
-            worldSensor.r[1],
-            worldSensor.r[2]);
-      
-      
-        /*
+        (latitudeRaw, longitudeRaw) = Aquanaut.Functions.localNorthEastToWgs84Pure(originLatitudeDeg, originLongitudeDeg, worldSensor.r[1], worldSensor.r[2]);
+/*
          * Apply only geographic range limits before quantization.
          */
-        latitudeLimited =
-          min(
-            latitudeMax,
-            max(
-              latitudeMin,
-              latitudeRaw));
-      
-        longitudeLimited =
-          min(
-            longitudeMax,
-            max(
-              longitudeMin,
-              longitudeRaw));
-      
-      
-        /*
+        latitudeLimited = min(latitudeMax, max(latitudeMin, latitudeRaw));
+        longitudeLimited = min(longitudeMax, max(longitudeMin, longitudeRaw));
+/*
          * -----------------------------------------------------------------
          * LATITUDE QUANTIZATION
          * -----------------------------------------------------------------
@@ -20268,91 +19955,21 @@ The model processing sequence is:
          * half one resolution step away from the previous output.
          */
         when initial() then
-      
-          Latitude =
-            min(
-              latitudeMax,
-              max(
-                latitudeMin,
-                if latitudeLimited >= 0 then
-                  positionResolution *
-                    floor(
-                      latitudeLimited / positionResolution + 0.5)
-                else
-                  positionResolution *
-                    ceil(
-                      latitudeLimited / positionResolution - 0.5)));
-      
-        elsewhen
-            (latitudeLimited >
-              pre(Latitude) + 0.5 * positionResolution)
-            or
-            (latitudeLimited <
-              pre(Latitude) - 0.5 * positionResolution) then
-      
-          Latitude =
-            min(
-              latitudeMax,
-              max(
-                latitudeMin,
-                if latitudeLimited >= 0 then
-                  positionResolution *
-                    floor(
-                      latitudeLimited / positionResolution + 0.5)
-                else
-                  positionResolution *
-                    ceil(
-                      latitudeLimited / positionResolution - 0.5)));
-      
+          Latitude = min(latitudeMax, max(latitudeMin, if latitudeLimited >= 0 then positionResolution*floor(latitudeLimited/positionResolution + 0.5) else positionResolution*ceil(latitudeLimited/positionResolution - 0.5)));
+        elsewhen (latitudeLimited > pre(Latitude) + 0.5*positionResolution) or (latitudeLimited < pre(Latitude) - 0.5*positionResolution) then
+          Latitude = min(latitudeMax, max(latitudeMin, if latitudeLimited >= 0 then positionResolution*floor(latitudeLimited/positionResolution + 0.5) else positionResolution*ceil(latitudeLimited/positionResolution - 0.5)));
         end when;
-      
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * LONGITUDE QUANTIZATION
          * -----------------------------------------------------------------
          */
         when initial() then
-      
-          Longitude =
-            min(
-              longitudeMax,
-              max(
-                longitudeMin,
-                if longitudeLimited >= 0 then
-                  positionResolution *
-                    floor(
-                      longitudeLimited / positionResolution + 0.5)
-                else
-                  positionResolution *
-                    ceil(
-                      longitudeLimited / positionResolution - 0.5)));
-      
-        elsewhen
-            (longitudeLimited >
-              pre(Longitude) + 0.5 * positionResolution)
-            or
-            (longitudeLimited <
-              pre(Longitude) - 0.5 * positionResolution) then
-      
-          Longitude =
-            min(
-              longitudeMax,
-              max(
-                longitudeMin,
-                if longitudeLimited >= 0 then
-                  positionResolution *
-                    floor(
-                      longitudeLimited / positionResolution + 0.5)
-                else
-                  positionResolution *
-                    ceil(
-                      longitudeLimited / positionResolution - 0.5)));
-      
+          Longitude = min(longitudeMax, max(longitudeMin, if longitudeLimited >= 0 then positionResolution*floor(longitudeLimited/positionResolution + 0.5) else positionResolution*ceil(longitudeLimited/positionResolution - 0.5)));
+        elsewhen (longitudeLimited > pre(Longitude) + 0.5*positionResolution) or (longitudeLimited < pre(Longitude) - 0.5*positionResolution) then
+          Longitude = min(longitudeMax, max(longitudeMin, if longitudeLimited >= 0 then positionResolution*floor(longitudeLimited/positionResolution + 0.5) else positionResolution*ceil(longitudeLimited/positionResolution - 0.5)));
         end when;
-      
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * ALTITUDE
          * -----------------------------------------------------------------
@@ -20360,11 +19977,8 @@ The model processing sequence is:
          * No limits or resolution were specified for Altitude.
          * Original behavior is preserved.
          */
-        Altitude =
-          worldSensor.r[3];
-      
-      
-        /*
+        Altitude = worldSensor.r[3];
+/*
          * -----------------------------------------------------------------
          * SPEED OVER GROUND - CONTINUOUS CALCULATION
          * -----------------------------------------------------------------
@@ -20373,24 +19987,12 @@ The model processing sequence is:
          *
          *   SOG = sqrt(Vnorth^2 + Veast^2)
          */
-        sogRaw =
-          sqrt(
-            worldSensor.v[1]^2 +
-            worldSensor.v[2]^2);
-      
-      
-        /*
+        sogRaw = sqrt(worldSensor.v[1]^2 + worldSensor.v[2]^2);
+/*
          * Apply the PGN 129026 range before quantization.
          */
-        sogLimited =
-          min(
-            sogMax,
-            max(
-              sogMin,
-              sogRaw));
-      
-      
-        /*
+        sogLimited = min(sogMax, max(sogMin, sogRaw));
+/*
          * -----------------------------------------------------------------
          * SOG QUANTIZATION
          * -----------------------------------------------------------------
@@ -20407,36 +20009,11 @@ The model processing sequence is:
          * floor() is evaluated only during the discrete event.
          */
         when initial() then
-      
-          SOG =
-            min(
-              sogMax,
-              max(
-                sogMin,
-                sogResolution *
-                  floor(
-                    sogLimited / sogResolution + 0.5)));
-      
-        elsewhen
-            (sogLimited >
-              pre(SOG) + 0.5 * sogResolution)
-            or
-            (sogLimited <
-              pre(SOG) - 0.5 * sogResolution) then
-      
-          SOG =
-            min(
-              sogMax,
-              max(
-                sogMin,
-                sogResolution *
-                  floor(
-                    sogLimited / sogResolution + 0.5)));
-      
+          SOG = min(sogMax, max(sogMin, sogResolution*floor(sogLimited/sogResolution + 0.5)));
+        elsewhen (sogLimited > pre(SOG) + 0.5*sogResolution) or (sogLimited < pre(SOG) - 0.5*sogResolution) then
+          SOG = min(sogMax, max(sogMin, sogResolution*floor(sogLimited/sogResolution + 0.5)));
         end when;
-      
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * COURSE OVER GROUND - CONTINUOUS CALCULATION
          * -----------------------------------------------------------------
@@ -20449,41 +20026,23 @@ The model processing sequence is:
          *
          *   -pi <= COG <= +pi
          */
-        cogRaw =
-          Modelica.Math.atan2(
-            worldSensor.v[2],
-            worldSensor.v[1]);
-      
-      
-        /*
+        cogRaw = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);
+/*
          * Convert the mathematical atan2 convention into the
          * navigation convention:
          *
          *   0 <= COG < 2*pi
          */
-        cogWrapped =
-          if cogRaw < 0 then
-            cogRaw + twoPi
-          else
-            cogRaw;
-      
-      
-        /*
+        cogWrapped = if cogRaw < 0 then cogRaw + twoPi else cogRaw;
+/*
          * Apply the maximum representable value before quantization.
          *
          * Using cogLimited in the event condition is important.
          * It avoids repeatedly triggering events when cogWrapped is
          * between 6.2831 and 2*pi.
          */
-        cogLimited =
-          min(
-            angleMax,
-            max(
-              angleMin,
-              cogWrapped));
-      
-      
-        /*
+        cogLimited = min(angleMax, max(angleMin, cogWrapped));
+/*
          * -----------------------------------------------------------------
          * COG QUANTIZATION
          * -----------------------------------------------------------------
@@ -20493,36 +20052,11 @@ The model processing sequence is:
          *   0.0001 rad
          */
         when initial() then
-      
-          COG =
-            min(
-              angleMax,
-              max(
-                angleMin,
-                angleResolution *
-                  floor(
-                    cogLimited / angleResolution + 0.5)));
-      
-        elsewhen
-            (cogLimited >
-              pre(COG) + 0.5 * angleResolution)
-            or
-            (cogLimited <
-              pre(COG) - 0.5 * angleResolution) then
-      
-          COG =
-            min(
-              angleMax,
-              max(
-                angleMin,
-                angleResolution *
-                  floor(
-                    cogLimited / angleResolution + 0.5)));
-      
+          COG = min(angleMax, max(angleMin, angleResolution*floor(cogLimited/angleResolution + 0.5)));
+        elsewhen (cogLimited > pre(COG) + 0.5*angleResolution) or (cogLimited < pre(COG) - 0.5*angleResolution) then
+          COG = min(angleMax, max(angleMin, angleResolution*floor(cogLimited/angleResolution + 0.5)));
         end when;
-      
-      
-        /*
+/*
          * -----------------------------------------------------------------
          * RATE OF TURN
          * -----------------------------------------------------------------
@@ -20532,33 +20066,20 @@ The model processing sequence is:
          *
          * Original behavior is preserved.
          */
-        rate_of_turn =
-          worldSensor.w[3];
-      
-      
-        /*
+        rate_of_turn = worldSensor.w[3];
+/*
          * -----------------------------------------------------------------
          * HEADING - CONTINUOUS CALCULATION
          * -----------------------------------------------------------------
          *
          * Resolve the vessel longitudinal body axis into world coordinates.
          */
-        forwardWorld =
-          Modelica.Mechanics.MultiBody.Frames.resolve1(
-            frame_a.R,
-            forwardAxis);
-      
-      
-        /*
+        forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);
+/*
          * Original Heading equation.
          */
-        headingRaw =
-          Modelica.Math.atan2(
-            forwardWorld[2],
-            forwardWorld[1]);
-      
-      
-        /*
+        headingRaw = Modelica.Math.atan2(forwardWorld[2], forwardWorld[1]);
+/*
          * Convert:
          *
          *   [-pi, +pi]
@@ -20567,25 +20088,12 @@ The model processing sequence is:
          *
          *   [0, 2*pi)
          */
-        headingWrapped =
-          if headingRaw < 0 then
-            headingRaw + twoPi
-          else
-            headingRaw;
-      
-      
-        /*
+        headingWrapped = if headingRaw < 0 then headingRaw + twoPi else headingRaw;
+/*
          * Apply the maximum representable Heading value.
          */
-        headingLimited =
-          min(
-            angleMax,
-            max(
-              angleMin,
-              headingWrapped));
-      
-      
-        /*
+        headingLimited = min(angleMax, max(angleMin, headingWrapped));
+/*
          * -----------------------------------------------------------------
          * HEADING QUANTIZATION
          * -----------------------------------------------------------------
@@ -20595,165 +20103,14 @@ The model processing sequence is:
          *   0.0001 rad
          */
         when initial() then
-      
-          Heading =
-            min(
-              angleMax,
-              max(
-                angleMin,
-                angleResolution *
-                  floor(
-                    headingLimited / angleResolution + 0.5)));
-      
-        elsewhen
-            (headingLimited >
-              pre(Heading) + 0.5 * angleResolution)
-            or
-            (headingLimited <
-              pre(Heading) - 0.5 * angleResolution) then
-      
-          Heading =
-            min(
-              angleMax,
-              max(
-                angleMin,
-                angleResolution *
-                  floor(
-                    headingLimited / angleResolution + 0.5)));
-      
+          Heading = min(angleMax, max(angleMin, angleResolution*floor(headingLimited/angleResolution + 0.5)));
+        elsewhen (headingLimited > pre(Heading) + 0.5*angleResolution) or (headingLimited < pre(Heading) - 0.5*angleResolution) then
+          Heading = min(angleMax, max(angleMin, angleResolution*floor(headingLimited/angleResolution + 0.5)));
         end when;
-      
-      
         annotation(
-          Icon(
-            coordinateSystem(
-              preserveAspectRatio = true,
-              extent = {{-100, -100}, {100, 100}}),
-            graphics = {
-      
-              Rectangle(
-                lineColor = {0, 50, 100},
-                fillColor = {30, 95, 160},
-                fillPattern = FillPattern.Solid,
-                extent = {{-100, 100}, {100, -100}}),
-      
-              Rectangle(
-                lineColor = {205, 225, 245},
-                extent = {{-94, 94}, {94, -94}}),
-      
-              Text(
-                origin = {-14, 72},
-                textColor = {255, 255, 255},
-                extent = {{-70, 14}, {70, -14}},
-                textString = "GNSS Compass",
-                textStyle = {TextStyle.Bold}),
-      
-              Ellipse(
-                lineColor = {255, 255, 255},
-                fillColor = {245, 250, 255},
-                fillPattern = FillPattern.Solid,
-                extent = {{-34, 34}, {34, -34}}),
-      
-              Ellipse(
-                lineColor = {140, 165, 190},
-                extent = {{-27, 27}, {27, -27}}),
-      
-              Line(
-                points = {{0, -27}, {0, 27}},
-                color = {150, 150, 150}),
-      
-              Line(
-                points = {{-27, 0}, {27, 0}},
-                color = {150, 150, 150}),
-      
-              Line(
-                points = {{0, 0}, {18, 18}},
-                color = {0, 55, 110},
-                thickness = 2),
-      
-              Polygon(
-                lineColor = {0, 55, 110},
-                fillColor = {0, 55, 110},
-                fillPattern = FillPattern.Solid,
-                points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}),
-      
-              Text(
-                origin = {0, 17},
-                textColor = {0, 55, 110},
-                extent = {{-8, 7}, {8, -7}},
-                textString = "N",
-                textStyle = {TextStyle.Bold}),
-      
-              Line(
-                points = {{-60, 26}, {-52, 34}},
-                color = {255, 255, 255},
-                thickness = 1),
-      
-              Line(
-                points = {{-52, 34}, {-44, 26}},
-                color = {255, 255, 255},
-                thickness = 1),
-      
-              Line(
-                points = {{-54, 22}, {-48, 28}},
-                color = {255, 255, 255}),
-      
-              Text(
-                origin = {73, 84},
-                textColor = {255, 255, 255},
-                extent = {{-18, 7}, {18, -7}},
-                textString = "Lat"),
-      
-              Text(
-                origin = {73, 58},
-                textColor = {255, 255, 255},
-                extent = {{-18, 7}, {18, -7}},
-                textString = "Lon"),
-      
-              Text(
-                origin = {73, 32},
-                textColor = {255, 255, 255},
-                extent = {{-18, 7}, {18, -7}},
-                textString = "Alt"),
-      
-              Text(
-                origin = {73, 6},
-                textColor = {255, 255, 255},
-                extent = {{-18, 7}, {18, -7}},
-                textString = "SOG"),
-      
-              Text(
-                origin = {73, -20},
-                textColor = {255, 255, 255},
-                extent = {{-18, 7}, {18, -7}},
-                textString = "COG"),
-      
-              Text(
-                origin = {72, -50},
-                textColor = {255, 255, 255},
-                extent = {{-18, 7}, {18, -7}},
-                textString = "ROT"),
-      
-              Text(
-                origin = {65, -80},
-                textColor = {255, 255, 255},
-                extent = {{-25, 7}, {25, -7}},
-                textString = "Heading")
-            }),
-      
-          Diagram(
-            coordinateSystem(
-              preserveAspectRatio = true,
-              extent = {{-120, -100}, {120, 100}}),
-            graphics = {
-              Text(
-                origin = {-100, 18},
-                extent = {{-18, 6}, {18, -6}},
-                textString = "frame_a")
-            }),
-      
-          Documentation(
-            info = "<html><head></head><body></body></html>", __OpenModelica_infoHeader = "<html><head></head>
+          Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(lineColor = {0, 50, 100}, fillColor = {30, 95, 160}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Rectangle(lineColor = {205, 225, 245}, extent = {{-94, 94}, {94, -94}}), Text(origin = {-14, 72}, textColor = {255, 255, 255}, extent = {{-70, 14}, {70, -14}}, textString = "GNSS Compass", textStyle = {TextStyle.Bold}), Ellipse(lineColor = {255, 255, 255}, fillColor = {245, 250, 255}, fillPattern = FillPattern.Solid, extent = {{-34, 34}, {34, -34}}), Ellipse(lineColor = {140, 165, 190}, extent = {{-27, 27}, {27, -27}}), Line(points = {{0, -27}, {0, 27}}, color = {150, 150, 150}), Line(points = {{-27, 0}, {27, 0}}, color = {150, 150, 150}), Line(points = {{0, 0}, {18, 18}}, color = {0, 55, 110}, thickness = 2), Polygon(lineColor = {0, 55, 110}, fillColor = {0, 55, 110}, fillPattern = FillPattern.Solid, points = {{18, 18}, {9, 15}, {15, 9}, {18, 18}}), Text(origin = {0, 17}, textColor = {0, 55, 110}, extent = {{-8, 7}, {8, -7}}, textString = "N", textStyle = {TextStyle.Bold}), Line(points = {{-60, 26}, {-52, 34}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-52, 34}, {-44, 26}}, color = {255, 255, 255}, thickness = 1), Line(points = {{-54, 22}, {-48, 28}}, color = {255, 255, 255}), Text(origin = {73, 84}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lat"), Text(origin = {73, 58}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Lon"), Text(origin = {73, 32}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "Alt"), Text(origin = {73, 6}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "SOG"), Text(origin = {73, -20}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "COG"), Text(origin = {72, -50}, textColor = {255, 255, 255}, extent = {{-18, 7}, {18, -7}}, textString = "ROT"), Text(origin = {65, -80}, textColor = {255, 255, 255}, extent = {{-25, 7}, {25, -7}}, textString = "Heading")}),
+          Diagram(coordinateSystem(preserveAspectRatio = true, extent = {{-120, -100}, {120, 100}}), graphics = {Text(origin = {-100, 18}, extent = {{-18, 6}, {18, -6}}, textString = "frame_a")}),
+          Documentation(info = "<html><head></head><body></body></html>", __OpenModelica_infoHeader = "<html><head></head>
 <body>
 
 <h1>Aquanaut.Utils.IdealGNSSCompass Model Specification</h1>
@@ -21955,10 +21312,103 @@ Output updates are determined by changes in the underlying continuous signals ra
 
 
 </body></html>"));
-      
       end IdealGNSSCompass3;
+
+      model GNSSCompass_with_Noise
+  IdealGNSSCompass2 idealGNSSCompass annotation(
+          Placement(transformation(origin = {-61, 5}, extent = {{-21, -21}, {21, 21}})));
+  Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+          Placement(transformation(origin = {110, 6}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {173, 5}, extent = {{-17, -17}, {17, 17}})));
+  Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
+          Placement(transformation(origin = {110, 34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {128, 64}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+  Modelica.Blocks.Interfaces.RealOutput COG annotation(
+          Placement(transformation(origin = {110, -26}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {172, -52}, extent = {{-16, -16}, {16, 16}})));
+  Modelica.Blocks.Interfaces.RealOutput Rate_of_Turn annotation(
+          Placement(transformation(origin = {110, -58}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {172, -110}, extent = {{-16, -16}, {16, 16}})));
+  Modelica.Blocks.Interfaces.RealOutput Heading annotation(
+          Placement(transformation(origin = {110, -86}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {122, -168}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
+  Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+          Placement(transformation(origin = {110, 88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-80, 118}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+  Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+          Placement(transformation(origin = {110, 64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-2, 116}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
+          Placement(transformation(origin = {-102, 6}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-102, 6}, extent = {{-16, -16}, {16, 16}})));
+  Modelica.Blocks.Noise.NormalNoise LatitudeNoise(samplePeriod = 0.1, sigma = 1.35E10 - 5)  annotation(
+          Placement(transformation(origin = {-73, 88}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Noise.NormalNoise LongitudeNoise(samplePeriod = 0.1, sigma = 1.47E10 - 5) annotation(
+          Placement(transformation(origin = {-73, 64}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Noise.NormalNoise AltitudeNoise(samplePeriod = 0.1, sigma = 2.5) annotation(
+          Placement(transformation(origin = {-73, 38}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Noise.NormalNoise HeadingNoise(samplePeriod = 0.1, sigma = 0.0035)  annotation(
+          Placement(transformation(origin = {-69, -90}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Noise.NormalNoise COGNoise(samplePeriod = 0.1, sigma = 0.0087) annotation(
+          Placement(transformation(origin = {-69, -38}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Noise.NormalNoise SOGNoise(samplePeriod = 0.1, sigma = 0.05) annotation(
+          Placement(transformation(origin = {37, 12}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Noise.NormalNoise ROTNoise(samplePeriod = 0.1, sigma = 0.0035)  annotation(
+          Placement(transformation(origin = {-69, -62}, extent = {{-7, -6}, {7, 6}})));
+  Modelica.Blocks.Math.Add add annotation(
+          Placement(transformation(origin = {83, 87}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Math.Add add1 annotation(
+          Placement(transformation(origin = {83, 65}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Math.Add add2 annotation(
+          Placement(transformation(origin = {83, 35}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Math.Add add11 annotation(
+          Placement(transformation(origin = {83, 5}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Math.Add add111 annotation(
+          Placement(transformation(origin = {83, -25}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Math.Add add112 annotation(
+          Placement(transformation(origin = {81, -57}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Math.Add add1111 annotation(
+          Placement(transformation(origin = {81, -87}, extent = {{-7, -7}, {7, 7}})));
+      equation
+  connect(frame_a, idealGNSSCompass.frame_a) annotation(
+          Line(points = {{-102, 6}, {-83, 6}, {-83, 5}}));
+  connect(LatitudeNoise.y, add.u1) annotation(
+          Line(points = {{-66, 88}, {56, 88}, {56, 92}, {74, 92}}, color = {0, 0, 127}));
+  connect(LongitudeNoise.y, add1.u1) annotation(
+          Line(points = {{-66, 64}, {58, 64}, {58, 70}, {74, 70}}, color = {0, 0, 127}));
+  connect(AltitudeNoise.y, add2.u1) annotation(
+          Line(points = {{-66, 38}, {52, 38}, {52, 40}, {74, 40}}, color = {0, 0, 127}));
+  connect(SOGNoise.y, add11.u1) annotation(
+          Line(points = {{44, 12}, {68, 12}, {68, 10}, {74, 10}}, color = {0, 0, 127}));
+  connect(COGNoise.y, add111.u2) annotation(
+          Line(points = {{-62, -38}, {62, -38}, {62, -30}, {74, -30}}, color = {0, 0, 127}));
+  connect(HeadingNoise.y, add1111.u2) annotation(
+          Line(points = {{-62, -90}, {32, -90}, {32, -92}, {72, -92}}, color = {0, 0, 127}));
+  connect(ROTNoise.y, add112.u2) annotation(
+          Line(points = {{-62, -62}, {72, -62}}, color = {0, 0, 127}));
+  connect(add1111.y, Heading) annotation(
+          Line(points = {{88, -86}, {110, -86}}, color = {0, 0, 127}));
+  connect(add112.y, Rate_of_Turn) annotation(
+          Line(points = {{88, -56}, {88, -58}, {110, -58}}, color = {0, 0, 127}));
+  connect(add111.y, COG) annotation(
+          Line(points = {{90, -24}, {110, -24}, {110, -26}}, color = {0, 0, 127}));
+  connect(add11.y, SOG) annotation(
+          Line(points = {{90, 6}, {110, 6}}, color = {0, 0, 127}));
+  connect(add2.y, Altitude) annotation(
+          Line(points = {{90, 36}, {98, 36}, {98, 34}, {110, 34}}, color = {0, 0, 127}));
+  connect(add1.y, Longitude) annotation(
+          Line(points = {{90, 66}, {90, 64}, {110, 64}}, color = {0, 0, 127}));
+  connect(add.y, Latitude) annotation(
+          Line(points = {{90, 88}, {110, 88}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.Latitude, add.u2) annotation(
+          Line(points = {{-38, 24}, {12, 24}, {12, 82}, {74, 82}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.Longitude, add1.u2) annotation(
+          Line(points = {{-38, 18}, {16, 18}, {16, 60}, {74, 60}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.Altitude, add2.u2) annotation(
+          Line(points = {{-38, 12}, {20, 12}, {20, 30}, {74, 30}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.SOG, add11.u2) annotation(
+          Line(points = {{-38, 6}, {22, 6}, {22, 0}, {74, 0}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.COG, add111.u1) annotation(
+          Line(points = {{-38, 0}, {18, 0}, {18, -20}, {74, -20}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.rate_of_turn, add112.u1) annotation(
+          Line(points = {{-38, -6}, {12, -6}, {12, -52}, {72, -52}}, color = {0, 0, 127}));
+  connect(idealGNSSCompass.Heading, add1111.u1) annotation(
+          Line(points = {{-38, -12}, {6, -12}, {6, -82}, {72, -82}}, color = {0, 0, 127}));
+      end GNSSCompass_with_Noise;
     end NewModelUtils;
-    
+
     model OT1Model2
       // Parameters
       parameter Real propellerF = 5.0 "Propeller cut frequency (Hz)";
@@ -21969,13 +21419,13 @@ Output updates are determined by changes in the underlying continuous signals ra
       ShipParts.Hull hull(Ixx = 4749.54, Iyx = 213.75, Iyy = 28293.74, Izx = -3411.63, Izy = 15.59, Izz = 27690.71, initPos = true, shapeModel = "modelica://Aquanaut/Resources/STL/Hull_STL_Fixed(Solid)-CM_origin.stl", sphereViewer = false, vesselMass = 4484.75, vesselZ0 = -0.57) annotation(
         Placement(transformation(origin = {70, 66}, extent = {{-10, -10}, {10, 10}})));
       inner Modelica.Mechanics.MultiBody.World world(label2 = "z", n = {0, 0, 1}) annotation(
-        Placement(transformation(origin = {-154, -28}, extent = {{-10, -10}, {10, 10}})));
+        Placement(transformation(origin = {-160, -44}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame(length = 10) annotation(
-        Placement(transformation(origin = {-120, -28}, extent = {{-10, -10}, {10, 10}})));
+        Placement(transformation(origin = {-126, -44}, extent = {{-10, -10}, {10, 10}})));
       HydroForces.BuoyancyInterpolation buoyancy(Cb = 10000, dist_keel_cg = 1.758417010307312, output_folder = "modelica://Aquanaut/Resources/STL", shapePath = "modelica://Aquanaut/Resources/STL/Hull_STL_Fixed(Solid)-CM_origin.stl", sphereRadius = 2, time_step = 3, useComplexShape = true, useSTLPositionXY = true, wavePath = "modelica://Aquanaut/Resources/STL/flat_wave_") annotation(
         Placement(transformation(origin = {70, 42}, extent = {{-10, -10}, {10, 10}})));
       inner HydroForces.Stream Stream(psiCurr = 0, velocityMean = 1) annotation(
-        Placement(transformation(origin = {-138, -64}, extent = {{-10, -10}, {10, 10}})));
+        Placement(transformation(origin = {-144, -80}, extent = {{-10, -10}, {10, 10}})));
       ShipParts.MarinePropeller marinePropeller(Fa = +2, eta_R = 1, useStream = false) annotation(
         Placement(transformation(origin = {-60, 2}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Mechanics.Rotational.Sources.Speed speed(exact = false, phi(displayUnit = "rad"), useSupport = false, f_crit = propellerF) annotation(
@@ -21985,7 +21435,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       HydroForces.Viscous viscous(Kp = 5000, Mq = 15000, Nr = 10000, Xu = 1000, Yv = 5000, Zw = 5000) annotation(
         Placement(transformation(origin = {70, 18}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Blocks.Interfaces.RealInput propellerSpeed annotation(
-        Placement(transformation(origin = {-200, 2}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, 60}, extent = {{-24, -24}, {24, 24}})));
+        Placement(transformation(origin = {-200, 38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, 60}, extent = {{-24, -24}, {24, 24}})));
       Modelica.Blocks.Interfaces.RealInput rudderAngle annotation(
         Placement(transformation(origin = {-200, 60}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, -60}, extent = {{-24, -24}, {24, 24}})));
       // Outputs
@@ -22015,7 +21465,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       connect(speed.flange, marinePropeller.flange) annotation(
         Line(points = {{-86, 2}, {-70, 2}}));
       connect(world.frame_b, fixedFrame.frame_a) annotation(
-        Line(points = {{-144, -28}, {-130, -28}}, color = {95, 95, 95}));
+        Line(points = {{-150, -44}, {-136, -44}}, color = {95, 95, 95}));
       connect(marinePropeller.wakeFraction, marineRudder.wakeFraction) annotation(
         Line(points = {{-49.2, 6.2}, {-29.2, 6.2}}, color = {0, 0, 127}));
       connect(marinePropeller.flowDiameter, marineRudder.flowDiameter) annotation(
@@ -22031,7 +21481,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       connect(rudderAngle, marineRudder.angleInput) annotation(
         Line(points = {{-200, 60}, {-36, 60}, {-36, 12}, {-30, 12}}, color = {0, 0, 127}));
       connect(propellerSpeed, speed.w_ref) annotation(
-        Line(points = {{-200, 2}, {-108, 2}}, color = {0, 0, 127}));
+        Line(points = {{-200, 38}, {-146, 38}, {-146, 2}, {-108, 2}}, color = {0, 0, 127}));
       connect(propSpeedSensor.flange, speed.flange) annotation(
         Line(points = {{-78, -14}, {-78, 2}, {-86, 2}}));
       connect(Hemisphere_GNSSCompass.frame_a, hull.frame_a) annotation(
@@ -22057,7 +21507,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       connect(Hemisphere_GNSSCompass.Latitude, Latitude) annotation(
         Line(points = {{82, 0}, {98, 0}, {98, 72}, {120, 72}}, color = {0, 0, 127}));
       annotation(
-        Diagram(graphics = {Rectangle(origin = {-39, 1}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-149, 87}, {149, -87}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
+        Diagram(graphics = {Rectangle(origin = {53, -10}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
         experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
         __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=fmuExperimental ",
         __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
@@ -22134,7 +21584,7 @@ Output updates are determined by changes in the underlying continuous signals ra
               </ul>
               </body></html>", __OpenModelica_infoHeader = "<html><head></head><body></body></html>"));
     end OT1Model2;
-    
+
     model OT1Model3
       // Parameters
       parameter Real propellerF = 5.0 "Propeller cut frequency (Hz)";
@@ -22310,7 +21760,7 @@ Output updates are determined by changes in the underlying continuous signals ra
               </ul>
               </body></html>", __OpenModelica_infoHeader = "<html><head></head><body></body></html>"));
     end OT1Model3;
-    
+
     model ClosedLoopHiL
       // Parameters for Closed Loop
       // Path Following Control
@@ -22413,15 +21863,15 @@ Output updates are determined by changes in the underlying continuous signals ra
         Placement(transformation(origin = {460, 23}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {287, 73}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Blocks.Interfaces.RealOutput COG annotation(
         Placement(transformation(origin = {460, 1}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {294, 44}, extent = {{-10, -10}, {10, 10}})));
-  Utils.Wgs84ToLocalPositionPure wgs84ToLocalPositionPure(originLatitudeDeg = -22.734233, originLongitudeDeg = -43.085687)  annotation(
+      Utils.Wgs84ToLocalPositionPure wgs84ToLocalPositionPure(originLatitudeDeg = -22.734233, originLongitudeDeg = -43.085687) annotation(
         Placement(transformation(origin = {-355, 3}, extent = {{-10, -10}, {10, 10}})));
-  Utils.SOGAndCOGToVelocity sOGAndCOGToVelocity annotation(
+      Utils.SOGAndCOGToVelocity sOGAndCOGToVelocity annotation(
         Placement(transformation(origin = {-355, -25}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.Derivative derivative(T = 0.01)  annotation(
+      Modelica.Blocks.Continuous.Derivative derivative(T = 0.01) annotation(
         Placement(transformation(origin = {-352, -107}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.Derivative derivative1(T = 0.05) annotation(
+      Modelica.Blocks.Continuous.Derivative derivative1(T = 0.05) annotation(
         Placement(transformation(origin = {-296, 116}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.Derivative derivative11(T = 0.01) annotation(
+      Modelica.Blocks.Continuous.Derivative derivative11(T = 0.01) annotation(
         Placement(transformation(origin = {-335, 116}, extent = {{-10, -10}, {10, 10}})));
     equation
       connect(switch_v_ref.y, v_e.u1) annotation(
@@ -22496,53 +21946,53 @@ Output updates are determined by changes in the underlying continuous signals ra
         Line(points = {{-166, 82}, {-142, 82}, {-142, 108}, {-132, 108}}, color = {255, 0, 255}));
       connect(propellerFeedback, OT1model.PropellerFeedback_rad_s) annotation(
         Line(points = {{460, -215}, {222, -215}, {222, -20}}, color = {0, 0, 127}));
-  connect(OT1model.COG, COG) annotation(
+      connect(OT1model.COG, COG) annotation(
         Line(points = {{254, 0}, {460, 0}, {460, 1}}, color = {0, 0, 127}));
-  connect(OT1model.SOG, SOG) annotation(
+      connect(OT1model.SOG, SOG) annotation(
         Line(points = {{254, 10}, {440, 10}, {440, 23}, {460, 23}}, color = {0, 0, 127}));
-  connect(OT1model.rudderFeedback_rad, rudderFeedback) annotation(
+      connect(OT1model.rudderFeedback_rad, rudderFeedback) annotation(
         Line(points = {{235, -20}, {235, -195}, {460, -195}}, color = {0, 0, 127}));
-  connect(OT1model.Longitude, y) annotation(
+      connect(OT1model.Longitude, y) annotation(
         Line(points = {{235, 20}, {234, 20}, {234, 134}, {461, 134}}, color = {0, 0, 127}));
-  connect(OT1model.Latitude, x) annotation(
+      connect(OT1model.Latitude, x) annotation(
         Line(points = {{221, 20}, {221, 154}, {461, 154}}, color = {0, 0, 127}));
-  connect(wgs84ToLocalPositionPure.northM, serretFrenet.x) annotation(
+      connect(wgs84ToLocalPositionPure.northM, serretFrenet.x) annotation(
         Line(points = {{-343, 7}, {-313, 7}, {-313, 6}}, color = {0, 0, 127}));
-  connect(wgs84ToLocalPositionPure.eastM, serretFrenet.y) annotation(
+      connect(wgs84ToLocalPositionPure.eastM, serretFrenet.y) annotation(
         Line(points = {{-343, -1}, {-313, -1}, {-313, -3}}, color = {0, 0, 127}));
-  connect(OT1model.Latitude, wgs84ToLocalPositionPure.latitudeDeg) annotation(
+      connect(OT1model.Latitude, wgs84ToLocalPositionPure.latitudeDeg) annotation(
         Line(points = {{221, 20}, {221, 176}, {-373, 176}, {-373, 7}, {-367, 7}}, color = {0, 0, 127}));
-  connect(OT1model.Longitude, wgs84ToLocalPositionPure.longitudeDeg) annotation(
+      connect(OT1model.Longitude, wgs84ToLocalPositionPure.longitudeDeg) annotation(
         Line(points = {{235, 20}, {234, 20}, {234, 181}, {-378, 181}, {-378, -1}, {-367, -1}}, color = {0, 0, 127}));
-  connect(sOGAndCOGToVelocity.sog_m_s, OT1model.SOG) annotation(
+      connect(sOGAndCOGToVelocity.sog_m_s, OT1model.SOG) annotation(
         Line(points = {{-366, -19}, {-385, -19}, {-385, -180}, {266, -180}, {266, 10}, {254, 10}}, color = {0, 0, 127}));
-  connect(sOGAndCOGToVelocity.cog_rad, OT1model.COG) annotation(
+      connect(sOGAndCOGToVelocity.cog_rad, OT1model.COG) annotation(
         Line(points = {{-366, -32}, {-382, -32}, {-382, -176}, {272, -176}, {272, 0}, {254, 0}}, color = {0, 0, 127}));
-  connect(sOGAndCOGToVelocity.vel_n_m_s, derivative.u) annotation(
+      connect(sOGAndCOGToVelocity.vel_n_m_s, derivative.u) annotation(
         Line(points = {{-344, -19}, {-339, -19}, {-339, -72}, {-375, -72}, {-375, -107}, {-364, -107}}, color = {0, 0, 127}));
-  connect(derivative.y, der_ax.u) annotation(
+      connect(derivative.y, der_ax.u) annotation(
         Line(points = {{-341, -107}, {-323, -107}, {-323, -106}, {-324, -106}}, color = {0, 0, 127}));
-  connect(derivative.y, abs_ax.u) annotation(
+      connect(derivative.y, abs_ax.u) annotation(
         Line(points = {{-341, -107}, {-337, -107}, {-337, -138}, {-286, -138}}, color = {0, 0, 127}));
-  connect(derivative1.y, abs_az.u) annotation(
+      connect(derivative1.y, abs_az.u) annotation(
         Line(points = {{-285, 116}, {-226, 116}}, color = {0, 0, 127}));
-  connect(derivative1.y, der_az.u) annotation(
+      connect(derivative1.y, der_az.u) annotation(
         Line(points = {{-285, 116}, {-275, 116}, {-275, 82}, {-258, 82}}, color = {0, 0, 127}));
-  connect(derivative11.y, derivative1.u) annotation(
+      connect(derivative11.y, derivative1.u) annotation(
         Line(points = {{-324, 116}, {-308, 116}}, color = {0, 0, 127}));
-  connect(derivative11.u, OT1model.Altitude) annotation(
+      connect(derivative11.u, OT1model.Altitude) annotation(
         Line(points = {{-347, 116}, {-368, 116}, {-368, 168}, {247, 168}, {247, 20}}, color = {0, 0, 127}));
-  connect(sOGAndCOGToVelocity.vel_n_m_s, serretFrenet.vx) annotation(
+      connect(sOGAndCOGToVelocity.vel_n_m_s, serretFrenet.vx) annotation(
         Line(points = {{-344, -19}, {-323, -19}, {-323, -21}, {-313, -21}}, color = {0, 0, 127}));
-  connect(sOGAndCOGToVelocity.vel_e_m_s, serretFrenet.vy) annotation(
+      connect(sOGAndCOGToVelocity.vel_e_m_s, serretFrenet.vy) annotation(
         Line(points = {{-344, -32}, {-323, -32}, {-323, -30}, {-313, -30}}, color = {0, 0, 127}));
-  connect(OT1model.Altitude, z) annotation(
+      connect(OT1model.Altitude, z) annotation(
         Line(points = {{247, 20}, {247, 114}, {461, 114}}, color = {0, 0, 127}));
-  connect(OT1model.Rate_of_Turn, omegaz) annotation(
+      connect(OT1model.Rate_of_Turn, omegaz) annotation(
         Line(points = {{254, -10}, {441, -10}, {441, -23}, {460, -23}}, color = {0, 0, 127}));
-  connect(OT1model.Heading, thetaz) annotation(
+      connect(OT1model.Heading, thetaz) annotation(
         Line(points = {{246, -20}, {246, -172}, {460, -172}}, color = {0, 0, 127}));
-  connect(serretFrenet.psi, OT1model.Heading) annotation(
+      connect(serretFrenet.psi, OT1model.Heading) annotation(
         Line(points = {{-313, -12}, {-388, -12}, {-388, -184}, {246, -184}, {246, -20}}, color = {0, 0, 127}));
       annotation(
         experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
@@ -22686,5 +22136,181 @@ Output updates are determined by changes in the underlying continuous signals ra
                                         
                                         </body></html>"));
     end ClosedLoopHiL;
+
+    model OT1Model2_with_Noise
+      // Parameters
+      parameter Real propellerF = 5.0 "Propeller cut frequency (Hz)";
+      parameter Real rudderF = 5.0 "Rudder cut frequency (Hz)";
+      parameter Real rudderMaxAngle = 0.6108652381980153 "Rudder max absolute angle (rad)";
+      parameter Modelica.Units.SI.Time derivativeFilterTime = 0.01 "Derivative filter time constant";
+      parameter Real gravity = Modelica.Constants.g_n "Gravity Acceleration";
+      ShipParts.Hull hull(Ixx = 4749.54, Iyx = 213.75, Iyy = 28293.74, Izx = -3411.63, Izy = 15.59, Izz = 27690.71, initPos = true, shapeModel = "modelica://Aquanaut/Resources/STL/Hull_STL_Fixed(Solid)-CM_origin.stl", sphereViewer = false, vesselMass = 4484.75, vesselZ0 = -0.57) annotation(
+        Placement(transformation(origin = {26, 64}, extent = {{-10, -10}, {10, 10}})));
+      inner Modelica.Mechanics.MultiBody.World world(label2 = "z", n = {0, 0, 1}) annotation(
+        Placement(transformation(origin = {-160, -44}, extent = {{-10, -10}, {10, 10}})));
+      Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame(length = 10) annotation(
+        Placement(transformation(origin = {-126, -44}, extent = {{-10, -10}, {10, 10}})));
+      HydroForces.BuoyancyInterpolation buoyancy(Cb = 10000, dist_keel_cg = 1.758417010307312, output_folder = "modelica://Aquanaut/Resources/STL", shapePath = "modelica://Aquanaut/Resources/STL/Hull_STL_Fixed(Solid)-CM_origin.stl", sphereRadius = 2, time_step = 3, useComplexShape = true, useSTLPositionXY = true, wavePath = "modelica://Aquanaut/Resources/STL/flat_wave_") annotation(
+        Placement(transformation(origin = {26, 40}, extent = {{-10, -10}, {10, 10}})));
+      inner HydroForces.Stream Stream(psiCurr = 0, velocityMean = 1) annotation(
+        Placement(transformation(origin = {-144, -80}, extent = {{-10, -10}, {10, 10}})));
+      ShipParts.MarinePropeller marinePropeller(Fa = +2, eta_R = 1, useStream = false) annotation(
+        Placement(transformation(origin = {-60, 2}, extent = {{-10, -10}, {10, 10}})));
+      Modelica.Mechanics.Rotational.Sources.Speed speed(exact = false, phi(displayUnit = "rad"), useSupport = false, f_crit = propellerF) annotation(
+        Placement(transformation(origin = {-96, 2}, extent = {{-10, -10}, {10, 10}})));
+      ShipParts.MarineRudder marineRudder(maxAngle = rudderMaxAngle, f_cut = rudderF) annotation(
+        Placement(transformation(origin = {-18, 4}, extent = {{-10, -10}, {10, 10}})));
+      HydroForces.Viscous viscous(Kp = 5000, Mq = 15000, Nr = 10000, Xu = 1000, Yv = 5000, Zw = 5000) annotation(
+        Placement(transformation(origin = {26, 16}, extent = {{-10, -10}, {10, 10}})));
+      Modelica.Blocks.Interfaces.RealInput propellerSpeed annotation(
+        Placement(transformation(origin = {-200, 38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, 60}, extent = {{-24, -24}, {24, 24}})));
+      Modelica.Blocks.Interfaces.RealInput rudderAngle annotation(
+        Placement(transformation(origin = {-200, 60}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, -60}, extent = {{-24, -24}, {24, 24}})));
+      // Outputs
+      Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+        Placement(transformation(origin = {120, 18}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {117, 57}, extent = {{-17, -17}, {17, 17}})));
+      Modelica.Blocks.Interfaces.RealOutput Altitude annotation(
+        Placement(transformation(origin = {120, 36}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {72, 116}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+      Modelica.Blocks.Interfaces.RealOutput COG annotation(
+        Placement(transformation(origin = {120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {116, 0}, extent = {{-16, -16}, {16, 16}})));
+      Modelica.Blocks.Interfaces.RealOutput rudderFeedback_rad annotation(
+        Placement(transformation(origin = {120, -50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, -116}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
+      Modelica.Mechanics.Rotational.Sensors.SpeedSensor propSpeedSensor annotation(
+        Placement(transformation(origin = {-78, -24}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+      Modelica.Blocks.Interfaces.RealOutput PropellerFeedback_rad_s annotation(
+        Placement(transformation(origin = {120, -64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-76, -116}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
+      NewModelUtils.IdealGNSSCompass2 Hemisphere_GNSSCompass annotation(
+        Placement(transformation(origin = {26, -10}, extent = {{-10, -10}, {10, 10}})));
+      Modelica.Blocks.Interfaces.RealOutput Rate_of_Turn annotation(
+        Placement(transformation(origin = {120, -18}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {116, -58}, extent = {{-16, -16}, {16, 16}})));
+      Modelica.Blocks.Interfaces.RealOutput Heading annotation(
+        Placement(transformation(origin = {120, -34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {66, -116}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
+      Modelica.Blocks.Interfaces.RealOutput Latitude annotation(
+        Placement(transformation(origin = {120, 72}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-80, 116}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+      Modelica.Blocks.Interfaces.RealOutput Longitude annotation(
+        Placement(transformation(origin = {120, 54}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 116}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+    equation
+      connect(speed.flange, marinePropeller.flange) annotation(
+        Line(points = {{-86, 2}, {-70, 2}}));
+      connect(world.frame_b, fixedFrame.frame_a) annotation(
+        Line(points = {{-150, -44}, {-136, -44}}, color = {95, 95, 95}));
+      connect(marinePropeller.wakeFraction, marineRudder.wakeFraction) annotation(
+        Line(points = {{-49.2, 6.2}, {-29.2, 6.2}}, color = {0, 0, 127}));
+      connect(marinePropeller.flowDiameter, marineRudder.flowDiameter) annotation(
+        Line(points = {{-49.1, 2}, {-29.1, 2}}, color = {0, 0, 127}));
+      connect(marinePropeller.flowSpeed, marineRudder.flowSpeed) annotation(
+        Line(points = {{-49.1, -1.8}, {-33.1, -1.8}, {-33.1, -3.8}, {-29.1, -3.8}}, color = {0, 0, 127}));
+      connect(hull.frame_a, buoyancy.frame_a) annotation(
+        Line(points = {{16, 64}, {2, 64}, {2, 40}, {16, 40}}, color = {95, 95, 95}));
+      connect(viscous.frame_a, buoyancy.frame_a) annotation(
+        Line(points = {{16, 16}, {2, 16}, {2, 40}, {16, 40}}, color = {95, 95, 95}));
+      connect(marinePropeller.frame_a, buoyancy.frame_a) annotation(
+        Line(points = {{-70, 6}, {-78, 6}, {-78, 40}, {16, 40}}, color = {95, 95, 95}));
+      connect(rudderAngle, marineRudder.angleInput) annotation(
+        Line(points = {{-200, 60}, {-36, 60}, {-36, 12}, {-30, 12}}, color = {0, 0, 127}));
+      connect(propellerSpeed, speed.w_ref) annotation(
+        Line(points = {{-200, 38}, {-146, 38}, {-146, 2}, {-108, 2}}, color = {0, 0, 127}));
+      connect(propSpeedSensor.flange, speed.flange) annotation(
+        Line(points = {{-78, -14}, {-78, 2}, {-86, 2}}));
+      connect(Hemisphere_GNSSCompass.frame_a, hull.frame_a) annotation(
+        Line(points = {{15.6, -10}, {-22.4, -10}, {-22.4, 40}, {1.6, 40}, {1.6, 64}, {15.6, 64}}, color = {95, 95, 95}));
+      connect(Hemisphere_GNSSCompass.Altitude, Altitude) annotation(
+        Line(points = {{37, -7}, {102, -7}, {102, 36}, {120, 36}}, color = {0, 0, 127}));
+      connect(Hemisphere_GNSSCompass.SOG, SOG) annotation(
+        Line(points = {{37, -9}, {104, -9}, {104, 18}, {120, 18}}, color = {0, 0, 127}));
+      connect(Hemisphere_GNSSCompass.COG, COG) annotation(
+        Line(points = {{37, -12}, {106, -12}, {106, 0}, {120, 0}}, color = {0, 0, 127}));
+      connect(Hemisphere_GNSSCompass.rate_of_turn, Rate_of_Turn) annotation(
+        Line(points = {{37, -15}, {106, -15}, {106, -18}, {120, -18}}, color = {0, 0, 127}));
+      connect(Hemisphere_GNSSCompass.Heading, Heading) annotation(
+        Line(points = {{37, -18}, {103.875, -18}, {103.875, -34}, {120, -34}}, color = {0, 0, 127}));
+      connect(marineRudder.rudderFeedbackRad, rudderFeedback_rad) annotation(
+        Line(points = {{-18, -6}, {-18, -50}, {120, -50}}, color = {0, 0, 127}));
+      connect(propSpeedSensor.w, PropellerFeedback_rad_s) annotation(
+        Line(points = {{-78, -34}, {-78, -64}, {120, -64}}, color = {0, 0, 127}));
+      connect(marineRudder.frame_a, buoyancy.frame_a) annotation(
+        Line(points = {{-8, 4}, {16, 4}, {16, 40}}, color = {95, 95, 95}));
+      connect(Hemisphere_GNSSCompass.Longitude, Longitude) annotation(
+        Line(points = {{37, -4}, {100, -4}, {100, 54}, {120, 54}}, color = {0, 0, 127}));
+      connect(Hemisphere_GNSSCompass.Latitude, Latitude) annotation(
+        Line(points = {{37, -1}, {98, -1}, {98, 72}, {120, 72}}, color = {0, 0, 127}));
+      annotation(
+        Diagram(graphics = {Rectangle(origin = {3, -190}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
+        experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
+        __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=fmuExperimental ",
+        __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
+        Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 1.5, extent = {{-100, 100}, {100, -100}}), Rectangle(origin = {4, 50}, fillColor = {245, 245, 245}, fillPattern = FillPattern.Solid, extent = {{-20, 20}, {20, -20}}), Polygon(origin = {10, 44}, lineColor = {85, 170, 255}, fillColor = {85, 85, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-14, 10}, {-14, 2}, {-2, 2}, {8, 10}, {-14, 10}}), Line(origin = {-3.97, 41.7}, points = {{-10.0305, 0.29944}, {-4.0305, 4.29944}, {1.9695, -1.70056}, {7.9695, 4.29944}, {15.9695, -1.70056}, {21.9695, 4.2994}, {25.9695, 0.29944}}, color = {0, 170, 255}, thickness = 1.5, smooth = Smooth.Bezier), Polygon(origin = {10, 44}, fillColor = {85, 85, 255}, lineThickness = 0.75, points = {{-14, 10}, {-14, 2}, {-2, 2}, {8, 10}, {-14, 10}}), Rectangle(origin = {4, 0}, fillColor = {245, 245, 245}, fillPattern = FillPattern.Solid, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {4, -1}, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-1, 7}, {1, -7}}), Ellipse(origin = {4, -10}, fillColor = {85, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-4, 4}, {4, -4}}), Polygon(origin = {4, 4}, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, points = {{-2, 2}, {2, 2}, {0, 8}, {-2, 2}}), Line(origin = {-3.97, -4.3}, points = {{-10.0305, 0.29944}, {-4.0305, 4.29944}, {1.9695, -1.70056}, {7.9695, 4.29944}, {15.9695, -1.70056}, {21.9695, 4.2994}, {25.9695, 0.29944}}, color = {0, 170, 255}, thickness = 1.5, smooth = Smooth.Bezier), Rectangle(origin = {4, -50}, fillColor = {245, 245, 245}, fillPattern = FillPattern.Solid, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {-2, -50}, rotation = 90, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-2, 5}, {2, -5}}), Polygon(origin = {-26, -50}, rotation = 90, fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, points = {{-4, -20}, {4, -20}, {0, -12}, {-4, -20}}), Ellipse(origin = {8, -50}, lineColor = {85, 0, 255}, fillColor = {85, 85, 255}, fillPattern = FillPattern.Sphere, extent = {{-8, 8}, {8, -8}}), Line(origin = {-9, -34.89}, points = {{30.997, -19.1092}, {26.9972, -19.1092}, {18.9972, -27.1092}, {6.9972, -21.1092}, {-3.0028, -21.1092}}, color = {85, 0, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -54.89}, points = {{24.9972, 14.8908}, {18.9972, 14.8908}, {10.9972, 18.8908}, {-1.0028, 12.8908}, {-9.0028, 12.8908}}, color = {85, 85, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -46.89}, points = {{24.9972, 8.8908}, {18.9972, 8.8908}, {10.9972, 12.8908}, {-1.0028, 6.8908}, {-9.0028, 6.89078}}, color = {85, 170, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-9, -22.89}, points = {{30.997, -21.1092}, {24.9972, -21.1092}, {16.9972, -15.1092}, {6.9972, -21.1092}, {-3.0028, -21.1092}}, color = {85, 0, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -70.89}, points = {{24.9972, 12.8908}, {20.9972, 12.8908}, {12.9972, 6.8908}, {-1.0028, 12.8908}, {-9.0028, 12.8908}}, color = {85, 85, 255}, thickness = 1, smooth = Smooth.Bezier), Line(origin = {-3, -66.89}, points = {{24.9972, 6.8908}, {20.9972, 6.8908}, {12.9972, 0.8908}, {-1.0028, 6.8908}, {-9.0028, 6.89078}}, color = {85, 170, 255}, thickness = 1, smooth = Smooth.Bezier), Rectangle(origin = {-60, 60}, lineColor = {0, 0, 127}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-20, -20}, {20, 20}}), Polygon(origin = {-55, 60}, fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, points = {{-4.563, 3.6504}, {-4.563, 7.9092}, {-1.521, 14.6016}, {2.1294, 18.252}, {3.9546, 17.6436}, {4.563, 15.8184}, {4.563, 10.3428}, {0.3042, 3.6504}, {0.3042, -3.6504}, {4.563, -10.3428}, {4.563, -15.8184}, {3.9546, -17.6436}, {2.1294, -18.252}, {-1.521, -14.6016}, {-4.563, -7.9092}, {-4.563, 3.6504}}, smooth = Smooth.Bezier), Rectangle(origin = {-69, 60}, fillColor = {200, 200, 200}, fillPattern = FillPattern.CrossDiag, extent = {{-8, 3}, {8, -3}}), Polygon(origin = {-52, 60}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, points = {{-10.336, 4.252}, {-10.336, -4.252}, {-0.874, -4.252}, {2.252, -2.168}, {2.336, -2.084}, {2.336, 0.084}, {2.252, 2.168}, {-0.874, 4.252}, {-10.336, 4.252}}), Ellipse(origin = {-57.5, 60}, rotation = 45, fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, extent = {{-1, 6}, {1, -6}}), Rectangle(origin = {-60, -60}, lineColor = {0, 0, 127}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-20, -20}, {20, 20}}), Polygon(origin = {-29, -78}, fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, points = {{-35, 18}, {-35, 4}, {-25, 4}, {-19, 30}, {-33, 30}, {-33, 22}, {-31, 22}, {-31, 18}, {-35, 18}}), Polygon(origin = {-70, -22}, points = {{6, -38}, {10, -38}, {10, -34}, {8, -34}, {8, -24}, {6, -24}, {6, -38}}), Ellipse(origin = {60, 0}, fillColor = {198, 198, 198}, fillPattern = FillPattern.Solid, extent = {{-18, 18}, {18, -18}}), Ellipse(origin = {60, 0}, fillColor = {98, 98, 98}, fillPattern = FillPattern.Solid, extent = {{-2, 2}, {2, -2}}), Polygon(origin = {65, 5}, rotation = -45, fillPattern = FillPattern.Solid, points = {{-1.5, -5.9}, {-0.1, -7.5}, {1.3, -5.9}, {-0.1, 7.5}, {-1.5, -5.9}}), Line(origin = {60, 13}, points = {{0, 3}, {0, -3}, {0, -3}}), Line(origin = {47, 0}, points = {{-3, 0}, {3, 0}}), Line(origin = {73, 0}, points = {{3, 0}, {-3, 0}}), Line(origin = {50, 8}, points = {{-2, 2}, {2, -2}}), Line(origin = {70, 8}, points = {{2, 2}, {-2, -2}, {-2, -2}}), Line(origin = {89, 0}, points = {{-11, 0}, {11, 0}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {89, 31}, points = {{-11, -29}, {1, -29}, {1, 29}, {11, 29}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {89, -32}, points = {{-11, 30}, {1, 30}, {1, -28}, {11, -28}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {63, -56}, points = {{1, 40}, {1, 30}, {1, -28}, {1, -44}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-1, -56}, points = {{59, 38}, {59, -28}, {1, -28}, {1, -44}}, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
+        Documentation(info = "<html><head></head><body><h1>Aquanaut.PathFollowing.OpenLoop Model Specification</h1>
+                  <p>This model represents an open-loop vessel dynamic system, integrating hydrodynamic forces, marine propulsion, steering systems, and environment state sensors.</p>
+                  
+                  <h2>1. Model Parameters</h2>
+                  <p>The configuration parameters defined at the top level of the model control the filtering frequencies and constraints for actuators:</p>
+                  <table border=\"1\">
+                    <tbody><tr style=\"background-color:#f2f2f2;font-weight:bold;text-align:left;\">
+                      <th>Parameter Name</th>
+                      <th>Type</th>
+                      <th>Value / Default</th>
+                      <th>Description</th>
+                    </tr>
+                    <tr>
+                      <td>propellerF</td>
+                      <td>Real</td>
+                      <td>5.0</td>
+                      <td>Propeller cut frequency (Hz)</td>
+                    </tr>
+                    <tr>
+                      <td>rudderF</td>
+                      <td>Real</td>
+                      <td>5.0</td>
+                      <td>Rudder cut frequency (Hz)</td>
+                    </tr>
+                    <tr>
+                      <td>rudderMaxAngle</td>
+                      <td>Real</td>
+                      <td>0.6108652381980153</td>
+                      <td>Rudder max absolute angle (rad) (~35 degrees)</td>
+                    </tr>
+                  </tbody></table>
+                  
+                  <h2>2. Component Architecture (Submodels)</h2>
+                  <h3>2.1 Ship Parts &amp; Hydrodynamics</h3>
+                  <ul>
+                    <li><strong>hull</strong> (Aquanaut.ShipParts.Hull): Defines structural mass (4484.75 kg) and inertia properties.</li>
+                    <li><strong>buoyancy</strong> (Aquanaut.HydroForces.BuoyancyInterpolation): Hydrostatic calculations utilizing 3D shape meshes.</li>
+                    <li><strong>viscous</strong> (Aquanaut.HydroForces.Viscous): Linear/angular fluid damping coefficients.</li>
+                    <li><strong>Stream</strong> (Aquanaut.HydroForces.Stream): Current field field with a mean velocity of 1.0 m/s.</li>
+                  </ul>
+                  
+                  <h3>2.2 Actuation &amp; Propulsion</h3>
+                  <ul>
+                    <li><strong>marinePropeller</strong> (Aquanaut.ShipParts.MarinePropeller): Computes thrust forces utilizing slipstream and localized wake fraction.</li>
+                    <li><strong>speed</strong> (Modelica.Mechanics.Rotational.Sources.Speed): Actuates propeller shaft rotation.</li>
+                    <li><strong>marineRudder</strong> (Aquanaut.ShipParts.MarineRudder): Steering forces constrained by rudderMaxAngle.</li>
+                  </ul>
+                  
+                  <h3>2.3 Interface Blocks &amp; Kinematics</h3>
+                  <ul>
+                    <li><strong>Inputs:</strong> propellerSpeed, rudderAngle.</li>
+                    <li><strong>Outputs:</strong> Vector array outputs p[6], v[6], a[6].</li>
+                    <li><strong>Sensors:</strong> worldSensor and boatSensor extract spatial kinematics.</li>
+                  </ul>
+                  
+                  <h2>3. Equation &amp; Interconnection Network</h2>
+                  <ul>
+                    <li><strong>Propulsion &amp; Steering Line:</strong> Extends connection from speed source to propeller shaft. Propeller wake variables map to rudder inputs to compute flow velocity amplification over steering fins.</li>
+                    <li><strong>Kinematic Mapping:</strong> Integrates absolute position vectors from sensors directly into the structural six-dimensional interface outputs.</li>
+                    <ul>
+                   <li>p = [x, y, z, roll, pitch, yaw]; </li>
+                   <li>v = [vx, vy, vz, roll rate, pitch rate, yaw rate];</li>
+                   <li>a = [ax, ay, az, roll acc, pitch acc, yaw acc]; </li>
+                   </ul>
+                  </ul>
+                  
+                  <h2>4. Simulation Metadata</h2>
+                  <ul>
+                    <li><strong>Solver Settings:</strong> Start Time = 0.0s, Stop Time = 50.0s, Interval = 0.01s, Tolerance = 1e-06 with Euler integration.</li>
+                  </ul>
+                  </body></html>", __OpenModelica_infoHeader = "<html><head></head><body></body></html>"));
+    end OT1Model2_with_Noise;
   end FinalModels;
 end HiL;
