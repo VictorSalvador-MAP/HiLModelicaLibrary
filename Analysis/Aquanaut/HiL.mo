@@ -16183,11 +16183,11 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {-35, -1}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {466, -279}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput chi_d annotation(
             Placement(transformation(origin = {31, -92}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {411, -383}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/05_ot1_manager_to_vel_velocity_active.txt", tableName = "table_05_ot1_manager_to_vel_velocity_active", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/05_ot1_manager_to_vel_velocity_active.txt", tableName = "table_05_ot1_manager_to_vel_velocity_active", tableOnFile = true) annotation(
             Placement(transformation(origin = {95, -64}, extent = {{-15, -15}, {15, 15}})));
-          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/01_ot1_manager_to_attitude_chi_sf.txt", tableName = "table_01_ot1_manager_to_attitude_chi_sf", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/01_ot1_manager_to_attitude_chi_sf.txt", tableName = "table_01_ot1_manager_to_attitude_chi_sf", tableOnFile = true) annotation(
             Placement(transformation(origin = {-46, -130}, extent = {{-15, -15}, {15, 15}})));
-          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable11(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/02_ot1_manager_to_attitude_chi_d.txt", tableName = "table_02_ot1_manager_to_attitude_chi_d", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable11(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/02_ot1_manager_to_attitude_chi_d.txt", tableName = "table_02_ot1_manager_to_attitude_chi_d", tableOnFile = true) annotation(
             Placement(transformation(origin = {-46, -172}, extent = {{-15, -15}, {15, 15}})));
           Modelica.Blocks.Interfaces.RealOutput chi_d_HTF annotation(
             Placement(transformation(origin = {10, -172}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
@@ -16195,7 +16195,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
             Placement(transformation(origin = {11, -130}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
           Modelica.Blocks.Interfaces.RealOutput body_velocity_fake_HTF annotation(
             Placement(transformation(origin = {141, -64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
-          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/linuxvh/Projects/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
             Placement(transformation(origin = {91, 21}, extent = {{-15, -15}, {15, 15}})));
           Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF1 annotation(
             Placement(transformation(origin = {136, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {328, 173}, extent = {{-10, -10}, {10, 10}})));
@@ -16796,6 +16796,870 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
                                                           
                                                           </body></html>"));
         end OpenLoopHiL_withControllerInputData;
+        
+        model ClosedLoopHiL_ControllerInputAnalisys_chisf
+          // Parameters for Closed Loop
+          // Path Following Control
+          parameter Real pfKp = 0.045853;
+          parameter Real pfKi = 0.000238;
+          parameter Real pfKd = 0.532628;
+          parameter Real rudK = 1.0;
+          // Velocity Control
+          parameter Real Uref = 2.0;
+          parameter Real vKp = 1;
+          parameter Real vKi = 2;
+          parameter Real vKd = 0.1;
+          // Serret-Frenet
+          parameter Modelica.Units.SI.Distance Delta = 10.117;
+          parameter Real Wp0x = 0.0;
+          parameter Real Wp0y = -5000.0;
+          parameter Real Wp1x = 0.0;
+          parameter Real Wp1y = 5000.0;
+          //parameter Real Wp0x = -10;
+          //parameter Real Wp0y = -5000.0;
+          //parameter Real Wp1x = -10;
+          //parameter Real Wp1y = 5000.0;
+          // Initialization
+          parameter Real initTol = 0.01;
+          parameter Real opDelay = 1;
+          // Blocks
+          OpenLoop OT1model annotation(
+            Placement(transformation(origin = {230, 28}, extent = {{-30, -30}, {30, 30}})));
+          PathFollowing.SerretFrenetModel serretFrenet(Wp = [Wp0x, Wp0y; Wp1x, Wp1y], deltaLOS = Delta) annotation(
+            Placement(transformation(origin = {-271.125, -11.2663}, extent = {{-44.875, -23.9334}, {44.875, 23.9334}})));
+          Modelica.Blocks.Logical.Switch switch_v_ref annotation(
+            Placement(transformation(origin = {48, 87}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.PID PID_velocity(Ti = vKp/vKi, Td = vKd/vKp, k = vKp) annotation(
+            Placement(transformation(origin = {150, 81}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.Constant u_op(k = Uref) annotation(
+            Placement(transformation(origin = {52, 139}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Add v_e(k2 = -1) annotation(
+            Placement(transformation(origin = {78, 81}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.And and_buo annotation(
+            Placement(transformation(origin = {-120, 116}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Abs abs_az annotation(
+            Placement(transformation(origin = {-214, 116}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Abs abs_daz annotation(
+            Placement(transformation(origin = {-214, 82}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LessThreshold th_daz(threshold = initTol) annotation(
+            Placement(transformation(origin = {-178, 82}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LessThreshold th_az(threshold = initTol) annotation(
+            Placement(transformation(origin = {-178, 116}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.FirstOrder firstOrder(T = 0.1) annotation(
+            Placement(transformation(origin = {110, 81}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.Derivative der_az annotation(
+            Placement(transformation(origin = {-246, 82}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
+          Modelica.Blocks.Logical.RSFlipFlop buoFF annotation(
+            Placement(transformation(origin = {-22, 110}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.BooleanConstant booleanConstant(k = false) annotation(
+            Placement(transformation(origin = {-86, 96}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.Switch switch_chi_sf annotation(
+            Placement(transformation(origin = {-2, -66}, extent = {{-10, -10}, {10, 10}})));
+          PathFollowing.PF_Controller pf_Controller(Kp = pfKp, Ki = pfKi, Kd = pfKd) annotation(
+            Placement(transformation(origin = {107.4, -144.769}, extent = {{-60.4, -23.2308}, {60.4, 23.2308}})));
+          Modelica.Blocks.Sources.Constant zero_ref(k = 0) annotation(
+            Placement(transformation(origin = {-51, -79}, extent = {{-5, -5}, {5, 5}})));
+          Modelica.Blocks.Logical.Switch switch_chi_d annotation(
+            Placement(transformation(origin = {-2, -92}, extent = {{-10, 10}, {10, -10}})));
+          Modelica.Blocks.Math.Abs abs_ax annotation(
+            Placement(transformation(origin = {-274, -138}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LessThreshold th_ax(threshold = initTol) annotation(
+            Placement(transformation(origin = {-236, -138}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Gain controlAlocationGain(k = rudK) annotation(
+            Placement(transformation(origin = {184, -145}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.Derivative der_ax annotation(
+            Placement(transformation(origin = {-312, -106}, extent = {{10, 10}, {-10, -10}}, rotation = -180)));
+          Modelica.Blocks.Logical.LessThreshold th_dax(threshold = initTol) annotation(
+            Placement(transformation(origin = {-244, -106}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.And and_op annotation(
+            Placement(transformation(origin = {-196, -118}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.RSFlipFlop opFF annotation(
+            Placement(transformation(origin = {-100, -80}, extent = {{-10, 10}, {10, -10}})));
+          Modelica.Blocks.Math.Abs abs_dax annotation(
+            Placement(transformation(origin = {-280, -106}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LogicalDelay logicalDelay(delayTime = opDelay) annotation(
+            Placement(transformation(origin = {-188, -76}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.And and_delay annotation(
+            Placement(transformation(origin = {-142, -86}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput x annotation(
+            Placement(transformation(origin = {442, 54}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {276, 32}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput y annotation(
+            Placement(transformation(origin = {442, 34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {276, 32}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput z annotation(
+            Placement(transformation(origin = {442, 14}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -90}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vx annotation(
+            Placement(transformation(origin = {442, -6}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -130}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vy annotation(
+            Placement(transformation(origin = {442, -28}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -142}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput thetaz annotation(
+            Placement(transformation(origin = {442, -112}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {322, -168}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegax annotation(
+            Placement(transformation(origin = {442, -138}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegaY annotation(
+            Placement(transformation(origin = {442, -162}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegaz annotation(
+            Placement(transformation(origin = {442, -186}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput rudderFeedback annotation(
+            Placement(transformation(origin = {442, -204}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {370, -218}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput ax annotation(
+            Placement(transformation(origin = {442, -48}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {702, -322}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput ay annotation(
+            Placement(transformation(origin = {442, -70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {710, -352}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput az annotation(
+            Placement(transformation(origin = {442, -92}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {710, -352}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput propellerFeedback annotation(
+            Placement(transformation(origin = {442, -224}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {360, -256}, extent = {{-10, -10}, {10, 10}})));
+          Aquanaut.Utils.Wgs84GnssPositionPure wgs84GnssPosition(originLatitudeDeg = 10, originLongitudeDeg = 10) annotation(
+            Placement(transformation(origin = {401, 44}, extent = {{-15, -15}, {15, 15}})));
+          Aquanaut.Utils.SOGAndCOGCalculation sOGAndCOGCalculation annotation(
+            Placement(transformation(origin = {401, 93}, extent = {{-16, -16}, {16, 16}})));
+          Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+            Placement(transformation(origin = {443, 103}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {287, 73}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput COG annotation(
+            Placement(transformation(origin = {442, 81}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {294, 44}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_sf annotation(
+            Placement(transformation(origin = {28, -66}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {439, -306}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput body_velocity annotation(
+            Placement(transformation(origin = {-35, -1}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {466, -279}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_d annotation(
+            Placement(transformation(origin = {31, -92}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {411, -383}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/05_ot1_manager_to_vel_velocity_active.txt", tableName = "table_05_ot1_manager_to_vel_velocity_active", tableOnFile = true) annotation(
+            Placement(transformation(origin = {95, -64}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable11(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/02_ot1_manager_to_attitude_chi_d.txt", tableName = "table_02_ot1_manager_to_attitude_chi_d", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-46, -172}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_d_HTF annotation(
+            Placement(transformation(origin = {10, -172}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_sf_HTF annotation(
+            Placement(transformation(origin = {11, -130}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput body_velocity_fake_HTF annotation(
+            Placement(transformation(origin = {141, -64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
+            Placement(transformation(origin = {91, 21}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF1 annotation(
+            Placement(transformation(origin = {136, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {328, 173}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF11 annotation(
+            Placement(transformation(origin = {217, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {496, 280}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant const(k = 0)  annotation(
+            Placement(transformation(origin = {-48, -130}, extent = {{-10, -10}, {10, 10}})));
+        equation
+          connect(switch_v_ref.y, v_e.u1) annotation(
+            Line(points = {{59, 87}, {66, 87}}, color = {0, 0, 127}));
+          connect(v_e.y, firstOrder.u) annotation(
+            Line(points = {{89, 81}, {97, 81}}, color = {0, 0, 127}));
+          connect(firstOrder.y, PID_velocity.u) annotation(
+            Line(points = {{121, 81}, {138, 81}}, color = {0, 0, 127}));
+          connect(and_buo.y, buoFF.S) annotation(
+            Line(points = {{-109, 116}, {-34, 116}}, color = {255, 0, 255}));
+          connect(booleanConstant.y, buoFF.R) annotation(
+            Line(points = {{-75, 96}, {-59.5, 96}, {-59.5, 104}, {-34, 104}}, color = {255, 0, 255}));
+          connect(buoFF.Q, switch_v_ref.u2) annotation(
+            Line(points = {{-11, 116}, {10.5, 116}, {10.5, 87}, {36, 87}}, color = {255, 0, 255}));
+          connect(der_az.y, abs_daz.u) annotation(
+            Line(points = {{-235, 82}, {-227, 82}}, color = {0, 0, 127}));
+          connect(u_op.y, switch_v_ref.u1) annotation(
+            Line(points = {{63, 139}, {71.5, 139}, {71.5, 117}, {24, 117}, {24, 95}, {36, 95}}, color = {0, 0, 127}));
+          connect(abs_ax.y, th_ax.u) annotation(
+            Line(points = {{-263, -138}, {-249, -138}}, color = {0, 0, 127}));
+          connect(pf_Controller.r_d, controlAlocationGain.u) annotation(
+            Line(points = {{156.649, -144.769}, {171.649, -144.769}}, color = {0, 0, 127}));
+          connect(th_dax.y, and_op.u1) annotation(
+            Line(points = {{-233, -106}, {-217, -106}, {-217, -117.25}, {-209, -117.25}, {-209, -118}}, color = {255, 0, 255}));
+          connect(th_ax.y, and_op.u2) annotation(
+            Line(points = {{-225, -138}, {-218, -138}, {-218, -126}, {-209, -126}}, color = {255, 0, 255}));
+          connect(opFF.R, booleanConstant.y) annotation(
+            Line(points = {{-112, -74}, {-112, -73}, {-122, -73}, {-122, -44}, {-62, -44}, {-62, 96}, {-75, 96}}, color = {255, 0, 255}));
+          connect(opFF.Q, switch_chi_sf.u2) annotation(
+            Line(points = {{-89, -86}, {-70, -86}, {-70, -66}, {-14, -66}}, color = {255, 0, 255}));
+          connect(switch_chi_d.u2, opFF.Q) annotation(
+            Line(points = {{-14, -92}, {-70, -92}, {-70, -86}, {-89, -86}}, color = {255, 0, 255}));
+          connect(der_ax.y, abs_dax.u) annotation(
+            Line(points = {{-301, -106}, {-293, -106}}, color = {0, 0, 127}));
+          connect(abs_dax.y, th_dax.u) annotation(
+            Line(points = {{-269, -106}, {-257, -106}}, color = {0, 0, 127}));
+          connect(logicalDelay.y2, and_delay.u1) annotation(
+            Line(points = {{-177, -82}, {-167, -82}, {-167, -86}, {-155, -86}}, color = {255, 0, 255}));
+          connect(and_op.y, and_delay.u2) annotation(
+            Line(points = {{-185, -118}, {-169, -118}, {-169, -94}, {-155, -94}}, color = {255, 0, 255}));
+          connect(and_delay.y, opFF.S) annotation(
+            Line(points = {{-131, -86}, {-113, -86}}, color = {255, 0, 255}));
+          connect(controlAlocationGain.y, OT1model.rudderAngle) annotation(
+            Line(points = {{195, -145}, {195, 22}, {216, 22}}, color = {0, 0, 127}));
+          connect(OT1model.a[1], abs_ax.u) annotation(
+            Line(points = {{256, 22}, {256, -196}, {-344, -196}, {-344, -138}, {-286, -138}}, color = {0, 0, 127}));
+          connect(OT1model.a[1], der_ax.u) annotation(
+            Line(points = {{256, 22}, {256, -196}, {-344, -196}, {-344, -106}, {-324, -106}}, color = {0, 0, 127}));
+          connect(OT1model.a[3], abs_az.u) annotation(
+            Line(points = {{256, 22}, {312, 22}, {312, -206}, {-352, -206}, {-352, 116}, {-226, 116}}, color = {0, 0, 127}));
+          connect(OT1model.a[3], der_az.u) annotation(
+            Line(points = {{256, 22}, {312, 22}, {312, -206}, {-352, -206}, {-352, 82}, {-258, 82}}, color = {0, 0, 127}));
+          connect(buoFF.Q, logicalDelay.u) annotation(
+            Line(points = {{-10, 116}, {-8, 116}, {-8, 24}, {-204, 24}, {-204, -76}, {-200, -76}}, color = {255, 0, 255}));
+          connect(zero_ref.y, switch_chi_d.u3) annotation(
+            Line(points = {{-45.5, -79}, {-30.5, -79}, {-30.5, -84}, {-14, -84}}, color = {0, 0, 127}));
+          connect(zero_ref.y, switch_chi_sf.u3) annotation(
+            Line(points = {{-45.5, -79}, {-30, -79}, {-30, -74}, {-14, -74}}, color = {0, 0, 127}));
+          connect(switch_chi_sf.u1, serretFrenet.chi_sf) annotation(
+            Line(points = {{-14, -58}, {-20, -58}, {-20, -12}, {-229, -12}}, color = {0, 0, 127}));
+          connect(switch_chi_d.u1, serretFrenet.chi_d) annotation(
+            Line(points = {{-14, -100}, {-24, -100}, {-24, -24}, {-229, -24}}, color = {0, 0, 127}));
+          connect(abs_daz.y, th_daz.u) annotation(
+            Line(points = {{-202, 82}, {-190, 82}}, color = {0, 0, 127}));
+          connect(abs_az.y, th_az.u) annotation(
+            Line(points = {{-202, 116}, {-190, 116}}, color = {0, 0, 127}));
+          connect(th_az.y, and_buo.u1) annotation(
+            Line(points = {{-166, 116}, {-132, 116}}, color = {255, 0, 255}));
+          connect(th_daz.y, and_buo.u2) annotation(
+            Line(points = {{-166, 82}, {-142, 82}, {-142, 108}, {-132, 108}}, color = {255, 0, 255}));
+          connect(OT1model.p[2], serretFrenet.y) annotation(
+            Line(points = {{256, 43}, {350, 43}, {350, -220}, {-362, -220}, {-362, -3}, {-313, -3}}, color = {0, 0, 127}));
+          connect(OT1model.p[1], serretFrenet.x) annotation(
+            Line(points = {{256, 43}, {350, 43}, {350, -220}, {-362, -220}, {-362, 6}, {-313, 6}}, color = {0, 0, 127}));
+          connect(OT1model.v[2], serretFrenet.vy) annotation(
+            Line(points = {{256, 32}, {330, 32}, {330, -214}, {-356, -214}, {-356, -30}, {-313, -30}}, color = {0, 0, 127}));
+          connect(OT1model.p[6], serretFrenet.psi) annotation(
+            Line(points = {{256, 43}, {350, 43}, {350, -220}, {-362, -220}, {-362, -12}, {-313, -12}}, color = {0, 0, 127}));
+          connect(OT1model.v[1], serretFrenet.vx) annotation(
+            Line(points = {{256, 32}, {330, 32}, {330, -214}, {-356, -214}, {-356, -21}, {-313, -21}}, color = {0, 0, 127}));
+          connect(OT1model.p[3], z) annotation(
+            Line(points = {{256, 43}, {372, 43}, {372, 14}, {442, 14}}, color = {0, 0, 127}));
+          connect(OT1model.v[1], vx) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -6}, {442, -6}}, color = {0, 0, 127}));
+          connect(OT1model.v[2], vy) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -28}, {442, -28}}, color = {0, 0, 127}));
+          connect(OT1model.p[6], thetaz) annotation(
+            Line(points = {{256, 43}, {372, 43}, {372, -112}, {442, -112}}, color = {0, 0, 127}));
+          connect(OT1model.v[4], omegax) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -138}, {442, -138}}, color = {0, 0, 127}));
+          connect(OT1model.v[5], omegaY) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -162}, {442, -162}}, color = {0, 0, 127}));
+          connect(OT1model.v[6], omegaz) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -186}, {442, -186}}, color = {0, 0, 127}));
+          connect(rudderFeedback, OT1model.rudderFeedback_rad) annotation(
+            Line(points = {{442, -204}, {246.5, -204}, {246.5, 12}, {247, 12}}, color = {0, 0, 127}));
+          connect(ax, OT1model.a[1]) annotation(
+            Line(points = {{442, -48}, {312, -48}, {312, 22}, {256, 22}}, color = {0, 0, 127}));
+          connect(ay, OT1model.a[2]) annotation(
+            Line(points = {{442, -70}, {312, -70}, {312, 22}, {256, 22}}, color = {0, 0, 127}));
+          connect(az, OT1model.a[3]) annotation(
+            Line(points = {{442, -92}, {312, -92}, {312, 22}, {256, 22}}, color = {0, 0, 127}));
+          connect(propellerFeedback, OT1model.PropellerFeedback_rad_s) annotation(
+            Line(points = {{442, -224}, {238, -224}, {238, 12}, {236, 12}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.latitudeDeg, x) annotation(
+            Line(points = {{419, 50}, {426, 50}, {426, 54}, {442, 54}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.longitudeDeg, y) annotation(
+            Line(points = {{419, 38}, {426, 38}, {426, 34}, {442, 34}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.northM, OT1model.p[1]) annotation(
+            Line(points = {{383, 50}, {372, 50}, {372, 43}, {256, 43}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.eastM, OT1model.p[2]) annotation(
+            Line(points = {{383, 38}, {372, 38}, {372, 43}, {256, 43}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.vel_n_m_s, OT1model.v[1]) annotation(
+            Line(points = {{383, 103}, {372, 103}, {372, 32}, {256, 32}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.vel_e_m_s, OT1model.v[2]) annotation(
+            Line(points = {{383, 82}, {372, 82}, {372, 32}, {256, 32}}, color = {0, 0, 127}));
+          connect(COG, sOGAndCOGCalculation.cog_rad) annotation(
+            Line(points = {{442, 81}, {419, 81}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.sog_m_s, SOG) annotation(
+            Line(points = {{419, 103}, {443, 103}}, color = {0, 0, 127}));
+          connect(chi_d, switch_chi_d.y) annotation(
+            Line(points = {{31, -92}, {9, -92}}, color = {0, 0, 127}));
+          connect(chi_sf, switch_chi_sf.y) annotation(
+            Line(points = {{28, -66}, {9, -66}}, color = {0, 0, 127}));
+          connect(body_velocity, serretFrenet.U) annotation(
+            Line(points = {{-35, -1}, {-229, -1}}, color = {0, 0, 127}));
+          connect(combiTimeTable11.y[1], chi_d_HTF) annotation(
+            Line(points = {{-29.5, -172}, {10, -172}}, color = {0, 0, 127}));
+          connect(combiTimeTable.y[1], body_velocity_fake_HTF) annotation(
+            Line(points = {{111.5, -64}, {141, -64}}, color = {0, 0, 127}));
+          connect(combiTimeTable11.y[1], pf_Controller.chi_d) annotation(
+            Line(points = {{-29, -172}, {38, -172}, {38, -157}, {51, -157}}, color = {0, 0, 127}));
+          connect(combiTimeTable2.y[1], propeller_rpm_HTF1) annotation(
+            Line(points = {{107.5, 21}, {128.5, 21}, {128.5, 20}, {136.5, 20}}, color = {0, 0, 127}));
+          connect(serretFrenet.U, switch_v_ref.u3) annotation(
+            Line(points = {{-229, -1}, {29, -1}, {29, 79}, {36, 79}}, color = {0, 0, 127}));
+          connect(serretFrenet.U, v_e.u2) annotation(
+            Line(points = {{-229, -1}, {57, -1}, {57, 75}, {66, 75}}, color = {0, 0, 127}));
+          connect(PID_velocity.y, propeller_rpm_HTF11) annotation(
+            Line(points = {{161, 81}, {217, 81}, {217, 80}}, color = {0, 0, 127}));
+          connect(combiTimeTable2.y[1], OT1model.propellerSpeed) annotation(
+            Line(points = {{108, 21}, {169, 21}, {169, 43}, {216, 43}}, color = {0, 0, 127}));
+  connect(const.y, chi_sf_HTF) annotation(
+            Line(points = {{-37, -130}, {11, -130}}, color = {0, 0, 127}));
+  connect(chi_sf_HTF, pf_Controller.chi_SF) annotation(
+            Line(points = {{11, -130}, {51, -130}, {51, -132}}, color = {0, 0, 127}));
+          annotation(
+            experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
+            __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental",
+            __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
+            Diagram(coordinateSystem(extent = {{-400, -240}, {450, 180}}, grid = {1, 1}), graphics = {Rectangle(origin = {-133, 95}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-133, 73}, {133, -73}}), Text(origin = {-196, 162}, extent = {{-68, 6}, {68, -6}}, textString = "Buoyancy stead-state analysis", textStyle = {TextStyle.Bold}), Rectangle(origin = {-208, -108}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-124, 62}, {124, -62}}), Text(origin = {-247, -52}, extent = {{-81, 6}, {81, -6}}, textString = "Operation Point stead-state analysis", textStyle = {TextStyle.Bold}), Rectangle(origin = {98, 109}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-78, 62}, {78, -62}}), Text(origin = {72, 165}, extent = {{-48, 6}, {48, -6}}, textString = "Velocity Control", textStyle = {TextStyle.Bold}), Rectangle(origin = {126, -148}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-92, 37}, {92, -37}}), Text(origin = {104, -177}, extent = {{-48, 6}, {48, -6}}, textString = "Path Following Control", textStyle = {TextStyle.Bold}), Text(origin = {239, 58}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 model", textStyle = {TextStyle.Bold}), Text(origin = {-293, -189}, extent = {{-45, -3}, {45, 3}}, textString = "acceleration on x-axis", textStyle = {TextStyle.Italic}), Text(origin = {-309, 99}, extent = {{-43, -3}, {43, 3}}, textString = "acceleration on z-axis", textStyle = {TextStyle.Italic}), Text(origin = {-98, 5}, extent = {{-36, -3}, {36, 3}}, textString = "body velocity", textStyle = {TextStyle.Italic}), Text(origin = {351, 47}, extent = {{-79, -3}, {79, 3}}, textString = "position on x and y axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {310, 39}, extent = {{-46, -3}, {46, 3}}, textString = "velocity on x and y axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-98, -7}, extent = {{-36, -3}, {36, 3}}, textString = "chi_sf", textStyle = {TextStyle.Italic}), Text(origin = {-98, -19}, extent = {{-36, -3}, {36, 3}}, textString = "chi_d", textStyle = {TextStyle.Italic}), Text(origin = {207, 38}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {214, 26}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
+            Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-100, 100}, {100, -100}}), Rectangle(origin = {60, 30}, lineThickness = 1, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {-28, 30}, lineThickness = 1, extent = {{-36, 20}, {36, -20}}), Text(origin = {-28, 31}, extent = {{-28, 7}, {28, -7}}, textString = "Controller", textStyle = {TextStyle.UnderLine}), Text(origin = {60, 31}, extent = {{-14, 7}, {14, -7}}, textString = "OT1", textStyle = {TextStyle.UnderLine}), Rectangle(origin = {8, -37}, lineThickness = 1, extent = {{-36, 21}, {36, -21}}), Text(origin = {8, -35}, extent = {{-28, 7}, {28, -7}}, textString = "Serret-Frenèt", textStyle = {TextStyle.UnderLine}), Line(origin = {52, -15}, points = {{8, 25}, {8, -23}, {-8, -23}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-55, -3}, points = {{27, -35}, {-27, -35}, {-27, 33}, {-9, 33}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {24, 30}, points = {{-16, 0}, {16, 0}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(extent = {{-400, -240}, {450, 180}}, grid = {1, 1})),
+            Documentation(info = "<html><head>
+                                                                    </head>
+                                                                    <body>
+                                                                    <h1>Closed-Loop Path Following Control System</h1>
+                                                                    
+                                                                    <p>
+                                                                      The <em>ClosedLoop</em> model serves as the top-level integration system architecture for the autonomous vehicle model. It pairs an Open-Loop vehicle plant model with look-ahead guidance formulas, velocity regulations, and path-following controllers to build a fully automated, closed-loop navigation infrastructure.
+                                                                    </p>
+                                                                    
+                                                                    <h2>Description</h2>
+                                                                    
+                                                                    <p>
+                                                                      This assembly establishes path trajectory tracking over a waypoint path segment. It features two continuous-time control loops: a <strong>Velocity Controller</strong> that uses a PID layout to adjust propeller speed toward a given velocity target (<code>Uref</code>), and a <strong>Path-Following Controller</strong> that relies on look-ahead angles to determine required rudder angles. 
+                                                                    </p>
+                                                                    <p>
+                                                                      Furthermore, the system embeds state logic configurations (using flip-flops, thresholds, and logic delays) to execute real-time steady-state checks on buoyancy states (Z-axis checks) and initial operating points (X-axis checks), holding back full steering actuation until structural dynamics satisfy the specified initial tolerances.
+                                                                    </p>
+                                                                    
+                                                                    <h2>Parameters</h2>
+                                                                    
+                                                                    <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+                                                                      <caption align=\"bottom\"><strong>Tab. 1:</strong> Parameters of the ClosedLoop integration model</caption>
+                                                                      <thead>
+                                                                        <tr bgcolor=\"#f2f2f2\">
+                                                                          <th>Name</th>
+                                                                          <th>Type</th>
+                                                                          <th>Unit</th>
+                                                                          <th>Description</th>
+                                                                        </tr>
+                                                                      </thead>
+                                                                      <tbody>
+                                                                        <tr>
+                                                                          <td><strong>pfKp, pfKi, pfKd</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>Varies</td>
+                                                                          <td>Proportional, Integral, and Derivative gain tunings for the trajectory path-following loop.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>rudK</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>-</td>
+                                                                          <td>Static scaling coefficient for the final rudder command mapping.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Uref</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>m/s</td>
+                                                                          <td>Target cruise reference velocity parameter for the vessel.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>vKp, vKi, vKd</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>Varies</td>
+                                                                          <td>Proportional, Integral, and Derivative gain tunings for the speed controller loop.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Delta</strong></td>
+                                                                          <td>Distance</td>
+                                                                          <td>m</td>
+                                                                          <td>Look-ahead baseline distance utilized inside the Serret-Frenet block.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Wp0x, Wp0y</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>m</td>
+                                                                          <td>Coordinates for the initial waypoint vector (origin boundary).</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Wp1x, Wp1y</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>m</td>
+                                                                          <td>Coordinates for the final waypoint vector (destination boundary).</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>initTol</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>-</td>
+                                                                          <td>Numeric convergence error boundary threshold for state-check logic.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>opDelay</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>s</td>
+                                                                          <td>Time-delay filter length used to guarantee operational point stabilization.</td>
+                                                                        </tr>
+                                                                      </tbody>
+                                                                    </table>
+                                                                    
+                                                                    <h2>Key Internal Sub-components</h2>
+                                                                    
+                                                                    <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+                                                                      <caption align=\"bottom\"><strong>Tab. 2:</strong> Primary internal block component identifiers</caption>
+                                                                      <thead>
+                                                                        <tr bgcolor=\"#f2f2f2\">
+                                                                          <th>Instance Name</th>
+                                                                          <th>Model Class Type</th>
+                                                                          <th>Primary Functional Duty</th>
+                                                                        </tr>
+                                                                      </thead>
+                                                                      <tbody>
+                                                                        <tr>
+                                                                          <td><strong>OT1model</strong></td>
+                                                                          <td>OpenLoop</td>
+                                                                          <td>Represents the physical multi-degree-of-freedom core vehicle plant dynamics.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>serretFrenet</strong></td>
+                                                                          <td>SerretFrenetModel</td>
+                                                                          <td>Translates global positions into tracking error vectors based on a target line segment.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>PID_velocity</strong></td>
+                                                                          <td>Modelica.Blocks.Continuous.PID</td>
+                                                                          <td>Regulates velocity error signals into physical propeller speed commands.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>pf_Controller</strong></td>
+                                                                          <td>PF_Controller</td>
+                                                                          <td>Calculates precise steering corrections based on angular errors.</td>
+                                                                        </tr>
+                                                                      </tbody>
+                                                                    </table>
+                                                                    
+                                                                    <h2>System Operation and Interconnections</h2>
+                                                                    
+                                                                    <p>
+                                                                      The system orchestrates multi-loop tracking and control sequences using the following routing criteria:
+                                                                    </p>
+                                                                    <ul>
+                                                                      <li><strong>Velocity Error Loop:</strong> Gathers total velocity <code>U</code> from the Serret-Frenet block, extracts its difference relative to the reference node (or logic switches), dampens it via a <code>FirstOrder</code> block filter, and triggers <code>PID_velocity</code> to spin the physical propellers.</li>
+                                                                      <li><strong>Path Steering Loop:</strong> Maps position states (<code>p[1]</code>, <code>p[2]</code>) and velocity components (<code>v[1]</code>, <code>v[2]</code>) into the Serret-Frenet framework. Resulting values for tracking profiles (<code>chi_sf</code>, <code>chi_d</code>) traverse safety logic switches to drive the <code>pf_Controller</code>, which sets rudder orientation through <code>controlAlocationGain</code>.</li>
+                                                                      <li><strong>Buoyancy &amp; Operating Point Interlocks:</strong> Monitors the absolute values and derivatives of vehicle accelerations (<code>a[1]</code> on X-axis and <code>a[3]</code> on Z-axis). Flip-flops prevent reference angles from switching to active modes until transitional oscillations decay below the specified <code>initTol</code>.</li>
+                                                                    </ul>
+                                                                    
+                                                                    </body></html>"));
+        end ClosedLoopHiL_ControllerInputAnalisys_chisf;
+        
+        model ClosedLoopHiL_ControllerInputAnalisys_chidZero
+          // Parameters for Closed Loop
+          // Path Following Control
+          parameter Real pfKp = 0.045853;
+          parameter Real pfKi = 0.000238;
+          parameter Real pfKd = 0.532628;
+          parameter Real rudK = 1.0;
+          // Velocity Control
+          parameter Real Uref = 2.0;
+          parameter Real vKp = 1;
+          parameter Real vKi = 2;
+          parameter Real vKd = 0.1;
+          // Serret-Frenet
+          parameter Modelica.Units.SI.Distance Delta = 10.117;
+          parameter Real Wp0x = 0.0;
+          parameter Real Wp0y = -5000.0;
+          parameter Real Wp1x = 0.0;
+          parameter Real Wp1y = 5000.0;
+          //parameter Real Wp0x = -10;
+          //parameter Real Wp0y = -5000.0;
+          //parameter Real Wp1x = -10;
+          //parameter Real Wp1y = 5000.0;
+          // Initialization
+          parameter Real initTol = 0.01;
+          parameter Real opDelay = 1;
+          // Blocks
+          OpenLoop OT1model annotation(
+            Placement(transformation(origin = {230, 28}, extent = {{-30, -30}, {30, 30}})));
+          PathFollowing.SerretFrenetModel serretFrenet(Wp = [Wp0x, Wp0y; Wp1x, Wp1y], deltaLOS = Delta) annotation(
+            Placement(transformation(origin = {-271.125, -11.2663}, extent = {{-44.875, -23.9334}, {44.875, 23.9334}})));
+          Modelica.Blocks.Logical.Switch switch_v_ref annotation(
+            Placement(transformation(origin = {48, 87}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.PID PID_velocity(Ti = vKp/vKi, Td = vKd/vKp, k = vKp) annotation(
+            Placement(transformation(origin = {150, 81}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.Constant u_op(k = Uref) annotation(
+            Placement(transformation(origin = {52, 139}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Add v_e(k2 = -1) annotation(
+            Placement(transformation(origin = {78, 81}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.And and_buo annotation(
+            Placement(transformation(origin = {-120, 116}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Abs abs_az annotation(
+            Placement(transformation(origin = {-214, 116}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Abs abs_daz annotation(
+            Placement(transformation(origin = {-214, 82}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LessThreshold th_daz(threshold = initTol) annotation(
+            Placement(transformation(origin = {-178, 82}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LessThreshold th_az(threshold = initTol) annotation(
+            Placement(transformation(origin = {-178, 116}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.FirstOrder firstOrder(T = 0.1) annotation(
+            Placement(transformation(origin = {110, 81}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.Derivative der_az annotation(
+            Placement(transformation(origin = {-246, 82}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
+          Modelica.Blocks.Logical.RSFlipFlop buoFF annotation(
+            Placement(transformation(origin = {-22, 110}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.BooleanConstant booleanConstant(k = false) annotation(
+            Placement(transformation(origin = {-86, 96}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.Switch switch_chi_sf annotation(
+            Placement(transformation(origin = {-2, -66}, extent = {{-10, -10}, {10, 10}})));
+          PathFollowing.PF_Controller pf_Controller(Kp = pfKp, Ki = pfKi, Kd = pfKd) annotation(
+            Placement(transformation(origin = {107.4, -144.769}, extent = {{-60.4, -23.2308}, {60.4, 23.2308}})));
+          Modelica.Blocks.Sources.Constant zero_ref(k = 0) annotation(
+            Placement(transformation(origin = {-51, -79}, extent = {{-5, -5}, {5, 5}})));
+          Modelica.Blocks.Logical.Switch switch_chi_d annotation(
+            Placement(transformation(origin = {-2, -92}, extent = {{-10, 10}, {10, -10}})));
+          Modelica.Blocks.Math.Abs abs_ax annotation(
+            Placement(transformation(origin = {-274, -138}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LessThreshold th_ax(threshold = initTol) annotation(
+            Placement(transformation(origin = {-236, -138}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Math.Gain controlAlocationGain(k = rudK) annotation(
+            Placement(transformation(origin = {184, -145}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Continuous.Derivative der_ax annotation(
+            Placement(transformation(origin = {-312, -106}, extent = {{10, 10}, {-10, -10}}, rotation = -180)));
+          Modelica.Blocks.Logical.LessThreshold th_dax(threshold = initTol) annotation(
+            Placement(transformation(origin = {-244, -106}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.And and_op annotation(
+            Placement(transformation(origin = {-196, -118}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.RSFlipFlop opFF annotation(
+            Placement(transformation(origin = {-100, -80}, extent = {{-10, 10}, {10, -10}})));
+          Modelica.Blocks.Math.Abs abs_dax annotation(
+            Placement(transformation(origin = {-280, -106}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.LogicalDelay logicalDelay(delayTime = opDelay) annotation(
+            Placement(transformation(origin = {-188, -76}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Logical.And and_delay annotation(
+            Placement(transformation(origin = {-142, -86}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput x annotation(
+            Placement(transformation(origin = {442, 54}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {276, 32}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput y annotation(
+            Placement(transformation(origin = {442, 34}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {276, 32}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput z annotation(
+            Placement(transformation(origin = {442, 14}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -90}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vx annotation(
+            Placement(transformation(origin = {442, -6}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -130}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput vy annotation(
+            Placement(transformation(origin = {442, -28}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {292, -142}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput thetaz annotation(
+            Placement(transformation(origin = {442, -112}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {322, -168}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegax annotation(
+            Placement(transformation(origin = {442, -138}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegaY annotation(
+            Placement(transformation(origin = {442, -162}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput omegaz annotation(
+            Placement(transformation(origin = {442, -186}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {354, -184}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput rudderFeedback annotation(
+            Placement(transformation(origin = {442, -204}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {370, -218}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput ax annotation(
+            Placement(transformation(origin = {442, -48}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {702, -322}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput ay annotation(
+            Placement(transformation(origin = {442, -70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {710, -352}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput az annotation(
+            Placement(transformation(origin = {442, -92}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {710, -352}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput propellerFeedback annotation(
+            Placement(transformation(origin = {442, -224}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {360, -256}, extent = {{-10, -10}, {10, 10}})));
+          Aquanaut.Utils.Wgs84GnssPositionPure wgs84GnssPosition(originLatitudeDeg = 10, originLongitudeDeg = 10) annotation(
+            Placement(transformation(origin = {401, 44}, extent = {{-15, -15}, {15, 15}})));
+          Aquanaut.Utils.SOGAndCOGCalculation sOGAndCOGCalculation annotation(
+            Placement(transformation(origin = {401, 93}, extent = {{-16, -16}, {16, 16}})));
+          Modelica.Blocks.Interfaces.RealOutput SOG annotation(
+            Placement(transformation(origin = {443, 103}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {287, 73}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput COG annotation(
+            Placement(transformation(origin = {442, 81}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {294, 44}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_sf annotation(
+            Placement(transformation(origin = {28, -66}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {439, -306}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput body_velocity annotation(
+            Placement(transformation(origin = {-35, -1}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {466, -279}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_d annotation(
+            Placement(transformation(origin = {31, -92}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {411, -383}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/05_ot1_manager_to_vel_velocity_active.txt", tableName = "table_05_ot1_manager_to_vel_velocity_active", tableOnFile = true) annotation(
+            Placement(transformation(origin = {95, -64}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/01_ot1_manager_to_attitude_chi_sf.txt", tableName = "table_01_ot1_manager_to_attitude_chi_sf", tableOnFile = true) annotation(
+            Placement(transformation(origin = {-46, -130}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_d_HTF annotation(
+            Placement(transformation(origin = {10, -172}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput chi_sf_HTF annotation(
+            Placement(transformation(origin = {11, -130}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput body_velocity_fake_HTF annotation(
+            Placement(transformation(origin = {141, -64}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {444, 132}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(fileName = "/home/asturian3/Projects/Lepanto/Development/HiL Task Force/HiLModelicaLibrary/ControllerInputTest/ot1_propeller_rpm.txt", tableName = "table_ot1_propeller_rpm", tableOnFile = true) annotation(
+            Placement(transformation(origin = {91, 21}, extent = {{-15, -15}, {15, 15}})));
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF1 annotation(
+            Placement(transformation(origin = {136, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {328, 173}, extent = {{-10, -10}, {10, 10}})));
+          Modelica.Blocks.Interfaces.RealOutput propeller_rpm_HTF11 annotation(
+            Placement(transformation(origin = {217, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {496, 280}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant const(k = 0) annotation(
+            Placement(transformation(origin = {-48, -173}, extent = {{-10, -10}, {10, 10}})));
+        equation
+          connect(switch_v_ref.y, v_e.u1) annotation(
+            Line(points = {{59, 87}, {66, 87}}, color = {0, 0, 127}));
+          connect(v_e.y, firstOrder.u) annotation(
+            Line(points = {{89, 81}, {97, 81}}, color = {0, 0, 127}));
+          connect(firstOrder.y, PID_velocity.u) annotation(
+            Line(points = {{121, 81}, {138, 81}}, color = {0, 0, 127}));
+          connect(and_buo.y, buoFF.S) annotation(
+            Line(points = {{-109, 116}, {-34, 116}}, color = {255, 0, 255}));
+          connect(booleanConstant.y, buoFF.R) annotation(
+            Line(points = {{-75, 96}, {-59.5, 96}, {-59.5, 104}, {-34, 104}}, color = {255, 0, 255}));
+          connect(buoFF.Q, switch_v_ref.u2) annotation(
+            Line(points = {{-11, 116}, {10.5, 116}, {10.5, 87}, {36, 87}}, color = {255, 0, 255}));
+          connect(der_az.y, abs_daz.u) annotation(
+            Line(points = {{-235, 82}, {-227, 82}}, color = {0, 0, 127}));
+          connect(u_op.y, switch_v_ref.u1) annotation(
+            Line(points = {{63, 139}, {71.5, 139}, {71.5, 117}, {24, 117}, {24, 95}, {36, 95}}, color = {0, 0, 127}));
+          connect(abs_ax.y, th_ax.u) annotation(
+            Line(points = {{-263, -138}, {-249, -138}}, color = {0, 0, 127}));
+          connect(pf_Controller.r_d, controlAlocationGain.u) annotation(
+            Line(points = {{156.649, -144.769}, {171.649, -144.769}}, color = {0, 0, 127}));
+          connect(th_dax.y, and_op.u1) annotation(
+            Line(points = {{-233, -106}, {-217, -106}, {-217, -117.25}, {-209, -117.25}, {-209, -118}}, color = {255, 0, 255}));
+          connect(th_ax.y, and_op.u2) annotation(
+            Line(points = {{-225, -138}, {-218, -138}, {-218, -126}, {-209, -126}}, color = {255, 0, 255}));
+          connect(opFF.R, booleanConstant.y) annotation(
+            Line(points = {{-112, -74}, {-112, -73}, {-122, -73}, {-122, -44}, {-62, -44}, {-62, 96}, {-75, 96}}, color = {255, 0, 255}));
+          connect(opFF.Q, switch_chi_sf.u2) annotation(
+            Line(points = {{-89, -86}, {-70, -86}, {-70, -66}, {-14, -66}}, color = {255, 0, 255}));
+          connect(switch_chi_d.u2, opFF.Q) annotation(
+            Line(points = {{-14, -92}, {-70, -92}, {-70, -86}, {-89, -86}}, color = {255, 0, 255}));
+          connect(der_ax.y, abs_dax.u) annotation(
+            Line(points = {{-301, -106}, {-293, -106}}, color = {0, 0, 127}));
+          connect(abs_dax.y, th_dax.u) annotation(
+            Line(points = {{-269, -106}, {-257, -106}}, color = {0, 0, 127}));
+          connect(logicalDelay.y2, and_delay.u1) annotation(
+            Line(points = {{-177, -82}, {-167, -82}, {-167, -86}, {-155, -86}}, color = {255, 0, 255}));
+          connect(and_op.y, and_delay.u2) annotation(
+            Line(points = {{-185, -118}, {-169, -118}, {-169, -94}, {-155, -94}}, color = {255, 0, 255}));
+          connect(and_delay.y, opFF.S) annotation(
+            Line(points = {{-131, -86}, {-113, -86}}, color = {255, 0, 255}));
+          connect(controlAlocationGain.y, OT1model.rudderAngle) annotation(
+            Line(points = {{195, -145}, {195, 22}, {216, 22}}, color = {0, 0, 127}));
+          connect(OT1model.a[1], abs_ax.u) annotation(
+            Line(points = {{256, 22}, {256, -196}, {-344, -196}, {-344, -138}, {-286, -138}}, color = {0, 0, 127}));
+          connect(OT1model.a[1], der_ax.u) annotation(
+            Line(points = {{256, 22}, {256, -196}, {-344, -196}, {-344, -106}, {-324, -106}}, color = {0, 0, 127}));
+          connect(OT1model.a[3], abs_az.u) annotation(
+            Line(points = {{256, 22}, {312, 22}, {312, -206}, {-352, -206}, {-352, 116}, {-226, 116}}, color = {0, 0, 127}));
+          connect(OT1model.a[3], der_az.u) annotation(
+            Line(points = {{256, 22}, {312, 22}, {312, -206}, {-352, -206}, {-352, 82}, {-258, 82}}, color = {0, 0, 127}));
+          connect(buoFF.Q, logicalDelay.u) annotation(
+            Line(points = {{-10, 116}, {-8, 116}, {-8, 24}, {-204, 24}, {-204, -76}, {-200, -76}}, color = {255, 0, 255}));
+          connect(zero_ref.y, switch_chi_d.u3) annotation(
+            Line(points = {{-45.5, -79}, {-30.5, -79}, {-30.5, -84}, {-14, -84}}, color = {0, 0, 127}));
+          connect(zero_ref.y, switch_chi_sf.u3) annotation(
+            Line(points = {{-45.5, -79}, {-30, -79}, {-30, -74}, {-14, -74}}, color = {0, 0, 127}));
+          connect(switch_chi_sf.u1, serretFrenet.chi_sf) annotation(
+            Line(points = {{-14, -58}, {-20, -58}, {-20, -12}, {-229, -12}}, color = {0, 0, 127}));
+          connect(switch_chi_d.u1, serretFrenet.chi_d) annotation(
+            Line(points = {{-14, -100}, {-24, -100}, {-24, -24}, {-229, -24}}, color = {0, 0, 127}));
+          connect(abs_daz.y, th_daz.u) annotation(
+            Line(points = {{-202, 82}, {-190, 82}}, color = {0, 0, 127}));
+          connect(abs_az.y, th_az.u) annotation(
+            Line(points = {{-202, 116}, {-190, 116}}, color = {0, 0, 127}));
+          connect(th_az.y, and_buo.u1) annotation(
+            Line(points = {{-166, 116}, {-132, 116}}, color = {255, 0, 255}));
+          connect(th_daz.y, and_buo.u2) annotation(
+            Line(points = {{-166, 82}, {-142, 82}, {-142, 108}, {-132, 108}}, color = {255, 0, 255}));
+          connect(OT1model.p[2], serretFrenet.y) annotation(
+            Line(points = {{256, 43}, {350, 43}, {350, -220}, {-362, -220}, {-362, -3}, {-313, -3}}, color = {0, 0, 127}));
+          connect(OT1model.p[1], serretFrenet.x) annotation(
+            Line(points = {{256, 43}, {350, 43}, {350, -220}, {-362, -220}, {-362, 6}, {-313, 6}}, color = {0, 0, 127}));
+          connect(OT1model.v[2], serretFrenet.vy) annotation(
+            Line(points = {{256, 32}, {330, 32}, {330, -214}, {-356, -214}, {-356, -30}, {-313, -30}}, color = {0, 0, 127}));
+          connect(OT1model.p[6], serretFrenet.psi) annotation(
+            Line(points = {{256, 43}, {350, 43}, {350, -220}, {-362, -220}, {-362, -12}, {-313, -12}}, color = {0, 0, 127}));
+          connect(OT1model.v[1], serretFrenet.vx) annotation(
+            Line(points = {{256, 32}, {330, 32}, {330, -214}, {-356, -214}, {-356, -21}, {-313, -21}}, color = {0, 0, 127}));
+          connect(OT1model.p[3], z) annotation(
+            Line(points = {{256, 43}, {372, 43}, {372, 14}, {442, 14}}, color = {0, 0, 127}));
+          connect(OT1model.v[1], vx) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -6}, {442, -6}}, color = {0, 0, 127}));
+          connect(OT1model.v[2], vy) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -28}, {442, -28}}, color = {0, 0, 127}));
+          connect(OT1model.p[6], thetaz) annotation(
+            Line(points = {{256, 43}, {372, 43}, {372, -112}, {442, -112}}, color = {0, 0, 127}));
+          connect(OT1model.v[4], omegax) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -138}, {442, -138}}, color = {0, 0, 127}));
+          connect(OT1model.v[5], omegaY) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -162}, {442, -162}}, color = {0, 0, 127}));
+          connect(OT1model.v[6], omegaz) annotation(
+            Line(points = {{256, 32}, {372, 32}, {372, -186}, {442, -186}}, color = {0, 0, 127}));
+          connect(rudderFeedback, OT1model.rudderFeedback_rad) annotation(
+            Line(points = {{442, -204}, {246.5, -204}, {246.5, 12}, {247, 12}}, color = {0, 0, 127}));
+          connect(ax, OT1model.a[1]) annotation(
+            Line(points = {{442, -48}, {312, -48}, {312, 22}, {256, 22}}, color = {0, 0, 127}));
+          connect(ay, OT1model.a[2]) annotation(
+            Line(points = {{442, -70}, {312, -70}, {312, 22}, {256, 22}}, color = {0, 0, 127}));
+          connect(az, OT1model.a[3]) annotation(
+            Line(points = {{442, -92}, {312, -92}, {312, 22}, {256, 22}}, color = {0, 0, 127}));
+          connect(propellerFeedback, OT1model.PropellerFeedback_rad_s) annotation(
+            Line(points = {{442, -224}, {238, -224}, {238, 12}, {236, 12}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.latitudeDeg, x) annotation(
+            Line(points = {{419, 50}, {426, 50}, {426, 54}, {442, 54}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.longitudeDeg, y) annotation(
+            Line(points = {{419, 38}, {426, 38}, {426, 34}, {442, 34}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.northM, OT1model.p[1]) annotation(
+            Line(points = {{383, 50}, {372, 50}, {372, 43}, {256, 43}}, color = {0, 0, 127}));
+          connect(wgs84GnssPosition.eastM, OT1model.p[2]) annotation(
+            Line(points = {{383, 38}, {372, 38}, {372, 43}, {256, 43}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.vel_n_m_s, OT1model.v[1]) annotation(
+            Line(points = {{383, 103}, {372, 103}, {372, 32}, {256, 32}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.vel_e_m_s, OT1model.v[2]) annotation(
+            Line(points = {{383, 82}, {372, 82}, {372, 32}, {256, 32}}, color = {0, 0, 127}));
+          connect(COG, sOGAndCOGCalculation.cog_rad) annotation(
+            Line(points = {{442, 81}, {419, 81}}, color = {0, 0, 127}));
+          connect(sOGAndCOGCalculation.sog_m_s, SOG) annotation(
+            Line(points = {{419, 103}, {443, 103}}, color = {0, 0, 127}));
+          connect(chi_d, switch_chi_d.y) annotation(
+            Line(points = {{31, -92}, {9, -92}}, color = {0, 0, 127}));
+          connect(chi_sf, switch_chi_sf.y) annotation(
+            Line(points = {{28, -66}, {9, -66}}, color = {0, 0, 127}));
+          connect(body_velocity, serretFrenet.U) annotation(
+            Line(points = {{-35, -1}, {-229, -1}}, color = {0, 0, 127}));
+          connect(combiTimeTable1.y[1], chi_sf_HTF) annotation(
+            Line(points = {{-29.5, -130}, {11, -130}}, color = {0, 0, 127}));
+          connect(combiTimeTable.y[1], body_velocity_fake_HTF) annotation(
+            Line(points = {{111.5, -64}, {141, -64}}, color = {0, 0, 127}));
+          connect(combiTimeTable1.y[1], pf_Controller.chi_SF) annotation(
+            Line(points = {{-29, -130}, {51, -130}, {51, -132}}, color = {0, 0, 127}));
+          connect(combiTimeTable2.y[1], propeller_rpm_HTF1) annotation(
+            Line(points = {{107.5, 21}, {128.5, 21}, {128.5, 20}, {136.5, 20}}, color = {0, 0, 127}));
+          connect(serretFrenet.U, switch_v_ref.u3) annotation(
+            Line(points = {{-229, -1}, {29, -1}, {29, 79}, {36, 79}}, color = {0, 0, 127}));
+          connect(serretFrenet.U, v_e.u2) annotation(
+            Line(points = {{-229, -1}, {57, -1}, {57, 75}, {66, 75}}, color = {0, 0, 127}));
+          connect(PID_velocity.y, propeller_rpm_HTF11) annotation(
+            Line(points = {{161, 81}, {217, 81}, {217, 80}}, color = {0, 0, 127}));
+          connect(combiTimeTable2.y[1], OT1model.propellerSpeed) annotation(
+            Line(points = {{108, 21}, {169, 21}, {169, 43}, {216, 43}}, color = {0, 0, 127}));
+  connect(const.y, chi_d_HTF) annotation(
+            Line(points = {{-37, -173}, {-17.5, -173}, {-17.5, -172}, {10, -172}}, color = {0, 0, 127}));
+  connect(chi_d_HTF, pf_Controller.chi_d) annotation(
+            Line(points = {{10, -172}, {27, -172}, {27, -157}, {51, -157}}, color = {0, 0, 127}));
+          annotation(
+            experiment(StartTime = 0, StopTime = 160, Tolerance = 1e-06, Interval = 0.02),
+            __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental -d=fmuExperimental",
+            __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
+            Diagram(coordinateSystem(extent = {{-400, -240}, {450, 180}}, grid = {1, 1}), graphics = {Rectangle(origin = {-133, 95}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-133, 73}, {133, -73}}), Text(origin = {-196, 162}, extent = {{-68, 6}, {68, -6}}, textString = "Buoyancy stead-state analysis", textStyle = {TextStyle.Bold}), Rectangle(origin = {-208, -108}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-124, 62}, {124, -62}}), Text(origin = {-247, -52}, extent = {{-81, 6}, {81, -6}}, textString = "Operation Point stead-state analysis", textStyle = {TextStyle.Bold}), Rectangle(origin = {98, 109}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-78, 62}, {78, -62}}), Text(origin = {72, 165}, extent = {{-48, 6}, {48, -6}}, textString = "Velocity Control", textStyle = {TextStyle.Bold}), Rectangle(origin = {126, -148}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-92, 37}, {92, -37}}), Text(origin = {104, -177}, extent = {{-48, 6}, {48, -6}}, textString = "Path Following Control", textStyle = {TextStyle.Bold}), Text(origin = {239, 58}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 model", textStyle = {TextStyle.Bold}), Text(origin = {-293, -189}, extent = {{-45, -3}, {45, 3}}, textString = "acceleration on x-axis", textStyle = {TextStyle.Italic}), Text(origin = {-309, 99}, extent = {{-43, -3}, {43, 3}}, textString = "acceleration on z-axis", textStyle = {TextStyle.Italic}), Text(origin = {-98, 5}, extent = {{-36, -3}, {36, 3}}, textString = "body velocity", textStyle = {TextStyle.Italic}), Text(origin = {351, 47}, extent = {{-79, -3}, {79, 3}}, textString = "position on x and y axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {310, 39}, extent = {{-46, -3}, {46, 3}}, textString = "velocity on x and y axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-98, -7}, extent = {{-36, -3}, {36, 3}}, textString = "chi_sf", textStyle = {TextStyle.Italic}), Text(origin = {-98, -19}, extent = {{-36, -3}, {36, 3}}, textString = "chi_d", textStyle = {TextStyle.Italic}), Text(origin = {207, 38}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {214, 26}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
+            Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-100, 100}, {100, -100}}), Rectangle(origin = {60, 30}, lineThickness = 1, extent = {{-20, 20}, {20, -20}}), Rectangle(origin = {-28, 30}, lineThickness = 1, extent = {{-36, 20}, {36, -20}}), Text(origin = {-28, 31}, extent = {{-28, 7}, {28, -7}}, textString = "Controller", textStyle = {TextStyle.UnderLine}), Text(origin = {60, 31}, extent = {{-14, 7}, {14, -7}}, textString = "OT1", textStyle = {TextStyle.UnderLine}), Rectangle(origin = {8, -37}, lineThickness = 1, extent = {{-36, 21}, {36, -21}}), Text(origin = {8, -35}, extent = {{-28, 7}, {28, -7}}, textString = "Serret-Frenèt", textStyle = {TextStyle.UnderLine}), Line(origin = {52, -15}, points = {{8, 25}, {8, -23}, {-8, -23}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-55, -3}, points = {{27, -35}, {-27, -35}, {-27, 33}, {-9, 33}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {24, 30}, points = {{-16, 0}, {16, 0}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(extent = {{-400, -240}, {450, 180}}, grid = {1, 1})),
+            Documentation(info = "<html><head>
+                                                                    </head>
+                                                                    <body>
+                                                                    <h1>Closed-Loop Path Following Control System</h1>
+                                                                    
+                                                                    <p>
+                                                                      The <em>ClosedLoop</em> model serves as the top-level integration system architecture for the autonomous vehicle model. It pairs an Open-Loop vehicle plant model with look-ahead guidance formulas, velocity regulations, and path-following controllers to build a fully automated, closed-loop navigation infrastructure.
+                                                                    </p>
+                                                                    
+                                                                    <h2>Description</h2>
+                                                                    
+                                                                    <p>
+                                                                      This assembly establishes path trajectory tracking over a waypoint path segment. It features two continuous-time control loops: a <strong>Velocity Controller</strong> that uses a PID layout to adjust propeller speed toward a given velocity target (<code>Uref</code>), and a <strong>Path-Following Controller</strong> that relies on look-ahead angles to determine required rudder angles. 
+                                                                    </p>
+                                                                    <p>
+                                                                      Furthermore, the system embeds state logic configurations (using flip-flops, thresholds, and logic delays) to execute real-time steady-state checks on buoyancy states (Z-axis checks) and initial operating points (X-axis checks), holding back full steering actuation until structural dynamics satisfy the specified initial tolerances.
+                                                                    </p>
+                                                                    
+                                                                    <h2>Parameters</h2>
+                                                                    
+                                                                    <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+                                                                      <caption align=\"bottom\"><strong>Tab. 1:</strong> Parameters of the ClosedLoop integration model</caption>
+                                                                      <thead>
+                                                                        <tr bgcolor=\"#f2f2f2\">
+                                                                          <th>Name</th>
+                                                                          <th>Type</th>
+                                                                          <th>Unit</th>
+                                                                          <th>Description</th>
+                                                                        </tr>
+                                                                      </thead>
+                                                                      <tbody>
+                                                                        <tr>
+                                                                          <td><strong>pfKp, pfKi, pfKd</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>Varies</td>
+                                                                          <td>Proportional, Integral, and Derivative gain tunings for the trajectory path-following loop.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>rudK</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>-</td>
+                                                                          <td>Static scaling coefficient for the final rudder command mapping.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Uref</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>m/s</td>
+                                                                          <td>Target cruise reference velocity parameter for the vessel.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>vKp, vKi, vKd</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>Varies</td>
+                                                                          <td>Proportional, Integral, and Derivative gain tunings for the speed controller loop.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Delta</strong></td>
+                                                                          <td>Distance</td>
+                                                                          <td>m</td>
+                                                                          <td>Look-ahead baseline distance utilized inside the Serret-Frenet block.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Wp0x, Wp0y</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>m</td>
+                                                                          <td>Coordinates for the initial waypoint vector (origin boundary).</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>Wp1x, Wp1y</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>m</td>
+                                                                          <td>Coordinates for the final waypoint vector (destination boundary).</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>initTol</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>-</td>
+                                                                          <td>Numeric convergence error boundary threshold for state-check logic.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>opDelay</strong></td>
+                                                                          <td>Real</td>
+                                                                          <td>s</td>
+                                                                          <td>Time-delay filter length used to guarantee operational point stabilization.</td>
+                                                                        </tr>
+                                                                      </tbody>
+                                                                    </table>
+                                                                    
+                                                                    <h2>Key Internal Sub-components</h2>
+                                                                    
+                                                                    <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+                                                                      <caption align=\"bottom\"><strong>Tab. 2:</strong> Primary internal block component identifiers</caption>
+                                                                      <thead>
+                                                                        <tr bgcolor=\"#f2f2f2\">
+                                                                          <th>Instance Name</th>
+                                                                          <th>Model Class Type</th>
+                                                                          <th>Primary Functional Duty</th>
+                                                                        </tr>
+                                                                      </thead>
+                                                                      <tbody>
+                                                                        <tr>
+                                                                          <td><strong>OT1model</strong></td>
+                                                                          <td>OpenLoop</td>
+                                                                          <td>Represents the physical multi-degree-of-freedom core vehicle plant dynamics.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>serretFrenet</strong></td>
+                                                                          <td>SerretFrenetModel</td>
+                                                                          <td>Translates global positions into tracking error vectors based on a target line segment.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>PID_velocity</strong></td>
+                                                                          <td>Modelica.Blocks.Continuous.PID</td>
+                                                                          <td>Regulates velocity error signals into physical propeller speed commands.</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td><strong>pf_Controller</strong></td>
+                                                                          <td>PF_Controller</td>
+                                                                          <td>Calculates precise steering corrections based on angular errors.</td>
+                                                                        </tr>
+                                                                      </tbody>
+                                                                    </table>
+                                                                    
+                                                                    <h2>System Operation and Interconnections</h2>
+                                                                    
+                                                                    <p>
+                                                                      The system orchestrates multi-loop tracking and control sequences using the following routing criteria:
+                                                                    </p>
+                                                                    <ul>
+                                                                      <li><strong>Velocity Error Loop:</strong> Gathers total velocity <code>U</code> from the Serret-Frenet block, extracts its difference relative to the reference node (or logic switches), dampens it via a <code>FirstOrder</code> block filter, and triggers <code>PID_velocity</code> to spin the physical propellers.</li>
+                                                                      <li><strong>Path Steering Loop:</strong> Maps position states (<code>p[1]</code>, <code>p[2]</code>) and velocity components (<code>v[1]</code>, <code>v[2]</code>) into the Serret-Frenet framework. Resulting values for tracking profiles (<code>chi_sf</code>, <code>chi_d</code>) traverse safety logic switches to drive the <code>pf_Controller</code>, which sets rudder orientation through <code>controlAlocationGain</code>.</li>
+                                                                      <li><strong>Buoyancy &amp; Operating Point Interlocks:</strong> Monitors the absolute values and derivatives of vehicle accelerations (<code>a[1]</code> on X-axis and <code>a[3]</code> on Z-axis). Flip-flops prevent reference angles from switching to active modes until transitional oscillations decay below the specified <code>initTol</code>.</li>
+                                                                    </ul>
+                                                                    
+                                                                    </body></html>"));
+        end ClosedLoopHiL_ControllerInputAnalisys_chidZero;
       end HTFAnalisys;
     end PathFollowingTests;
   end Sandbox;
