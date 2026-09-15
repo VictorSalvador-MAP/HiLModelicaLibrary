@@ -19257,7 +19257,7 @@ The model processing sequence is:
       end IdealGNSSCompass;
 
       model IdealGNSSCompass2 "GNSS Compass model with position, velocity, heading and rate of turn outputs"
-        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = true, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
+        Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor worldSensor(get_a = false, get_angles = true, get_r = true, get_v = true, get_w = true, get_z = true, guessAngle1(displayUnit = "rad"), resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
           Placement(transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}})));
         Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Reference frame whose position, velocity and orientation are measured" annotation(
           Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-104, 0}, extent = {{-10, -10}, {10, 10}})));
