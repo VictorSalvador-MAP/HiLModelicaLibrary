@@ -8296,7 +8296,7 @@ Forces and Torques", fontSize = 14, textStyle = {TextStyle.Bold})}),
         connect(propellerFeedback, OT1model.PropellerFeedback_rad_s) annotation(
           Line(points = {{210, -148}, {-22, -148}, {-22, -26}}, color = {0, 0, 127}));
         annotation(
-          experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.001),
+          experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
           __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --fmiFlags=s:euler,nls:mixed -d=fmuExperimental ",
           __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
           Diagram(coordinateSystem(extent = {{-250, -160}, {250, 160}}), graphics = {Text(origin = {-24, 46}, extent = {{-38, 8}, {38, -8}}, textString = "OT1 Model", textStyle = {TextStyle.Bold}), Text(origin = {99, 25}, extent = {{-79, -3}, {79, 3}}, textString = "position on x, y and z axes, and yaw angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, 9}, extent = {{-46, -3}, {46, 3}}, textString = "linear and angular velocity on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {-66, -9}, extent = {{-36, -3}, {36, 3}}, textString = "rudder angle", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {193, -5}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-55, 151}, {55, -151}}), Text(origin = {190, 140}, extent = {{-48, 6}, {48, -6}}, textString = "Sensors", textStyle = {TextStyle.Bold}), Text(origin = {-70, 25}, extent = {{-36, -3}, {36, 3}}, textString = "propeller speed", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Rectangle(origin = {-188, 2}, pattern = LinePattern.Dash, lineThickness = 0.75, extent = {{-50, 142}, {50, -142}}), Text(origin = {-188, 122}, extent = {{-48, 6}, {48, -6}}, textString = "Actuators", textStyle = {TextStyle.Bold}), Text(origin = {68, -127}, extent = {{-46, -3}, {46, 3}}, textString = "rudder angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {64, -9}, extent = {{-46, -3}, {46, 3}}, textString = "linear acceleration on x, y and z axes", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left), Text(origin = {68, -143}, extent = {{-46, -3}, {46, 3}}, textString = "propeller angle feedback", textStyle = {TextStyle.Italic}, horizontalAlignment = TextAlignment.Left)}),
@@ -19428,20 +19428,13 @@ The model processing sequence is:
          * Raw navigation values.
          *
          * These values preserve the original calculations before
-         * applying the output limits required by the PGNs.
+         * applying the output limits.
          */
         Real latitudeRaw(unit = "deg");
         Real longitudeRaw(unit = "deg");
         Real sogRaw(unit = "m/s");
         Real cogRaw(unit = "rad");
         Real headingRaw(unit = "rad");
-      
-        /*
-         * Angular values converted from the atan2 range [-pi, +pi]
-         * to the navigation convention [0, 2*pi).
-         */
-        Real cogWrapped(unit = "rad");
-        Real headingWrapped(unit = "rad");
       
         /*
          * -----------------------------------------------------------------
@@ -19470,18 +19463,15 @@ The model processing sequence is:
          * ANGULAR LIMITS
          * -----------------------------------------------------------------
          *
-         * PGN 127250 / PGN 129026:
+         * Heading and COG use the signed atan2 angular convention:
          *
-         * Heading and COG:
-         *   minimum = 0 rad
-         *   maximum = 6.2831 rad
+         *   minimum = -pi rad
+         *   maximum = +pi rad
          *
-         * Resolution of 0.0001 rad is intentionally NOT applied
-         * in this model version.
+         * No angular quantization is applied in this model.
          */
-        constant Real angleMin(unit = "rad") = 0;
-        constant Real angleMax(unit = "rad") = 6.2831;
-        constant Real twoPi(unit = "rad") = 2 * Modelica.Constants.pi;
+        constant Real angleMin(unit = "rad") = -Modelica.Constants.pi;
+        constant Real angleMax(unit = "rad") = Modelica.Constants.pi;
       
         /*
          * -----------------------------------------------------------------
@@ -19582,37 +19572,22 @@ The model processing sequence is:
          * COURSE OVER GROUND
          * -----------------------------------------------------------------
          *
-         * Original COG calculation:
+         * COG is calculated from the horizontal velocity vector:
          *
          *   COG = atan2(Veast, Vnorth)
          *
-         * atan2() returns an angle approximately within:
+         * atan2() directly provides the signed angular convention:
          *
          *   -pi <= COG <= +pi
          */
         cogRaw = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);
       
         /*
-         * Convert negative atan2 angles into the navigation convention:
+         * Keep COG within the signed angular range.
          *
-         *   0 <= COG < 2*pi
-         *
-         * Example:
-         *
-         *   -0.2 rad -> -0.2 + 2*pi = 6.083185... rad
-         *
-         * No mod(), floor(), ceil() or integer() operation is required.
+         * No wrapping to [0, 2*pi) and no angular quantization are applied.
          */
-        cogWrapped = if cogRaw < 0 then cogRaw + twoPi else cogRaw;
-      
-        /*
-         * Enforce the specified PGN range:
-         *
-         *   0 <= COG <= 6.2831 rad
-         *
-         * No 0.0001 rad quantization is applied.
-         */
-        COG = min(angleMax, max(angleMin, cogWrapped));
+        COG = min(angleMax, max(angleMin, cogRaw));
       
         /*
          * -----------------------------------------------------------------
@@ -19635,31 +19610,22 @@ The model processing sequence is:
         forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);
       
         /*
-         * Original Heading calculation:
+         * Heading is calculated from the vessel forward direction:
          *
          *   Heading = atan2(ForwardEast, ForwardNorth)
          *
-         * atan2() produces an angle approximately within:
+         * atan2() directly provides the signed angular convention:
          *
          *   -pi <= Heading <= +pi
          */
         headingRaw = Modelica.Math.atan2(forwardWorld[2], forwardWorld[1]);
       
         /*
-         * Convert negative Heading values into:
+         * Keep Heading within the signed angular range.
          *
-         *   0 <= Heading < 2*pi
+         * No wrapping to [0, 2*pi) and no angular quantization are applied.
          */
-        headingWrapped = if headingRaw < 0 then headingRaw + twoPi else headingRaw;
-      
-        /*
-         * Enforce the specified Heading range:
-         *
-         *   0 <= Heading <= 6.2831 rad
-         *
-         * No 0.0001 rad quantization is applied.
-         */
-        Heading = min(angleMax, max(angleMin, headingWrapped));
+        Heading = min(angleMax, max(angleMin, headingRaw));
       
         annotation(
           Icon(
@@ -19722,7 +19688,7 @@ The model processing sequence is:
       
       <p>This model represents an idealized GNSS Compass navigation sensor used in the Aquanaut vessel simulation. The block receives the vessel MultiBody reference frame and derives global position, ground velocity, course, heading, and angular rate from the vessel absolute kinematic state.</p>
       
-      <p>The <strong>IdealGNSSCompass</strong> calculates continuous navigation quantities and applies output range conditioning according to the specified navigation signal limits. Latitude, Longitude, and SOG are limited to their valid ranges, while COG and Heading are additionally converted from the native atan2 angular convention into the navigation interval from 0 to 2*pi. No output resolution quantization or discrete sampling is applied.</p>
+      <p>The <strong>IdealGNSSCompass</strong> calculates continuous navigation quantities and applies output range conditioning according to the specified navigation signal limits. Latitude, Longitude, and SOG are limited to their valid ranges, while COG and Heading retain the native signed atan2 angular convention from -pi to +pi. No output resolution quantization or discrete sampling is applied.</p>
       
       <h2>1. Model Parameters</h2>
       
@@ -19756,9 +19722,9 @@ The model processing sequence is:
       <tr><td>Longitude</td><td>RealOutput</td><td>deg</td><td>WGS84 geodetic longitude calculated from local East displacement and limited to the interval from -180 to +180 deg.</td></tr>
       <tr><td>Altitude</td><td>RealOutput</td><td>m</td><td>Vessel vertical position obtained directly from the third component of the absolute position vector. No additional range conditioning is applied.</td></tr>
       <tr><td>SOG</td><td>RealOutput</td><td>m/s</td><td>Speed Over Ground calculated from the horizontal North and East velocity components and limited to the interval from 0 to 655.32 m/s.</td></tr>
-      <tr><td>COG</td><td>RealOutput</td><td>rad</td><td>Course Over Ground calculated from the horizontal velocity vector. Negative atan2 results are converted to the navigation convention from 0 to 2*pi and the final output is limited to 6.2831 rad.</td></tr>
+      <tr><td>COG</td><td>RealOutput</td><td>rad</td><td>Course Over Ground calculated from the horizontal velocity vector using atan2(Veast, Vnorth). The output follows the signed angular convention from -pi to +pi.</td></tr>
       <tr><td>rate_of_turn</td><td>RealOutput</td><td>rad/s</td><td>Vessel yaw angular velocity obtained directly from the third component of the absolute angular velocity vector.</td></tr>
-      <tr><td>Heading</td><td>RealOutput</td><td>rad</td><td>Absolute vessel heading calculated from the configured forward body axis. Negative atan2 results are converted to the navigation convention from 0 to 2*pi and the final output is limited to 6.2831 rad.</td></tr>
+      <tr><td>Heading</td><td>RealOutput</td><td>rad</td><td>Absolute vessel heading calculated from the configured forward body axis. The output follows the signed angular convention from -pi to +pi.</td></tr>
       </tbody>
       </table>
       
@@ -19818,7 +19784,7 @@ The model processing sequence is:
       <li><strong>Longitude:</strong> -180 to +180 deg.</li>
       </ul>
       
-      <p>The implemented output conditioning is:</p>
+      <p>The implemented output processing is:</p>
       
       <p><code>Latitude = min(latitudeMax, max(latitudeMin, latitudeRaw));</code></p>
       <p><code>Longitude = min(longitudeMax, max(longitudeMin, longitudeRaw));</code></p>
@@ -19858,51 +19824,44 @@ The model processing sequence is:
       <p>Course Over Ground represents the direction of the vessel horizontal velocity vector relative to the world reference frame.</p>
       
       <p>The raw COG value is calculated as:</p>
+      
       <p><code>cogRaw = Modelica.Math.atan2(worldSensor.v[2], worldSensor.v[1]);</code></p>
       
-      <p>The native atan2 result is approximately within:</p>
-      <p><strong>-pi &lt;= cogRaw &lt;= +pi</strong></p>
+      <p>The atan2 function directly provides the required signed angular representation:</p>
       
-      <p>Negative values are converted into the navigation angular convention:</p>
-      <p><code>cogWrapped = if cogRaw &lt; 0 then cogRaw + twoPi else cogRaw;</code></p>
+      <p><strong>-pi &lt;= COG &lt;= +pi</strong></p>
       
-      <p>This transformation produces an angular representation within approximately:</p>
-      <p><strong>0 &lt;= COG &lt; 2*pi</strong></p>
+      <p>The final output is:</p>
       
-      <p>The final COG output is then limited to:</p>
-      <p><strong>0 &lt;= COG &lt;= 6.2831 rad</strong></p>
+      <p><code>COG = min(angleMax, max(angleMin, cogRaw));</code></p>
       
-      <p>through:</p>
-      <p><code>COG = min(angleMax, max(angleMin, cogWrapped));</code></p>
-      
-      <p>No COG quantization is applied.</p>
+      <p>No conversion to the interval from 0 to 2*pi is performed, and no COG quantization is applied.</p>
       
       <h2>7. Heading Calculation</h2>
       
       <p>Heading represents the direction in which the vessel longitudinal axis points relative to the world reference frame.</p>
       
       <p>The default vessel forward axis is:</p>
+      
       <p><code>forwardAxis = {1, 0, 0};</code></p>
       
       <p>This body-fixed vector is transformed into world coordinates using:</p>
+      
       <p><code>forwardWorld = Modelica.Mechanics.MultiBody.Frames.resolve1(frame_a.R, forwardAxis);</code></p>
       
       <p>The raw Heading value is then calculated as:</p>
+      
       <p><code>headingRaw = Modelica.Math.atan2(forwardWorld[2], forwardWorld[1]);</code></p>
       
-      <p>The native atan2 result is approximately within:</p>
-      <p><strong>-pi &lt;= headingRaw &lt;= +pi</strong></p>
+      <p>The atan2 function directly provides the required signed angular representation:</p>
       
-      <p>Negative Heading values are converted into the navigation angular convention using:</p>
-      <p><code>headingWrapped = if headingRaw &lt; 0 then headingRaw + twoPi else headingRaw;</code></p>
+      <p><strong>-pi &lt;= Heading &lt;= +pi</strong></p>
       
-      <p>The final Heading output is limited to:</p>
-      <p><strong>0 &lt;= Heading &lt;= 6.2831 rad</strong></p>
+      <p>The final output is:</p>
       
-      <p>through:</p>
-      <p><code>Heading = min(angleMax, max(angleMin, headingWrapped));</code></p>
+      <p><code>Heading = min(angleMax, max(angleMin, headingRaw));</code></p>
       
-      <p>No Heading quantization is applied.</p>
+      <p>No conversion to the interval from 0 to 2*pi is performed, and no Heading quantization is applied.</p>
       
       <h2>8. Rate of Turn Calculation</h2>
       
@@ -19930,7 +19889,7 @@ The model processing sequence is:
       
       <h2>10. Output Range Conditioning</h2>
       
-      <p>The model applies range conditioning to selected navigation outputs while preserving continuous signal behavior. No resolution quantization or discrete sampling is introduced.</p>
+      <p>The model applies range conditioning to selected navigation outputs while preserving continuous signal behavior. COG and Heading use the signed atan2 angular convention. No resolution quantization or discrete sampling is introduced.</p>
       
       <table border=\"1\">
       <tbody>
@@ -19938,10 +19897,10 @@ The model processing sequence is:
       <tr><td>Latitude</td><td>-90 deg</td><td>+90 deg</td><td>Range limiting</td></tr>
       <tr><td>Longitude</td><td>-180 deg</td><td>+180 deg</td><td>Range limiting</td></tr>
       <tr><td>SOG</td><td>0 m/s</td><td>655.32 m/s</td><td>Range limiting</td></tr>
-      <tr><td>COG</td><td>0 rad</td><td>6.2831 rad</td><td>Negative-angle wrapping followed by range limiting</td></tr>
-      <tr><td>Heading</td><td>0 rad</td><td>6.2831 rad</td><td>Negative-angle wrapping followed by range limiting</td></tr>
-      <tr><td>Altitude</td><td>-</td><td>-</td><td>No additional conditioning</td></tr>
-      <tr><td>rate_of_turn</td><td>-</td><td>-</td><td>No additional conditioning</td></tr>
+      <tr><td>COG</td><td>-pi rad</td><td>+pi rad</td><td>Signed atan2 angle with range limiting</td></tr>
+      <tr><td>Heading</td><td>-pi rad</td><td>+pi rad</td><td>Signed atan2 angle with range limiting</td></tr>
+      <tr><td>Altitude</td><td>-</td><td>-</td><td>No additional processing</td></tr>
+      <tr><td>rate_of_turn</td><td>-</td><td>-</td><td>No additional processing</td></tr>
       </tbody>
       </table>
       
@@ -19961,7 +19920,7 @@ The model processing sequence is:
       
       <h2>12. Ideal Sensor Assumptions</h2>
       
-      <p>The navigation quantities are derived directly from the simulated vessel kinematic state. The model therefore represents an ideal navigation sensor with deterministic output conditioning.</p>
+      <p>The navigation quantities are derived directly from the simulated vessel kinematic state. The model therefore represents an ideal navigation sensor with deterministic output processing.</p>
       
       <p>The implementation does not internally introduce:</p>
       
@@ -19987,9 +19946,9 @@ The model processing sequence is:
       <tr><td>Longitude</td><td>worldSensor.r[2]</td><td>Local East position converted to WGS84 longitude</td><td>Limited to -180 ... +180 deg</td></tr>
       <tr><td>Altitude</td><td>worldSensor.r[3]</td><td>Direct assignment</td><td>None</td></tr>
       <tr><td>SOG</td><td>worldSensor.v[1], worldSensor.v[2]</td><td>sqrt(Vnorth^2 + Veast^2)</td><td>Limited to 0 ... 655.32 m/s</td></tr>
-      <tr><td>COG</td><td>worldSensor.v[1], worldSensor.v[2]</td><td>atan2(Veast, Vnorth)</td><td>Wrapped to the positive navigation interval and limited to 0 ... 6.2831 rad</td></tr>
+      <tr><td>COG</td><td>worldSensor.v[1], worldSensor.v[2]</td><td>atan2(Veast, Vnorth)</td><td>Signed angular representation limited to -pi ... +pi rad</td></tr>
       <tr><td>rate_of_turn</td><td>worldSensor.w[3]</td><td>Direct yaw angular velocity</td><td>None</td></tr>
-      <tr><td>Heading</td><td>frame_a.R</td><td>atan2(ForwardEast, ForwardNorth)</td><td>Wrapped to the positive navigation interval and limited to 0 ... 6.2831 rad</td></tr>
+      <tr><td>Heading</td><td>frame_a.R</td><td>atan2(ForwardEast, ForwardNorth)</td><td>Signed angular representation limited to -pi ... +pi rad</td></tr>
       </tbody>
       </table>
       
@@ -20004,12 +19963,10 @@ The model processing sequence is:
       <li>Apply valid geographic limits to Latitude and Longitude;</li>
       <li>Obtain Altitude directly from the vertical absolute position;</li>
       <li>Calculate raw SOG from North and East velocity and apply its valid range;</li>
-      <li>Calculate raw COG from horizontal velocity;</li>
-      <li>Convert negative COG values to the positive navigation angular convention and apply the final angular limit;</li>
+      <li>Calculate COG from horizontal velocity using the signed atan2 convention from -pi to +pi;</li>
       <li>Obtain Rate of Turn directly from yaw angular velocity;</li>
       <li>Resolve the vessel forward axis into world coordinates;</li>
-      <li>Calculate raw Heading from the resolved forward direction;</li>
-      <li>Convert negative Heading values to the positive navigation angular convention and apply the final angular limit;</li>
+      <li>Calculate Heading from the resolved forward direction using the signed atan2 convention from -pi to +pi;</li>
       <li>Expose the conditioned continuous navigation quantities through the external interface.</li>
       </ol>
       
@@ -20021,7 +19978,7 @@ The model processing sequence is:
       <li><strong>Geodetic Reference:</strong> WGS84 coordinates calculated from the configured local North-East origin.</li>
       <li><strong>Heading Reference:</strong> Vessel longitudinal forward axis defined by <code>forwardAxis</code>.</li>
       <li><strong>Signal Representation:</strong> Continuous range-limited navigation values without resolution quantization.</li>
-      <li><strong>Angular Convention:</strong> COG and Heading are represented using the positive navigation angular interval, with final outputs limited to 6.2831 rad.</li>
+      <li><strong>Angular Convention:</strong> COG and Heading use the signed atan2 angular convention from -pi to +pi rad.</li>
       <li><strong>Solver Configuration:</strong> No simulation solver, integration interval, start time, stop time, or tolerance is defined locally by this block. These settings are inherited from the top-level simulation model.</li>
       </ul>
       
@@ -22012,13 +21969,13 @@ Output updates are determined by changes in the underlying continuous signals ra
       ShipParts.Hull hull(Ixx = 4749.54, Iyx = 213.75, Iyy = 28293.74, Izx = -3411.63, Izy = 15.59, Izz = 27690.71, initPos = true, shapeModel = "modelica://Aquanaut/Resources/STL/Hull_STL_Fixed(Solid)-CM_origin.stl", sphereViewer = false, vesselMass = 4484.75, vesselZ0 = -0.57) annotation(
         Placement(transformation(origin = {70, 66}, extent = {{-10, -10}, {10, 10}})));
       inner Modelica.Mechanics.MultiBody.World world(label2 = "z", n = {0, 0, 1}) annotation(
-        Placement(transformation(origin = {-160, -44}, extent = {{-10, -10}, {10, 10}})));
+        Placement(transformation(origin = {-154, -28}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame(length = 10) annotation(
-        Placement(transformation(origin = {-126, -44}, extent = {{-10, -10}, {10, 10}})));
+        Placement(transformation(origin = {-120, -28}, extent = {{-10, -10}, {10, 10}})));
       HydroForces.BuoyancyInterpolation buoyancy(Cb = 10000, dist_keel_cg = 1.758417010307312, output_folder = "modelica://Aquanaut/Resources/STL", shapePath = "modelica://Aquanaut/Resources/STL/Hull_STL_Fixed(Solid)-CM_origin.stl", sphereRadius = 2, time_step = 3, useComplexShape = true, useSTLPositionXY = true, wavePath = "modelica://Aquanaut/Resources/STL/flat_wave_") annotation(
         Placement(transformation(origin = {70, 42}, extent = {{-10, -10}, {10, 10}})));
       inner HydroForces.Stream Stream(psiCurr = 0, velocityMean = 1) annotation(
-        Placement(transformation(origin = {-144, -80}, extent = {{-10, -10}, {10, 10}})));
+        Placement(transformation(origin = {-138, -64}, extent = {{-10, -10}, {10, 10}})));
       ShipParts.MarinePropeller marinePropeller(Fa = +2, eta_R = 1, useStream = false) annotation(
         Placement(transformation(origin = {-60, 2}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Mechanics.Rotational.Sources.Speed speed(exact = false, phi(displayUnit = "rad"), useSupport = false, f_crit = propellerF) annotation(
@@ -22028,7 +21985,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       HydroForces.Viscous viscous(Kp = 5000, Mq = 15000, Nr = 10000, Xu = 1000, Yv = 5000, Zw = 5000) annotation(
         Placement(transformation(origin = {70, 18}, extent = {{-10, -10}, {10, 10}})));
       Modelica.Blocks.Interfaces.RealInput propellerSpeed annotation(
-        Placement(transformation(origin = {-200, 38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, 60}, extent = {{-24, -24}, {24, 24}})));
+        Placement(transformation(origin = {-200, 2}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, 60}, extent = {{-24, -24}, {24, 24}})));
       Modelica.Blocks.Interfaces.RealInput rudderAngle annotation(
         Placement(transformation(origin = {-200, 60}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-124, -60}, extent = {{-24, -24}, {24, 24}})));
       // Outputs
@@ -22058,7 +22015,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       connect(speed.flange, marinePropeller.flange) annotation(
         Line(points = {{-86, 2}, {-70, 2}}));
       connect(world.frame_b, fixedFrame.frame_a) annotation(
-        Line(points = {{-150, -44}, {-136, -44}}, color = {95, 95, 95}));
+        Line(points = {{-144, -28}, {-130, -28}}, color = {95, 95, 95}));
       connect(marinePropeller.wakeFraction, marineRudder.wakeFraction) annotation(
         Line(points = {{-49.2, 6.2}, {-29.2, 6.2}}, color = {0, 0, 127}));
       connect(marinePropeller.flowDiameter, marineRudder.flowDiameter) annotation(
@@ -22074,7 +22031,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       connect(rudderAngle, marineRudder.angleInput) annotation(
         Line(points = {{-200, 60}, {-36, 60}, {-36, 12}, {-30, 12}}, color = {0, 0, 127}));
       connect(propellerSpeed, speed.w_ref) annotation(
-        Line(points = {{-200, 38}, {-146, 38}, {-146, 2}, {-108, 2}}, color = {0, 0, 127}));
+        Line(points = {{-200, 2}, {-108, 2}}, color = {0, 0, 127}));
       connect(propSpeedSensor.flange, speed.flange) annotation(
         Line(points = {{-78, -14}, {-78, 2}, {-86, 2}}));
       connect(Hemisphere_GNSSCompass.frame_a, hull.frame_a) annotation(
@@ -22100,7 +22057,7 @@ Output updates are determined by changes in the underlying continuous signals ra
       connect(Hemisphere_GNSSCompass.Latitude, Latitude) annotation(
         Line(points = {{82, 0}, {98, 0}, {98, 72}, {120, 72}}, color = {0, 0, 127}));
       annotation(
-        Diagram(graphics = {Rectangle(origin = {53, -10}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-57, 90}, {57, -90}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
+        Diagram(graphics = {Rectangle(origin = {-39, 1}, lineColor = {85, 85, 255}, lineThickness = 0.75, extent = {{-149, 87}, {149, -87}})}, coordinateSystem(extent = {{-220, -200}, {140, 150}})),
         experiment(StartTime = 0, StopTime = 250, Tolerance = 1e-06, Interval = 0.02),
         __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=fmuExperimental ",
         __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "euler", variableFilter = ".*"),
